@@ -1,0 +1,93 @@
+<div class="container my-5">
+    <div class="row">
+        <div class="col-12 col-md-8">
+            <input type="file" (change)="selectFile($event)" accept=".jpg,.jpeg,.png,.mp4">
+        </div>
+        <div class="col-12  mt-5">
+            <h5>Imagenes</h5>
+            <div id="imagenes">
+                <button class="button_img" *ngFor="let url of urli, let i = index" [attr.data-index]="i" (click)="deleteimg(i)">
+                    <img  class="preview mx-2" src="{{url}}">
+                </button>
+            </div>
+        </div>
+        <div class="col-12 mt-5">
+            <h5>Videos</h5>
+            <div id="videos">
+                <button class="button_img" *ngFor="let url of urlv, let i = index" [attr.data-index]="i" (click)="deletevid(i)">
+                    <br/><video class="mx-2" src="{{url}}" height="200"></video><br/>
+                </button>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 mt-5">
+            <div class="form-group">
+                <h4 >Nombre del Articulo</h4>
+                <input type="text" id="nombre" class="form-control" placeholder="Ladrillos">
+            </div>
+        </div>
+        <div class="col-12 col-md-8 mt-2">
+            <div class="form-group">
+                <h4 >Descripcion del Articulo</h4>
+                <textarea type="text" id="descripcion" class="form-control" placeholder="Descripcion del Articulo"></textarea>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 mt-2">
+            <div class="form-group">
+                <h4 >Cantidad de Articulo</h4>
+                <input type="number" min="0" id="cantidad" class="form-control" placeholder="Ej: 1">
+            </div>
+        </div>
+        <div class="col-12 col-md-8 mt-2">
+            <div class="form-group">
+                <h4 >Direccion de Venta del Articulo</h4>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div #mapRef style="width:100%;height:400px"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 mt-2">
+            <h4>Categoria</h4>
+            <div ngbDropdown class="dropdown">
+                <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdowncategoria" aria-expanded="false">
+                    {{categoria}}
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdowncategoria">
+                  <button ngbDropdownItem (click)="selectCategory(categoria)" *ngFor="let categoria of lista_Cat">{{categoria}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 mt-4">
+            <h4>Estado</h4>
+            <div ngbDropdown class="dropdown">
+                <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownestado" aria-expanded="false">
+                    {{estado}}
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownestado">
+                  <button ngbDropdownItem (click)="selectState(state)" *ngFor="let state of lista_Est">{{state}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 mt-4">
+            <h4>Unidad</h4>
+            <div ngbDropdown class="dropdown">
+                <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownestado" aria-expanded="false">
+                    {{unidad}}
+                </button>
+                <div ngbDropdownMenu aria-labelledby="dropdownestado">
+                  <button ngbDropdownItem *ngFor="let unit of lista_Unit" (click)="selectUnit(unit)" >{{unit}}</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-8 mt-2">
+            <div class="form-group">
+                <h4 >Precio del Articulo ($CLP)</h4>
+                <input type="number" min="0" id="precio" class="form-control" placeholder="Ej: 1">
+            </div>
+        </div>
+        <div class="col-12 mt-5">
+            <button id="upload" class="btn btn-lg">Subir Publicacion</button>
+        </div>
+    </div>
+</div>

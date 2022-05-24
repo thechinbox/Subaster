@@ -1,0 +1,6 @@
+.carousel-products{
+    min-height: 75vh;
+    @media (max-width:768px) {
+        min-height: 100vh;
+    }
+}

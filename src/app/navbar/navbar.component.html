@@ -1,0 +1,49 @@
+<nav id="navbar" class="navbar navbar-expand-lg navbar-light ">
+    <div class="container-fluid ">
+      <div class="row">
+        <div class="col-12 w-25">
+          <a class="navbar-brand" href=""></a>
+          <button class="navbar-toggler" type="button" (click)="isCollapsed=!isCollapsed" [attr.aria-expanded]="!isCollapsed" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon">
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="collapse navbar-collapse " id="navbarSupportedContent" [ngbCollapse]="isCollapsed">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li  class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown2" role="button" (click)="isCollapsed3=!isCollapsed3" data-bs-toggle="dropdown" aria-expanded="false">
+              <span class="material-symbols-outlined">
+                menu
+              </span>
+            </a>
+            <ul id="dropcat" class="dropdown-menu" aria-labelledby="navbarDropdown2" [ngbCollapse]="isCollapsed3">
+              <div *ngFor="let categoria of lista">
+                <li><a class="dropdown-item" href="#">{{categoria}}</a></li>
+                <li><hr class="dropdown-divider"></li>
+              </div>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Inicio</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" (click)="isCollapsed2=!isCollapsed2" data-bs-toggle="dropdown" aria-expanded="false">
+              Vender/Publicar
+            </a>
+            <ul id="dropven" class="dropdown-menu" aria-labelledby="navbarDropdown" [ngbCollapse]="isCollapsed2">
+              <li><a class="dropdown-item" href="/publicar">Mermas</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="/publicar">Residuos</a></li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Gestion de Residuos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Nosotros</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav>

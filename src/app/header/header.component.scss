@@ -1,0 +1,58 @@
+.medio{
+    display: flex;
+    position: relative;
+    @media (min-width:768px) {
+        top: 20%;
+    }
+    justify-content: center;
+}
+.material-symbols-outlined{
+    color: rgb(2, 69, 2);
+}
+#user,#carrito,#map{
+    font-size: 40px;
+}
+#login{
+    font-size: small;
+    display: flex;
+    position: relative;
+    top: 10px;
+}
+#logindiv{
+    border: 1px solid black;
+    border-radius: 10px;
+}
+#iconos{
+    @media (min-width:768px) {
+        display: flex;
+        position: relative;
+        justify-content: center;
+        top: 20%;
+        margin-left: 20%;
+    }
+    
+}
+#lupa{
+    font-size: 50px;
+    color: white;
+    border-radius: 100px;
+    background-color: rgba(0, 128, 0, 0.8);
+}
+#btn-lupa{
+    position: relative;
+    top: -10px;
+}
+button{
+    border: none;
+    background-color: transparent;
+}
+#logo{
+    @media (max-width:768px) {
+        display: flex;
+        position: relative;
+        justify-content: center;
+    }
+}
+img{
+    max-height: 15vh;
+}
