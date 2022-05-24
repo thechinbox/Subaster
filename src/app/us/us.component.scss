@@ -1,10 +1,12 @@
 .grid {
-    display: grid;
-    grid-auto-flow: row;
-    justify-items: end;
-    align-content: space-evenly;
-    align-items: center;
-    row-gap: 60px;
+    @media (min-width:768px) {
+        display: grid;
+        grid-auto-flow: row;
+        justify-items: end;
+        align-content: space-evenly;
+        align-items: center;
+        row-gap: 60px;
+    }
 }
 
 .tarjeta {
