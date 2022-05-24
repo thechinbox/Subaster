@@ -1,0 +1,21 @@
+.grid {
+    display: grid;
+    grid-auto-flow: row;
+    justify-items: end;
+    align-content: space-evenly;
+    align-items: center;
+    row-gap: 60px;
+}
+
+.tarjeta {
+    display: flex;
+    column-gap: 100px;
+}
+
+div.texto-container {
+    margin-top: 30px;
+}
+
+p.texto-titulo {
+    font-weight: bold;
+}
