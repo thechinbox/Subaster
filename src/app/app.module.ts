@@ -10,6 +10,7 @@ import { PublishComponent } from './publish/publish.component';
 import { HeaderComponent } from './header/header.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { AgmCoreModule } from '@agm/core';
+import { UsComponent } from './us/us.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { AgmCoreModule } from '@agm/core';
     HomeComponent,
     PublishComponent,
     HeaderComponent,
-    NavbarComponent
+    NavbarComponent,
+    UsComponent
   ],
   imports: [
     BrowserModule,
