@@ -1,6 +1,16 @@
-.carousel-products{
-    min-height: 75vh;
+#big{
+    @media (min-width:768px) {
+        display: block;
+    }
     @media (max-width:768px) {
-        min-height: 100vh;
+        display: none;
+    }
+}
+#small{
+    @media (min-width:768px) {
+        display: none;
+    }
+    @media (max-width:768px) {
+        display: block;
     }
 }

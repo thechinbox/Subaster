@@ -6,10 +6,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  lista = ["a","b","c","d","e"]
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  getheight(){
+    return screen.height/2;
+  }
 }
