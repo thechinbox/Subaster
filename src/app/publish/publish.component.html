@@ -31,63 +31,96 @@
                 <textarea type="text" id="descripcion" class="form-control" placeholder="Descripcion del Articulo"></textarea>
             </div>
         </div>
-        <div class="col-12 col-md-8 mt-2">
-            <div class="form-group">
-                <h4 >Cantidad de Articulo</h4>
-                <input type="number" min="0" id="cantidad" class="form-control" placeholder="Ej: 1">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-12 col-md-8 mt-2">
+                    <div class="form-group">
+                        <h4 >Cantidad de Articulo</h4>
+                        <input type="number" min="0" id="cantidad" class="form-control" placeholder="Ej: 1">
+                    </div>
+                </div>
+                <div class="col-12 mt-2">
+                    <h4>Categoria</h4>
+                    <select   class="form-select " id="dropdowncategoria" aria-label="categoria">
+                        <option selected value="0" >{{categoria}}</option>
+                        <option *ngFor="let category of lista_Cat" value="{{category}}" >{{category}}</option>
+                    </select>
+                </div>
+                <div class="col-12 mt-4">
+                    <h4>Estado</h4>
+                    <select  class="form-select " id="dropdownestado" aria-label="categoria">
+                        <option selected value="0" >{{estado}}</option>
+                        <option  *ngFor="let state of lista_Est" value="{{state}}">{{state}}</option>
+                    </select>
+                </div>
+                <div class="col-12 mt-4">
+                    <h4>Unidad</h4>
+                    <select  class="form-select " id="dropdownunidad" aria-label="categoria">
+                        <option  selected value="0" >{{unidad}}</option>
+                        <option *ngFor="let unit of lista_Unit" value="{{unit}}">{{unit}}</option>
+                    </select>
+                </div>
+                <div class="col-12 mt-2">
+                    <div class="form-group">
+                        <h4 >Precio del Articulo ($CLP)</h4>
+                        <input type="number" min="0" id="precio" class="form-control" placeholder="Ej: 1">
+                    </div>
+                </div>
+                <div  class="col-12 mt-5">
+                    <button id="upload-grande" class="btn btn-lg upload">Subir Publicacion</button>
+                </div>
             </div>
         </div>
-        <div class="col-12 col-md-8 mt-2">
-            <div class="form-group">
+        <div class="col-md-6 mt-2">
+            <div class="row">
                 <h4 >Direccion de Venta del Articulo</h4>
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <div #mapRef style="width:100%;height:400px"></div>
+                <div class="col-12 mb-2">
+                    <select (change)="buscar_ciudad($event)" class="form-select " name="region" id="region" >
+                        <option value="0" selected="selected">Regiones</option>
+                        <option value="Tarapaca">Tarapaca</option>
+                        <option value="Antofagasta">Antofagasta</option>
+                        <option value="Atacama">Atacama</option>
+                        <option value="Coquimbo">Coquimbo</option>
+                        <option value="Valparaiso">Valparaiso</option>
+                        <option value="OHiggins">O'Higgins</option>
+                        <option value="Maule">Maule</option>
+                        <option value="BioBio">Bio - Bio</option>
+                        <option value="Araucania">Araucania</option>
+                        <option value="LosLagos">Los Lagos</option>
+                        <option value="Aisen">Aisen</option>
+                        <option value="MagallanesyAntartica">Magallanes Y Antartica</option>
+                        <option value="Metropolitana">Metropolitana</option>
+                        <option value="LosRios">Los Rios</option>
+                        <option value="AricayParinacota">Arica y Parinacota</option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <select (change)="enable($event)" class="form-select" name="comuna" id="comuna">
+                        <option value="0">Comunas por Region</option>
+                    </select>
+                </div>
+                <div class="col-12 mt-2">
+                    <div class="form-group">
+                        <label>Ingrese su direccion:</label>
+                        <input type="text" class="form-control" id="direccion" (change)="direccionShow($event)" disabled>
+                    </div>
+                    <div id="map">
+                        <google-map 
+                        
+                        [zoom]="20"
+                        [center]="{lat: lat, lng: lng}" 
+                    >
+                    <map-marker
+                    [position]="{lat: lat, lng: lng}"
+                    [title]="'Lugar'"
+                    >
+                  </map-marker></google-map>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-8 mt-2">
-            <h4>Categoria</h4>
-            <div ngbDropdown class="dropdown">
-                <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdowncategoria" aria-expanded="false">
-                    {{categoria}}
-                </button>
-                <div ngbDropdownMenu aria-labelledby="dropdowncategoria">
-                  <button ngbDropdownItem (click)="selectCategory(categoria)" *ngFor="let categoria of lista_Cat">{{categoria}}</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-8 mt-4">
-            <h4>Estado</h4>
-            <div ngbDropdown class="dropdown">
-                <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownestado" aria-expanded="false">
-                    {{estado}}
-                </button>
-                <div ngbDropdownMenu aria-labelledby="dropdownestado">
-                  <button ngbDropdownItem (click)="selectState(state)" *ngFor="let state of lista_Est">{{state}}</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-8 mt-4">
-            <h4>Unidad</h4>
-            <div ngbDropdown class="dropdown">
-                <button ngbDropdownToggle class="btn btn-secondary" type="button" id="dropdownestado" aria-expanded="false">
-                    {{unidad}}
-                </button>
-                <div ngbDropdownMenu aria-labelledby="dropdownestado">
-                  <button ngbDropdownItem *ngFor="let unit of lista_Unit" (click)="selectUnit(unit)" >{{unit}}</button>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-md-8 mt-2">
-            <div class="form-group">
-                <h4 >Precio del Articulo ($CLP)</h4>
-                <input type="number" min="0" id="precio" class="form-control" placeholder="Ej: 1">
-            </div>
-        </div>
-        <div class="col-12 mt-5">
-            <button id="upload" class="btn btn-lg">Subir Publicacion</button>
+        <div class="col-12 mt-5 d-flex justify-content-center">
+            <button id="upload-pequeño" class="btn btn-lg upload">Subir Publicacion</button>
         </div>
     </div>
 </div>

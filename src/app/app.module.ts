@@ -9,8 +9,9 @@ import { HomeComponent } from './home/home.component';
 import { PublishComponent } from './publish/publish.component';
 import { HeaderComponent } from './header/header.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import { AgmCoreModule } from '@agm/core';
+import { GoogleMapsModule } from '@angular/google-maps';
 import { UsComponent } from './us/us.component';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -19,16 +20,16 @@ import { UsComponent } from './us/us.component';
     PublishComponent,
     HeaderComponent,
     NavbarComponent,
-    UsComponent
+    UsComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     IvyCarouselModule,
-    AgmCoreModule.forRoot({
-      apiKey: '',
-    })
+    GoogleMapsModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]
