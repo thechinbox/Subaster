@@ -8,6 +8,11 @@
     }
 }
 
+#map{
+    width: 20vw;
+    height: auto;
+}
+
 #precio,#cantidad{
     width: 100%;
     @media (min-width:768px) {
