@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-declare const google:any;
 
 @Component({
   selector: 'app-publish',
@@ -28,7 +27,11 @@ export class PublishComponent implements OnInit {
 
 
   ngOnInit(): void {
+    
+  }
 
+  initMap(){
+    
   }
   deleteimg(i:any){
     delete this.urli[i]
