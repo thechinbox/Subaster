@@ -12,6 +12,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { UsComponent } from './us/us.component';
 import { LoginComponent } from './login/login.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { LoginComponent } from './login/login.component';
     HeaderComponent,
     NavbarComponent,
     UsComponent,
-    LoginComponent
+    LoginComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
