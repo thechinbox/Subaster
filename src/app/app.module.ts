@@ -14,6 +14,8 @@ import { UsComponent } from './us/us.component';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 
+import { UserService } from './Services/user.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,7 +35,7 @@ import { FooterComponent } from './footer/footer.component';
     GoogleMapsModule
     
   ],
-  providers: [],
+  providers: [UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

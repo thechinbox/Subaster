@@ -1,12 +1,19 @@
-import { getMaxListeners } from "process";
-import { user } from "../Interfaces/user";
+import { Injectable } from '@angular/core';
+import { User } from '../Interfaces/user';
 
-/**
+@Injectable({
+  providedIn: 'root'
+})
+export class UserService {
+
+  constructor() { }
+
+  /**
  * @returns Arreglo de usuarios de ejemplo
  */
-function obtenerEjemplos(): Array<user> {
-    
-    let ejemplos: Array<user> = [
+  obtenerEjemplos(): Array<User> {
+      
+    let ejemplos: Array<User> = [
         {
             "idUser": 1,
             "name": "Fernando Espinoza",
@@ -36,4 +43,5 @@ function obtenerEjemplos(): Array<user> {
     ];
 
     return ejemplos;
+  }
 }
