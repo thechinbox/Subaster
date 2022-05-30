@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-registro',
@@ -7,7 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegistroComponent implements OnInit {
 
-  constructor() { }
+  registrocontrol : FormGroup;
+  constructor() {
+    this.registrocontrol = new FormGroup({})
+   }
 
   ngOnInit(): void {
   }
