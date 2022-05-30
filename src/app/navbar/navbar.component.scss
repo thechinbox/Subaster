@@ -1,12 +1,5 @@
-$verde-claro: #85c285;
-$verde-oscuro: rgba(0, 128, 0, 0.477);
-
-a, a:visited{
-    color:black;
-}
-
 #navbar{
-    background-color: $verde-oscuro;
+    background-color: rgba(0, 128, 0, 0.477);
     min-height: 10vh;
 }
 .container-fluid{
@@ -21,10 +14,5 @@ a, a:visited{
     z-index: 2;
 }
 #dropcat,#dropven{
-    background-color: $verde-claro;
-    border: 1px black solid;
-}
-#dropcat > div > li > a:hover, a:visited {
-    background-image: none;
-    background-color: $verde-oscuro;
+    background-color: rgb(0, 128, 0);
 }
