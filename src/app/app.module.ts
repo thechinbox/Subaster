@@ -16,6 +16,7 @@ import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 
 import { UserService } from './Services/user.service';
+import { RegistroComponent } from './registro/registro.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { UserService } from './Services/user.service';
     NavbarComponent,
     UsComponent,
     LoginComponent,
-    FooterComponent
+    FooterComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,

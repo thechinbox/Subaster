@@ -1,0 +1,45 @@
+<div class="container">
+    <form id="form" class="row g-3 needs-validation" novalidate>
+        <div class="col-md-6 mx-md-2 mb-5">
+          <label for="nombres" class="form-label">Nombres</label>
+          <input type="text" class="form-control" id="nombres" required />
+          <div class="valid-feedback">Correcto!</div>
+          <div class="invalid-feedback">Nombres Invalidos</div>
+        </div>
+        <div class="col-md-6 mx-md-2 mb-5">
+            <label for="apellidos" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" id="apellidos" required />
+            <div class="valid-feedback">Correcto!</div>
+            <div class="invalid-feedback">Apellidos Invalidos</div>
+        </div>
+        <div class="form-group col-md-6 mx-md-2 mb-5">
+            <label class="d-flex justify-content-center" for="exampleInputEmail1">Correo Electrónico </label>
+            <input type="email" class="form-control form-control-lg" id="correo" placeholder="correoejemplo@empresa.cl">
+        </div>
+        <div class="col-md-6 mx-md-2 mb-5">
+            <label for="celular" class="form-label">Celular</label>
+            <input
+              type="tel"
+              class="form-control"
+              id="celular"
+              required
+              pattern="[0-9]{9}"
+            />
+            <div class="valid-feedback">Correcto!</div>
+            <div class="invalid-feedback">Celular Invalido</div>
+        </div>
+        <div class="form-group col-md-6 mx-md-2 mb-5">
+            <input class="controls" type="password" name="correo" id="correo" placeholder="Ingrese su Contraseña">
+        </div>
+        <div class="form-group col-md-6 mx-md-2 mb-5">
+            <input class="controls" type="password" name="correo" id="correo" placeholder="Repetir contraseña">
+        </div>
+        <div class="form-group col-md-6 mx-md-2 mb-5">
+            <a href="/registro">
+              <button type=""button> Registrarse </button>
+            </a>
+            <p><a href="#">¿Ya tienes una Cuenta?</a></p>
+        </div>
+
+    </form>
+</div>
