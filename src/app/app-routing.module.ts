@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
 import { PublishComponent } from './publish/publish.component';
 import { UsComponent } from './us/us.component';
+import { RegistroComponent } from './registro/registro.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full' },

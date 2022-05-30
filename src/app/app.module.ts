@@ -13,9 +13,9 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { UsComponent } from './us/us.component';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
-import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 
 import { UserService } from './Services/user.service';
+import { RegistroComponent } from './registro/registro.component';
 
 @NgModule({
   declarations: [
@@ -26,17 +26,16 @@ import { UserService } from './Services/user.service';
     NavbarComponent,
     UsComponent,
     LoginComponent,
-    FooterComponent
+    FooterComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     NgbModule,
     IvyCarouselModule,
-    GoogleMapsModule,
-    FormsModule,
-    ReactiveFormsModule
-
+    GoogleMapsModule
+    
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
