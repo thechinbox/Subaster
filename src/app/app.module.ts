@@ -13,6 +13,7 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { UsComponent } from './us/us.component';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
+import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 
 import { UserService } from './Services/user.service';
 
@@ -32,8 +33,10 @@ import { UserService } from './Services/user.service';
     AppRoutingModule,
     NgbModule,
     IvyCarouselModule,
-    GoogleMapsModule
-    
+    GoogleMapsModule,
+    FormsModule,
+    ReactiveFormsModule
+
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
