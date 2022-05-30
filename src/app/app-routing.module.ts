@@ -7,6 +7,7 @@ import { UsComponent } from './us/us.component';
 import { RegistroComponent } from './registro/registro.component';
 
 const routes: Routes = [
+  {path:'', redirectTo:'home', pathMatch:'full'},
   {path:'home', component:HomeComponent},
   {path:'publicar', component:PublishComponent},
   {path:'nosotros', component:UsComponent},
