@@ -6,11 +6,11 @@ import { PublishComponent } from './publish/publish.component';
 import { UsComponent } from './us/us.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full' },
   {path:'home', component:HomeComponent},
   {path:'publicar', component:PublishComponent},
   {path:'nosotros', component:UsComponent},
-  {path:'login', component:LoginComponent}
+  {path:'login', component:LoginComponent}, 
+  {path:'registro', component:RegistroComponent}
 ];
 
 @NgModule({
