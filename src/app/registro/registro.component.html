@@ -1,33 +1,48 @@
 <div class="container mt-5">
     <h2 class="d-flex justify-content-center mb-5">Registrarse</h2>
-    <form id="form" class="row d-flex justify-content-center g-3 needs-validation" [formGroup]="registrocontrol" novalidate>
+    <form id="form" class="row d-flex justify-content-center g-3" [formGroup]="registrocontrol" novalidate>
         <div class= "col-md-6">
             <div class="row">
                 <div class="col-12 mx-md-2 mb-5">
                     <label for="nombres" class="form-label d-flex justify-content-center">Nombres</label>
-                    <input type="text" class="form-control" id="nombres" required />
-                    <div class="valid-feedback">Correcto!</div>
-                    <div class="invalid-feedback">Nombres Invalidos</div>
+                    <input type="text" class="form-control" id="nombres" formControlName="names"/>
+                    <div class="error" *ngIf="registrocontrol.controls['names'].errors && (registrocontrol.controls['names'].dirty || registrocontrol.controls['names'].touched)">
+                      <p *ngIf="registrocontrol.controls['names'].hasError('required')">*Campo requerido</p>
+                      <p *ngIf="registrocontrol.controls['names'].hasError('maxlength')">*Máximo 50 caracteres</p>
+                    </div>
                   </div>
-                  
+
                   <div class="form-group col-12 mx-md-2 mb-5">
                       <label class="d-flex justify-content-center" for="exampleInputEmail1">Correo Electrónico </label>
-                      <input type="email" class="form-control form-control-lg" id="correo" placeholder="correoejemplo@empresa.cl">
+                      <input type="email" class="form-control form-control-lg" id="correo" placeholder="correoejemplo@empresa.cl" formControlName="email">
+                      <div class="error" *ngIf="registrocontrol.controls['email'].errors && (registrocontrol.controls['email'].dirty || registrocontrol.controls['email'].touched)">
+                        <p *ngIf="registrocontrol.controls['email'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="registrocontrol.controls['email'].hasError('email')">*El correo no tiene el formato requerido</p>
+                        <p *ngIf="registrocontrol.controls['email'].hasError('maxlength')">*Máximo 50 caracteres</p>
+                      </div>
                   </div>
-                  
+
                   <div class="form-group col-12 mx-md-2 mb-5">
                       <label class="d-flex justify-content-center" for="exampleInputEmail1">Ingrese su Contraseña </label>
-                      <input class="form-control form-control-lg" type="password" name="correo" id="correo" placeholder="Ingrese su Contraseña">
-                  </div>
+                      <input class="form-control form-control-lg" type="password" name="clave" id="pass" placeholder="Ingrese su Contraseña" formControlName="pass">
+                      <div class="error" *ngIf="registrocontrol.controls['pass'].errors && (registrocontrol.controls['pass'].dirty || registrocontrol.controls['pass'].touched)">
+                        <p *ngIf="registrocontrol.controls['pass'].hasError('required')">*Campo requerido</p>
+                        <!-- <p *ngIf="registrocontrol.controls['pass'].hasError('minlength')">*Mínimo 10 caracteres</p>
+                        <p *ngIf="registrocontrol.controls['pass'].hasError('maxlength')">*Máximo 30 caracteres</p> -->
+                      </div>
+                    </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="row">
                 <div class="col-12 mx-md-2 mb-5">
                     <label for="apellidos" class="form-label d-flex justify-content-center">Apellidos</label>
-                    <input type="text" class="form-control" id="apellidos" required />
-                    <div class="valid-feedback">Correcto!</div>
-                    <div class="invalid-feedback">Apellidos Invalidos</div>
+                    <input type="text" class="form-control" id="apellidos" formControlName="lastname"/>
+                    <div class="error" *ngIf="registrocontrol.controls['lastname'].errors && (registrocontrol.controls['lastname'].dirty || registrocontrol.controls['lastname'].touched)">
+                      <p *ngIf="registrocontrol.controls['lastname'].hasError('required')">*Campo requerido</p>
+                      <p *ngIf="registrocontrol.controls['lastname'].hasError('minlength')">*Mínimo 10 caracteres</p>
+                      <p *ngIf="registrocontrol.controls['lastname'].hasError('maxlength')">*Máximo 50 caracteres</p>
+                    </div>
                 </div>
             </div>
             <div class="col-12 mx-md-2 mb-5">
@@ -36,19 +51,26 @@
                   type="tel"
                   class="form-control"
                   id="celular"
-                  required
-                  pattern="[0-9]{9}"
+                  formControlName="phone"
                 />
-                <div class="valid-feedback">Correcto!</div>
-                <div class="invalid-feedback">Celular Invalido</div>
+                <div class="error" *ngIf="registrocontrol.controls['phone'].errors && (registrocontrol.controls['phone'].dirty || registrocontrol.controls['phone'].touched)">
+                  <p *ngIf="registrocontrol.controls['phone'].hasError('required')">*Campo requerido</p>
+                  <!-- <p *ngIf="registrocontrol.controls['phone'].hasError('pattern')">*El campo solo debe llevar caracteres numéricos</p> -->
+                  <p *ngIf="registrocontrol.controls['phone'].hasError('maxlength')">*Máximo 10 caracteres</p>
+                </div>
             </div>
             <div class="form-group col-12 mx-md-2 mb-5">
                 <label class="d-flex justify-content-center" for="exampleInputEmail1">Repita su Contraseña </label>
-                <input class="form-control form-control-lg" type="password" name="correo" id="correo" placeholder="Repetir contraseña">
-            </div>
+                <input class="form-control form-control-lg" type="password" name="repetirclave" id="pass" placeholder="Repetir contraseña" formControlName="repeatpass">
+                <div class="error" *ngIf="registrocontrol.controls['repeatpass'].errors && (registrocontrol.controls['repeatpass'].dirty || registrocontrol.controls['repeatpass'].touched)">
+                  <p *ngIf="registrocontrol.controls['repeatpass'].hasError('required')">*Campo requerido</p>
+                  <!-- <p *ngIf="registrocontrol.controls['repeatpass'].hasError('minlength')">*Mínimo 10 caracteres</p>
+                  <p *ngIf="registrocontrol.controls['repeatpass'].hasError('maxlength')">*Máximo 30 caracteres</p> -->
+                </div>
+              </div>
         </div>
         <div class="form-group d-flex justify-content-center col-md-6 mx-md-2 ">
-            <button class="btn btn-lg " routerLink="/login" type="button" > Registrarse </button>
+            <button class="btn btn-lg me-5" type="submit" [disabled]="registrocontrol.valid" routerLink="/login"> Registrarse </button>
         </div>
         <div class="d-flex justify-content-center col-md-6 mx-md-2">
             <p><a routerLink="/login" >¿Ya tienes una Cuenta?</a></p>
