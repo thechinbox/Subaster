@@ -1,6 +1,5 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-publish',
@@ -44,10 +43,8 @@ export class PublishComponent implements OnInit, AfterViewInit {
 
   //Formulario
   publicacionForm : FormGroup;
-  direccionVal:boolean;
 
   constructor() {
-    this.direccionVal = false;
     this.lat=0;
     this.lng=0;
     this.publicacionForm = new FormGroup({
@@ -83,7 +80,8 @@ export class PublishComponent implements OnInit, AfterViewInit {
         Validators.required
       ]),
       comuna : new FormControl('', [
-        Validators.required
+        Validators.required,
+        Validators.nullValidator
       ]),
       direccion : new FormControl('', [
         Validators.required,
@@ -98,7 +96,10 @@ export class PublishComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
-
+    let select:any = document.getElementById("comuna");
+    let direccion:any = document.getElementById("direccion");
+    select.disabled = true;
+    direccion.disabled = true;
   }
 
   initMap(){
@@ -110,32 +111,41 @@ export class PublishComponent implements OnInit, AfterViewInit {
     this.region = region;
     let comunas = eval("this."+region)
     let select:any = document.getElementById("comuna");
+    select.disabled = false; 
+    let direccion:any = document.getElementById("direccion");
+    direccion.value = null;
+    direccion.disabled = true;
     while (select.firstChild) {
       select.removeChild(select.firstChild);
     }
+    let  nuevaopcion = new Option("","", true,true);
+    nuevaopcion.disabled = true;  
+    select?.appendChild(nuevaopcion)
     for (let index = 0; index < comunas.length; index++) {
-      let  nuevaopcion = new Option(comunas[index], comunas[index]);     
+      let  nuevaopcion = new Option(comunas[index], comunas[index], false,false);   
       select?.appendChild(nuevaopcion)
-    }       
-    this.direccionVal = true;
-    console.log(this.direccionVal);
+    }          
     
   }
-  
-  enable(e:any){    
 
+  enable(e:any){    
+    let direccion:any = document.getElementById("direccion");
+    direccion.disabled = false;
   }
 
   direccionShow(e:any){
-    let direccion = (<HTMLInputElement>document.getElementById("direccion")).value;
-    let geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ 'address': direccion + "," + this.comuna + "," + this.region}, (results, status) =>{
-      if(status == google.maps.GeocoderStatus.OK){
-        let resultados:any = results;
-        this.lat = resultados[0].geometry.location.lat();
-        this.lng = resultados[0].geometry.location.lng();  
-      }
-    })
+    let direccion:any = document.getElementById("direccion");
+    if(direccion.value.trim() != "" && direccion.value != null){
+      let direccion = (<HTMLInputElement>document.getElementById("direccion")).value;
+      let geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ 'address': direccion + "," + this.comuna + "," + this.region}, (results, status) =>{
+        if(status == google.maps.GeocoderStatus.OK){
+          let resultados:any = results;
+          this.lat = resultados[0].geometry.location.lat();
+          this.lng = resultados[0].geometry.location.lng();  
+        }
+      })
+    }
   }
 
   deleteimg(i:any){

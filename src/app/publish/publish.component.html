@@ -129,7 +129,7 @@
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['comuna'].errors && (publicacionForm.controls['comuna'].dirty || publicacionForm.controls['comuna'].touched)">
                         <p *ngIf="publicacionForm.controls['comuna'].hasError('required')">*Campo requerido</p>       
-                                     
+                        <p *ngIf="publicacionForm.controls['comuna'].hasError('nullValidator')">*Campo requerido</p>       
                     </div>
                 </div>
                 <div class="col-12 mt-2">
