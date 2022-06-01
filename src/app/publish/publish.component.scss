@@ -1,3 +1,7 @@
+button.button_img:hover{
+    box-shadow: inset 0 0 0 1000px rgba(255, 0, 0, 0.2);
+}
+
 #dropdownunidad,#dropdownestado,#dropdowncategoria{
     background-color: rgba(50, 139, 50, 0.614);
     color: white;
@@ -23,11 +27,12 @@
         display: none;
     }
     @media (max-width:768px) {
-        display: none;
+        display: block;
     }
 }
+
 #map{
-    width: 100%;
+    max-width: 100px;
 }
 
 #precio,#cantidad{
@@ -49,10 +54,10 @@
 .button_img{
     border: none;
 }
-button.button_img:hover{
-    box-shadow: inset 0 0 0 1000px rgba(255, 0, 0, 0.2);
-}
 .upload{
     background-color: rgba(0, 128, 0, 0.568);
     border: 1px black solid;
 }
+.error {
+    color: red;
+  }

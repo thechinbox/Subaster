@@ -1,9 +1,12 @@
 <div class="container my-5">
-    <div class="row">
+    <form class="row" [formGroup]="publicacionForm" >
         <div class="col-12 col-md-8">
-            <input type="file" (change)="selectFile($event)" accept=".jpg,.jpeg,.png,.mp4">
+            <input type="file" class="form-control-file" (change)="selectFile($event)" accept=".jpg,.jpeg,.png,.mp4"  formControlName="media">
+            <div class="error" *ngIf="publicacionForm.controls['media'].errors && (publicacionForm.controls['media'].dirty || publicacionForm.controls['media'].touched)">
+                <p *ngIf="publicacionForm.controls['media'].hasError('required')">*Campo requerido</p>
+            </div>
         </div>
-        <div class="col-12  mt-5">
+        <div class="col-12  mt-5" >
             <h5>Imagenes</h5>
             <div id="imagenes">
                 <button class="button_img" *ngFor="let url of urli, let i = index" [attr.data-index]="i" (click)="deleteimg(i)">
@@ -18,17 +21,26 @@
                     <br/><video class="mx-2" src="{{url}}" height="200"></video><br/>
                 </button>
             </div>
+            
         </div>
         <div class="col-12 col-md-8 mt-5">
             <div class="form-group">
                 <h4 >Nombre del Articulo</h4>
-                <input type="text" id="nombre" class="form-control" placeholder="Ladrillos">
+                <input type="text" id="nombre" class="form-control" placeholder="Ladrillos"  formControlName="nombre">
+            </div>
+            <div class="error" *ngIf="publicacionForm.controls['nombre'].errors && (publicacionForm.controls['nombre'].dirty || publicacionForm.controls['nombre'].touched)">
+                <p *ngIf="publicacionForm.controls['nombre'].hasError('required')">*Campo requerido</p>
             </div>
         </div>
         <div class="col-12 col-md-8 mt-2">
             <div class="form-group">
                 <h4 >Descripcion del Articulo</h4>
-                <textarea type="text" id="descripcion" class="form-control" placeholder="Descripcion del Articulo"></textarea>
+                <textarea type="text" id="descripcion" class="form-control" placeholder="Descripcion del Articulo"  formControlName="descripcion"></textarea >
+            </div>
+            <div class="error" *ngIf="publicacionForm.controls['descripcion'].errors && (publicacionForm.controls['descripcion'].dirty || publicacionForm.controls['descripcion'].touched)">
+                <p *ngIf="publicacionForm.controls['descripcion'].hasError('required')">*Campo requerido</p>
+                <p *ngIf="publicacionForm.controls['descripcion'].hasError('maxlength')">*Campo no puede sobrepasar los 150 caracteres.</p>
+                <p *ngIf="publicacionForm.controls['descripcion'].hasError('maxlength')">*Campo no puede sobrepasar los 150 caracteres.</p>
             </div>
         </div>
         <div class="col-md-6">
@@ -36,38 +48,52 @@
                 <div class="col-12 col-md-8 mt-2">
                     <div class="form-group">
                         <h4 >Cantidad de Articulo</h4>
-                        <input type="number" min="0" id="cantidad" class="form-control" placeholder="Ej: 1">
+                        <input type="number" min="0" id="cantidad" class="form-control" placeholder="Ej: 1"  formControlName="cantidad">
+                    </div>
+                    <div class="error" *ngIf="publicacionForm.controls['cantidad'].errors && (publicacionForm.controls['cantidad'].dirty || publicacionForm.controls['cantidad'].touched)">
+                        <p *ngIf="publicacionForm.controls['cantidad'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="publicacionForm.controls['cantidad'].hasError('min')">*El minimo valor es 1</p>
                     </div>
                 </div>
                 <div class="col-12 mt-2">
                     <h4>Categoria</h4>
-                    <select   class="form-select " id="dropdowncategoria" aria-label="categoria">
-                        <option selected value="0" >{{categoria}}</option>
+                    <select   class="form-select " id="dropdowncategoria" aria-label="categoria"  formControlName="categoria">
                         <option *ngFor="let category of lista_Cat" value="{{category}}" >{{category}}</option>
                     </select>
+                    <div class="error" *ngIf="publicacionForm.controls['categoria'].errors && (publicacionForm.controls['categoria'].dirty || publicacionForm.controls['categoria'].touched)">
+                        <p *ngIf="publicacionForm.controls['categoria'].hasError('required')">*Campo requerido</p>
+                    </div>
                 </div>
                 <div class="col-12 mt-4">
                     <h4>Estado</h4>
-                    <select  class="form-select " id="dropdownestado" aria-label="categoria">
-                        <option selected value="0" >{{estado}}</option>
+                    <select  class="form-select " id="dropdownestado" aria-label="estado"  formControlName="estado">
                         <option  *ngFor="let state of lista_Est" value="{{state}}">{{state}}</option>
                     </select>
+                    <div class="error" *ngIf="publicacionForm.controls['estado'].errors && (publicacionForm.controls['estado'].dirty || publicacionForm.controls['estado'].touched)">
+                        <p *ngIf="publicacionForm.controls['estado'].hasError('required')">*Campo requerido</p>
+                    </div>
                 </div>
                 <div class="col-12 mt-4">
                     <h4>Unidad</h4>
-                    <select  class="form-select " id="dropdownunidad" aria-label="categoria">
-                        <option  selected value="0" >{{unidad}}</option>
+                    <select  class="form-select " id="dropdownunidad" aria-label="unidad"  formControlName="unidad">
                         <option *ngFor="let unit of lista_Unit" value="{{unit}}">{{unit}}</option>
                     </select>
+                    <div class="error" *ngIf="publicacionForm.controls['unidad'].errors && (publicacionForm.controls['unidad'].dirty || publicacionForm.controls['unidad'].touched)">
+                        <p *ngIf="publicacionForm.controls['unidad'].hasError('required')">*Campo requerido</p>
+                    </div>
                 </div>
                 <div class="col-12 mt-2">
                     <div class="form-group">
                         <h4 >Precio del Articulo ($CLP)</h4>
-                        <input type="number" min="0" id="precio" class="form-control" placeholder="Ej: 1">
+                        <input type="number" min="0" id="precio" class="form-control" placeholder="Ej: 1"  formControlName="precio">
+                    </div>
+                    <div class="error" *ngIf="publicacionForm.controls['precio'].errors && (publicacionForm.controls['precio'].dirty || publicacionForm.controls['precio'].touched)">
+                        <p *ngIf="publicacionForm.controls['precio'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="publicacionForm.controls['precio'].hasError('min')">*El minimo valor es 1</p>
                     </div>
                 </div>
                 <div  class="col-12 mt-5">
-                    <button id="upload-grande" class="btn btn-lg upload">Subir Publicacion</button>
+                    <button id="upload-grande" [disabled]="publicacionForm.invalid" class="btn btn-lg upload">Subir Publicacion</button>
                 </div>
             </div>
         </div>
@@ -75,8 +101,8 @@
             <div class="row">
                 <h4 >Direccion de Venta del Articulo</h4>
                 <div class="col-12 mb-2">
-                    <select (change)="buscar_ciudad($event)" class="form-select " name="region" id="region" >
-                        <option value="0" selected="selected">Regiones</option>
+                    <label>Region</label>
+                    <select (change)="buscar_ciudad($event)" class="form-select " name="region" id="region" formControlName="region">
                         <option value="Tarapaca">Tarapaca</option>
                         <option value="Antofagasta">Antofagasta</option>
                         <option value="Atacama">Atacama</option>
@@ -84,43 +110,51 @@
                         <option value="Valparaiso">Valparaiso</option>
                         <option value="OHiggins">O'Higgins</option>
                         <option value="Maule">Maule</option>
-                        <option value="BioBio">Bio - Bio</option>
+                        <option value="Bio_Bio">Bio - Bio</option>
                         <option value="Araucania">Araucania</option>
-                        <option value="LosLagos">Los Lagos</option>
+                        <option value="Los_Lagos">Los Lagos</option>
                         <option value="Aisen">Aisen</option>
-                        <option value="MagallanesyAntartica">Magallanes Y Antartica</option>
+                        <option value="Magallanes_y_Antartica">Magallanes Y Antartica</option>
                         <option value="Metropolitana">Metropolitana</option>
-                        <option value="LosRios">Los Rios</option>
-                        <option value="AricayParinacota">Arica y Parinacota</option>
+                        <option value="Los_Rios">Los Rios</option>
+                        <option value="Arica_y_Parinacota">Arica y Parinacota</option>
                     </select>
+                    <div class="error" *ngIf="publicacionForm.controls['region'].errors && (publicacionForm.controls['region'].dirty || publicacionForm.controls['region'].touched)">
+                        <p *ngIf="publicacionForm.controls['region'].hasError('required')">*Campo requerido</p>                    
+                    </div>
                 </div>
                 <div class="col-12">
-                    <select (change)="enable($event)" class="form-select" name="comuna" id="comuna">
-                        <option value="0">Comunas por Region</option>
+                    <label>Comuna</label>
+                    <select (change)="enable($event)" class="form-select" name="comuna" id="comuna" formControlName="comuna">
                     </select>
+                    <div class="error" *ngIf="publicacionForm.controls['comuna'].errors && (publicacionForm.controls['comuna'].dirty || publicacionForm.controls['comuna'].touched)">
+                        <p *ngIf="publicacionForm.controls['comuna'].hasError('required')">*Campo requerido</p>       
+                                     
+                    </div>
                 </div>
                 <div class="col-12 mt-2">
                     <div class="form-group">
                         <label>Ingrese su direccion:</label>
-                        <input type="text" class="form-control" id="direccion" (change)="direccionShow($event)" disabled>
+                        <input type="text" class="form-control" id="direccion" (change)="direccionShow($event)"  formControlName="direccion" >
+                        <div class="error" *ngIf="publicacionForm.controls['direccion'].errors && (publicacionForm.controls['direccion'].dirty || publicacionForm.controls['direccion'].touched)">
+                            <p *ngIf="publicacionForm.controls['direccion'].hasError('required')">*Campo requerido</p>   
+                            <p *ngIf="publicacionForm.controls['direccion'].hasError('maxlength')">*La direccion no puede pasar los 50 caracteres.</p>                    
+                        </div>
                     </div>
-                    <div id="map">
-                        <google-map 
-                        
-                        [zoom]="20"
-                        [center]="{lat: lat, lng: lng}" 
-                    >
-                    <map-marker
-                    [position]="{lat: lat, lng: lng}"
-                    [title]="'Lugar'"
-                    >
-                  </map-marker></google-map>
+                    <div >
+                        <google-map id="map"
+                                    [zoom]="20"
+                                    [center]="{lat: lat, lng: lng}" >
+                            <map-marker [position]="{lat: lat, lng: lng}"
+                                        [title]="'Lugar'">
+                            </map-marker>
+                        </google-map>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-12 mt-5 d-flex justify-content-center">
-            <button id="upload-pequeño" class="btn btn-lg upload">Subir Publicacion</button>
+            <button id="upload-pequeño" [disabled]="publicacionForm.invalid" class="btn btn-lg upload">Subir Publicacion</button>
         </div>
-    </div>
+    </form>
 </div>
