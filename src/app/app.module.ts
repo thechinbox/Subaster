@@ -15,8 +15,9 @@ import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 
-import { UserService } from './Services/user.service';
+import { UserService } from './data/Services/user.service';
 import { RegistroComponent } from './registro/registro.component';
+import { PublicacionComponent } from './publicacion/publicacion.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { RegistroComponent } from './registro/registro.component';
     UsComponent,
     LoginComponent,
     FooterComponent,
-    RegistroComponent
+    RegistroComponent,
+    PublicacionComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,6 @@ import { RegistroComponent } from './registro/registro.component';
     GoogleMapsModule,
     FormsModule,
     ReactiveFormsModule
-
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
