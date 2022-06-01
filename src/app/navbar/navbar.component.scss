@@ -5,6 +5,9 @@ a, a:visited{
     color:black;
 }
 
+#menucolapsado::-ms-expand{
+    border-color: red;
+}
 #navbar{
     background-color: $verde-oscuro;
     min-height: 10vh;
