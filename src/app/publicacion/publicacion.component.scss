@@ -3,7 +3,7 @@
     height: 100%;
 }
 .img-secundaria{
-    width: 350;
+    width: 200px;
     height: 150px;
 }
 .contenedor-imgs{
@@ -12,7 +12,8 @@
     gap: 1rem;
 }
 .contenedor-img-prin{
-    @media (max-width: 990px){
+    //esto es para que la imagen no crezca mucho
+    @media (max-width: 1000px){
         width: 100%
     }
 }
@@ -20,6 +21,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+    //grid-template-columns: 1fr 1fr 1fr;
+    //esto es para que cambie de modo vertical a horizontal al momento de pasar hacia abajo
     @media (min-width: 990px) {
         flex-direction: column;
     }
