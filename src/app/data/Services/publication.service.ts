@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Publication } from '../Interfaces/publication';
+import { Comment } from '../Interfaces/comment';
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +31,17 @@ export class PublicationService {
     }
 
     return ejemplo;
+  }
+
+  obtenerComentarios(): Comment {
+    let comentario: Comment = {
+      id: 1,
+      img: "",
+      f_name: "Juan",
+      s_name: "Garcia",
+      comment: "Buena calidad y buen precio."
+    }
+
+    return comentario;
   }
 }
