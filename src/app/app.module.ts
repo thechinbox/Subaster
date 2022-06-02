@@ -14,7 +14,10 @@ import { UsComponent } from './us/us.component';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule, FormsModule} from '@angular/forms';
+
 import { RegistroComponent } from './registro/registro.component';
+import { PublicacionComponent } from './publicacion/publicacion.component';
+import { PublicationService } from './data/Services/publication.service';
 
 import { UserService } from './data/Services/user.service';
 
@@ -28,7 +31,8 @@ import { UserService } from './data/Services/user.service';
     UsComponent,
     LoginComponent,
     FooterComponent,
-    RegistroComponent
+    RegistroComponent,
+    PublicacionComponent
   ],
   imports: [
     BrowserModule,
@@ -38,9 +42,8 @@ import { UserService } from './data/Services/user.service';
     GoogleMapsModule,
     FormsModule,
     ReactiveFormsModule
-
   ],
-  providers: [UserService],
+  providers: [UserService, PublicationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
