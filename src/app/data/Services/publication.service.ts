@@ -33,14 +33,24 @@ export class PublicationService {
     return ejemplo;
   }
 
-  obtenerComentarios(): Comment {
-    let comentario: Comment = {
+  obtenerComentarios(): Comment[] {
+    let comentario: Comment[] = [{
       id: 1,
-      img: "",
-      f_name: "Juan",
-      s_name: "Garcia",
+      img: "user_coment.png",
+      name: "Juan Garcia",
       comment: "Buena calidad y buen precio."
+    },{
+      id: 2,
+      img: "user_coment.png",
+      name: "Enrique Lopez",
+      comment: "Está muy bueno."
+    },{
+      id: 3,
+      img: "user_coment.png",
+      name: "Juan Mendéz",
+      comment: "Totalmente satisfactorio."
     }
+    ]
 
     return comentario;
   }
