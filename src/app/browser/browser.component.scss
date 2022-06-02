@@ -1,0 +1,23 @@
+$color-borde: rgba(0, 0, 0, 0.385);
+
+
+a#categoryItem, a#categoryItem:hover{
+  text-decoration:none;
+  color: black;
+}
+
+span {
+  text-rendering: auto;
+}
+
+a#categoryItem:hover {
+  color: rgba(0, 0, 0, 0.385);
+}
+
+.container-xxl {
+  margin-top: 3.5rem;
+}
+
+.col-sm-2 {
+  border: $color-borde 1px solid;
+}
