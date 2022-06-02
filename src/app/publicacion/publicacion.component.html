@@ -11,15 +11,15 @@
             </div>
         </div>
         <div class="contenedor-titulos">
-            <h1 id="txt-titulo" class="negro">TUBOS PVC LOTE 500</h1>
+            <h1 id="txt-titulo" class="negro">{{publication.tittle}}</h1>
             <div id="contenedor-valor">
                 <p class="gris" id="txt-valor">VALOR ACTUAL: </p>
                 <p class="azul" id="txt-moneda">CLP$</p>
-                <p class="azul" id="valor">500.000,00</p>
+                <p class="azul" id="valor">{{publication.price}}</p>
             </div>
             <div class="negro" class="negrita" id="contenedor-fecha">
                 <p id="txt-cierra">Fecha Término</p>
-                <p id="fecha-fin">10/12/2022</p>
+                <p id="fecha-fin">{{publication.date_e}}</p>
             </div>
             <div class="negro" class="negrita" id="contenedor-pujar">
                 <p id="txt-cierra">Cierra en 13 días</p>

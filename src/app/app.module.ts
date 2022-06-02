@@ -18,6 +18,7 @@ import { ReactiveFormsModule, FormsModule} from '@angular/forms';
 import { UserService } from './data/Services/user.service';
 import { RegistroComponent } from './registro/registro.component';
 import { PublicacionComponent } from './publicacion/publicacion.component';
+import { PublicationService } from './data/Services/publication.service';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,7 @@ import { PublicacionComponent } from './publicacion/publicacion.component';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService],
+  providers: [UserService, PublicationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
