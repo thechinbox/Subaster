@@ -24,9 +24,9 @@ export class PublicationService {
       model: "Genérico",
       lenght: "1m",
       diameter: "110mm",
-      weight: "",
-      source: "",
-      observations: ""
+      weight: "-",
+      source: "-",
+      observations: "-"
     }
 
     return ejemplo;

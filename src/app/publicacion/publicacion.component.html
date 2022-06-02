@@ -27,4 +27,21 @@
             </div>
         </div>
     </div>
+    <div class="contenedor-detalles my-2">
+        <p class="negro negrita">Publicado el {{publication.date_i}}</p>
+        <h3 class="gris mt-4">Descripción:</h3>
+        <ul>
+            <li class="gris fuente-lista">Marca: {{publication.brand}}</li>
+            <li class="gris fuente-lista">Modelo: {{publication.model}}</li>
+            <li class="gris fuente-lista">Largo: {{publication.lenght}}</li>
+            <li class="gris fuente-lista">Diametro: {{publication.diameter}}</li>
+            <li class="gris fuente-lista">Material: {{publication.material}}</li>
+            <li class="gris fuente-lista">Peso: {{publication.weight}}</li>
+            <li class="gris fuente-lista">Origen: {{publication.source}}</li>
+        </ul>
+        <h3 class="gris mt-4">Observaciones:</h3>
+        <ul>
+            <li class="gris fuente-lista">{{publication.observations}}</li>
+        </ul>
+    </div>
 </div>

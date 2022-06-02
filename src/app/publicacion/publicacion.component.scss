@@ -15,6 +15,9 @@ p {
 .negrita{
     font-weight: 700;
 }
+.fuente-lista{
+    font-size: x-large;
+}
 .contenedor-header{
     display: flex;
     flex-wrap: wrap;
@@ -79,4 +82,7 @@ h1#txt-titulo{
     background-color: rgba(6, 255, 6, 0.367);
     border-radius: 100px;
     padding-inline: 40px;
+}
+.contenedor-detalles{
+    margin-inline: 6px;
 }
