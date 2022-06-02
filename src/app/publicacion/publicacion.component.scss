@@ -89,3 +89,11 @@ h1#txt-titulo{
 .contenedor-comentarios{
     margin-top: 50px;
 }
+.contenedor-comentarios .comentario{
+    display:flex;
+    margin-bottom: 2rem;
+    gap: 1rem;
+}
+.contenedor-comentarios .cuerpo{
+    margin-top: 10px;
+}

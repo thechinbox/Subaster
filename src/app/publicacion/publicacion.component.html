@@ -44,7 +44,16 @@
             <li class="gris fuente-lista">{{publication.observations}}</li>
         </ul>
     </div>
+    <h3 class="negrita mt-4">Comentarios:</h3>
     <div class="contenedor-comentarios">
-        <h3 class="negrita mt-4">Comentarios:</h3>
+        <div *ngFor="let comentario of comentarios">
+            <div class="comentario">
+                <img src="../../assets/{{comentario.img}}" alt="" width="100px" height="100px">
+                <div class="cuerpo">
+                    <p class="negro negrita">{{comentario.name}}</p>
+                    <p>{{comentario.comment}}</p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
