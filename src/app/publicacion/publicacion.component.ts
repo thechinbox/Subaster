@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PublicationService } from '../data/Services/publication.service';
 import { Publication } from '../data/Interfaces/publication';
+import { Comment } from '../data/Interfaces/comment';
 
 @Component({
   selector: 'app-publicacion',
@@ -9,10 +10,12 @@ import { Publication } from '../data/Interfaces/publication';
 })
 export class PublicacionComponent implements OnInit {
   
-  publication:Publication;
+  publication: Publication;
+  comentarios: Comment [];
 
   constructor(private _publication: PublicationService) {
     this.publication = this._publication.obtenerEjemplos();
+    this.comentarios = this._publication.obtenerComentarios();
   }
 
   ngOnInit(): void {
