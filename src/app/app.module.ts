@@ -20,6 +20,8 @@ import { PublicacionComponent } from './publicacion/publicacion.component';
 import { PublicationService } from './data/Services/publication.service';
 
 import { UserService } from './data/Services/user.service';
+import { BrowserComponent } from './browser/browser.component';
+import { MenuItemsService } from './data/Services/menu-items.service';
 
 @NgModule({
   declarations: [
@@ -32,7 +34,8 @@ import { UserService } from './data/Services/user.service';
     LoginComponent,
     FooterComponent,
     RegistroComponent,
-    PublicacionComponent
+    PublicacionComponent,
+    BrowserComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +46,7 @@ import { UserService } from './data/Services/user.service';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [UserService, PublicationService],
+  providers: [UserService, PublicationService, MenuItemsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

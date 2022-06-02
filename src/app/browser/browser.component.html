@@ -1,0 +1,27 @@
+<div class="wrap">
+  <h1>Todos los productos</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h4>Filtrar por categorías</h4>
+        <section class="products-list">
+          <div *ngFor="let item of MenuItems">
+            <a href="#" id="categoryItem" category="all">{{item.categoria}}</a>
+          </div>
+        </section>
+      </div>
+      <div class="col-sm-8">
+        <h4>Todos los productos</h4>
+        <div class="card" style="width: 10rem; height: 10rem;" *ngFor="let item of publicaciones">
+          <img src="https://www.constructor31.com/wp-content/uploads/2018/09/cemento-polpaico.jpg" class="card-img-top" alt="...">
+          <div class="card-body">
+            <p class="item-description">{{item.observations}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+

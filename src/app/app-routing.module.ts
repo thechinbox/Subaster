@@ -6,6 +6,7 @@ import { PublishComponent } from './publish/publish.component';
 import { UsComponent } from './us/us.component';
 import { RegistroComponent } from './registro/registro.component';
 import { PublicacionComponent } from './publicacion/publicacion.component';
+import { BrowserComponent } from './browser/browser.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -13,8 +14,9 @@ const routes: Routes = [
   {path:'publicar', component:PublishComponent},
   {path:'publicacion', component:PublicacionComponent},
   {path:'nosotros', component:UsComponent},
-  {path:'login', component:LoginComponent}, 
-  {path:'registro', component:RegistroComponent}
+  {path:'login', component:LoginComponent},
+  {path:'registro', component:RegistroComponent},
+  {path:'browser', component:BrowserComponent}
 ];
 
 @NgModule({
