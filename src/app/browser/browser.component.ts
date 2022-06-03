@@ -19,6 +19,12 @@ export class BrowserComponent implements OnInit {
    }
 
   ngOnInit(): void {
+    /* Recargar template cuando se aplique la función checkboxSelected */
+  }
+
+
+  checkboxSelected(){
+    /* Desarrollar funcion de filtro */
   }
 
 }
