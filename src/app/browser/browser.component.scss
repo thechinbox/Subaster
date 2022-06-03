@@ -21,3 +21,15 @@ a#categoryItem:hover {
 .col-sm-2 {
   border: $color-borde 1px solid;
 }
+
+section.products-list{
+  margin-left: -4rem;
+}
+
+label#categoryItem{
+  padding-left: 1rem;
+}
+
+input#categoryItem{
+  border-radius: 15px;
+}

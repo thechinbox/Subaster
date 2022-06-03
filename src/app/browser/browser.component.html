@@ -1,16 +1,19 @@
 
   <div class="container-xxl">
     <div class="row">
-      <div class="col-sm-2">
+      <div class="col-sm-3">
         <section class="products-list">
           <h4>Filtrar por categorías</h4>
+          <br>
           <div *ngFor="let item of MenuItems">
-              <a href="#" id="categoryItem" category="all">{{item.categoria}}</a>
+              <input type="checkbox" href="#" id="categoryItem" category="all" name="filtro">
+              <label for="filtro" id="categoryItem">{{item.categoria}}</label>
           </div>
         </section>
       </div>
-      <div class="col-sm-10">
+      <div class="col-sm-9">
         <h4>Todos los productos</h4>
+        <br>
         <div class="card" style="width: 10rem; height: 10rem;" *ngFor="let item of publicaciones">
           <img src="https://www.constructor31.com/wp-content/uploads/2018/09/cemento-polpaico.jpg" routerLink="/publicacion" class="card-img-top" alt="...">
           <div class="card-body">
