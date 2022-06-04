@@ -15,7 +15,7 @@
         <h4>Todos los productos</h4>
         <br>
         <div class="card" style="width: 10rem; height: 10rem;" *ngFor="let item of publicaciones">
-          <img src="https://www.constructor31.com/wp-content/uploads/2018/09/cemento-polpaico.jpg" routerLink="/publicacion" class="card-img-top" alt="...">
+          <img src="{{item.image}}" routerLink="/publicacion" class="card-img-top" alt="...">
           <div class="card-body">
             <p class="item-description">{{item.observations}}</p>
           </div>
