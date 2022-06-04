@@ -77,7 +77,8 @@ export class MenuItemsService {
        price:'',
        source:'',
        tittle:'',
-       weight:''
+       weight:'',
+       image:''
      }]
      return publiciones;
    }
