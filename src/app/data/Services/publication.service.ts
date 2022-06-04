@@ -22,12 +22,13 @@ export class PublicationService {
   };
   constructor(private http:HttpClient) {}
 
-  PUBLISH(){
+  PUBLISH():Observable<any>{
     return this.http.post(`${environment.hostname}/publish`,JSON.stringify({}),this.HttpUploadOptions)
   }
 
-  getPost(){
-    return this.http.get(`${environment.hostname}/getpublicaciones?categoria=id`);
+  getPost():Observable<any>{
+    return this.http.get(`${environment.hostname}/getpublicaciones`,this.HttpUploadOptions);
+    
   }
 
   /**

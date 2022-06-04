@@ -21,9 +21,9 @@ publishC.post("/publish", (req:any,res:any)=>{
 
 publishC.get("/getpublicaciones", (req:any, res:any) => {
     publicationS
-    .find(req.query)
+    .find()
     .then((data:any) => {
-        console.log(data);
+        res.send(JSON.stringify(data));
     })
     .catch((err:any) => {
         console.log("Error encontrado");

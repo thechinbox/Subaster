@@ -20,9 +20,9 @@ publishC.post("/publish", (req, res) => {
 });
 publishC.get("/getpublicaciones", (req, res) => {
     publicationS
-        .find(req.query)
+        .find()
         .then((data) => {
-        console.log(data);
+        res.send(JSON.stringify(data));
     })
         .catch((err) => {
         console.log("Error encontrado");

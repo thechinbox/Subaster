@@ -19,7 +19,7 @@ cateogoriasC.get("/getcategorias", (req:any,res:any)=>{
         for(let i in data){
             cateogorias.push(data[i]);
         }
-        return cateogorias;
+        res.send(cateogorias);
     })
     .catch((err:any) => res.json({message:err}))
 })

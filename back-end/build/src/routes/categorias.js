@@ -18,7 +18,7 @@ cateogoriasC.get("/getcategorias", (req, res) => {
         for (let i in data) {
             cateogorias.push(data[i]);
         }
-        return cateogorias;
+        res.send(cateogorias);
     })
         .catch((err) => res.json({ message: err }));
 });

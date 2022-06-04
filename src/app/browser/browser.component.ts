@@ -29,11 +29,10 @@ export class BrowserComponent implements OnInit {
   }
 
 
-  private async obtenerPublicacion(){
-    let publication = this.publicationService.PUBLISH
-  this.publicationService.getPost().subscribe(data => {
-    console.log(data);
-   })
+  obtenerPublicacion(){
+    this.publicationService.getPost().subscribe(data => {
+      console.log(data);
+    })
 
   }
 
