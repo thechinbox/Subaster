@@ -1,3 +1,5 @@
+import { StringMap } from "@angular/compiler/src/compiler_facade_interface";
+
 export interface Publication {
     id: number;
     tittle: string;
@@ -12,4 +14,5 @@ export interface Publication {
     weight: string;
     source: string;
     observations: string;
+    image: String;
 }

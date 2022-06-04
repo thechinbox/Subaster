@@ -30,7 +30,7 @@ export class PublicationService {
   * @returns Arreglo de usuarios de ejemplo
   */
   obtenerEjemplos(): Publication {
-      
+
     let ejemplo: Publication = {
       id: 0,
       tittle: "TUBOS pvc lote 500",
@@ -44,7 +44,8 @@ export class PublicationService {
       diameter: "110mm",
       weight: "-",
       source: "-",
-      observations: "-"
+      observations: "-",
+      image: '-'
     }
 
     return ejemplo;
