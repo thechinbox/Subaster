@@ -20,7 +20,7 @@ publishC.post("/publish", (req, res) => {
 });
 publishC.get("/getpublicaciones", (req, res) => {
     publicationS
-        .find()
+        .find(req.query)
         .then((data) => {
         res.send(JSON.stringify(data));
     })

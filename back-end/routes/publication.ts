@@ -21,7 +21,7 @@ publishC.post("/publish", (req:any,res:any)=>{
 
 publishC.get("/getpublicaciones", (req:any, res:any) => {
     publicationS
-    .find()
+    .find(req.query)
     .then((data:any) => {
         res.send(JSON.stringify(data));
     })

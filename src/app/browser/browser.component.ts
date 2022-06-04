@@ -3,6 +3,7 @@ import { MenuItemsService } from '../data/Services/menu-items.service';
 import { MenuItems } from '../data/Interfaces/menu-items';
 import { Publication } from '../data/Interfaces/publication';
 import { PublicationService } from '../data/Services/publication.service';
+import { Categoria } from '../data/Interfaces/categoria';
 
 
 @Component({
@@ -12,14 +13,15 @@ import { PublicationService } from '../data/Services/publication.service';
 })
 export class BrowserComponent implements OnInit {
 
-  MenuItems : MenuItems[];
+  MenuItems : Array<Categoria>;
   publicaciones : Publication[];
   constructor( private _menuItemsService : MenuItemsService , private publicationService: PublicationService) {
-    this.MenuItems = this._menuItemsService.obtenerItems();
+    this.MenuItems = this._menuItemsService.obtenerItems();;
     this.publicaciones = this._menuItemsService.obtenerPublicaciones();
    }
 
   ngOnInit(): void {
+     
     this.obtenerPublicacion();
   }
 
@@ -31,7 +33,10 @@ export class BrowserComponent implements OnInit {
 
   obtenerPublicacion(){
     this.publicationService.getPost().subscribe(data => {
-      console.log(data);
+      for(let i in data){
+        console.log(data);
+        
+      }
     })
 
   }

@@ -1,66 +1,45 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders,HttpClient } from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import { Observable } from 'rxjs';
 import { MenuItems } from '../Interfaces/menu-items';
 import { Publication } from '../Interfaces/publication';
+import { Categoria } from '../Interfaces/categoria';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MenuItemsService {
-
-  menuItems:any;
+  
+  menuItems:Array<Categoria>;
   publicaciones:any;
 
-  constructor() {
-   }
+  HttpUploadOptions = {
+    headers: new HttpHeaders(
+      {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+      'Content-Type': 'application/json',
+    }
+    ),
+  };
+  constructor(private http:HttpClient) {
+    this. menuItems = new Array<Categoria>();
+    this.GETCATEGORIAS().subscribe(data => {
+      for(let i in data){
+       this.menuItems.push({id:data[i]._id, categoria:data[i].categoria})
+      }
+    })  
+  }
 
-   obtenerItems(): MenuItems[]{
-     let menuItems : MenuItems [] = [{
-       _id : '6296d8fbc30c38f000160514',
-       categoria : 'Aceros y elementos metálicos',
-     },
-     {
-       _id: '6296d98fc30c38f000160519',
-       categoria: 'Electricidad'
-     },
-     {
-       _id:'6296d9a9c30c38f00016051b',
-       categoria:'Artefactos sanitarios y gasfitería'
-     },
-     {
-      _id:'6296d9e9c30c38f00016051c',
-      categoria:'Revestimientos y estucos'
-     },
-     {
-      _id:'6296da0dc30c38f00016051d',
-      categoria:'Maderas y muebles'
-     },
-     {
-      _id:'6296da17c30c38f00016051e',
-      categoria:'Equipos y herramientas'
-     },
-     {
-      _id:'6296da52c30c38f000160521',
-      categoria:'Pinturas y accesorios'
-     },
-     {
-      _id:'6296da5bc30c38f000160522',
-      categoria:'Cerámicos y adhesivos'
-     },
-     {
-      _id:'6296da66c30c38f000160523',
-      categoria:'Puertas y ventanas'
-     },
-     {
-      _id:'6296da70c30c38f000160524',
-      categoria:'Residuos peligrosos'
-     },
-     {
-      _id:'6296da77c30c38f000160525',
-      categoria:'Seguridad'
-     },
-    ]
-    return menuItems;
-   }
+  GETCATEGORIAS():Observable<any>{
+    return this.http.get(`${environment.hostname}/getcategorias`,this.HttpUploadOptions);
+  }
+  
+  obtenerItems():Categoria[]{
+    return this.menuItems
+  }
 
    obtenerPublicaciones(): Publication[]{
      let publiciones : Publication [] = [{
