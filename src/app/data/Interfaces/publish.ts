@@ -1,15 +1,17 @@
+import { Categoria } from "./categoria";
+import { Estadoproducto } from "./estadoproducto";
+import { Unidad } from "./unidad";
+import { Tipoventa } from "./tipoventa";
+import { Direccion } from "./direccion";
+
 export interface Publish {
-    id: number;
-    tittle: string;
-    price: string;
-    date_i: string;
-    date_e: string;
-    material: string;
-    brand: string;
-    model: string;
-    lenght: string;
-    diameter: string;
-    weight: string;
-    source: string;
-    observations: string;
+    id:string;
+    nombre:string;
+    descripcion:string;
+    categoria:Categoria;
+    unidad:Unidad;
+    estadoproducto:Estadoproducto;
+    fechapublicacion:Date;
+    tipoventa:Tipoventa;
+    direccion:Direccion;
 }

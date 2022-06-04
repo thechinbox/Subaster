@@ -23,7 +23,7 @@ export class PublicationService {
   constructor(private http:HttpClient) {}
 
   PUBLISH(){
-    
+    return this.http.post(`${environment.hostname}/publish`,JSON.stringify({}),this.HttpUploadOptions)
   }
 
   /**
