@@ -1,0 +1,30 @@
+###
+POST http://localhost:8080/signup HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre":"pepito",
+    "apellidos":"rodriguez",
+    "correo":"ejemplo@gmail.com",
+    "celular":"912345678",
+    "contraseña":"abc123",
+    "fechacreacion":"03/06/2022"
+}
+
+###
+POST http://localhost:8080/publish HTTP/1.1
+Content-Type: application/json
+
+{
+    "nombre":"Publicacion de Prueba 2",
+    "descripcion":"Prueba 2 de una Publicacion",
+    "categoria":"6296d8fbc30c38f000160514",
+    "estadoproducto":"629a9ed116a945e2b9170008",
+    "unidad": "629a9c5e16a945e2b916ffe6",
+    "fechapublicacion": "03/06/2022",
+    "tipoventa":"629a9a1316a945e2b916ffe1" 
+}
+
+###
+GET http://localhost:8080/getpublicaciones HTTP/1.1
+Content-Type: application/json
