@@ -3,6 +3,7 @@ import { Estadoproducto } from "./estadoproducto";
 import { Unidad } from "./unidad";
 import { Tipoventa } from "./tipoventa";
 import { Direccion } from "./direccion";
+import { MediaContent } from "./media-content";
 
 export interface Publish {
     id:string;
@@ -14,4 +15,5 @@ export interface Publish {
     fechapublicacion:Date;
     tipoventa:Tipoventa;
     direccion:Direccion;
+    url?:Array<MediaContent>
 }

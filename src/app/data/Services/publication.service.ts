@@ -26,6 +26,10 @@ export class PublicationService {
     return this.http.post(`${environment.hostname}/publish`,JSON.stringify({}),this.HttpUploadOptions)
   }
 
+  getPost(){
+    return this.http.get(`${environment.hostname}/getpublicaciones?categoria=id`);
+  }
+
   /**
   * @returns Arreglo de usuarios de ejemplo
   */

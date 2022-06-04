@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MenuItems } from '../Interfaces/menu-items';
 import { Publication } from '../Interfaces/publication';
-import { PublicationService } from './publication.service';
 
 @Injectable({
   providedIn: 'root'
