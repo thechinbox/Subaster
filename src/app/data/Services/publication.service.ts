@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpHeaders,HttpClient } from '@angular/common/http';
+import {environment} from '../../../environments/environment';
+import { Observable } from 'rxjs';
+
 import { Publication } from '../Interfaces/publication';
 import { Comment } from '../Interfaces/comment';
 
@@ -6,8 +10,21 @@ import { Comment } from '../Interfaces/comment';
   providedIn: 'root'
 })
 export class PublicationService {
+  HttpUploadOptions = {
+    headers: new HttpHeaders(
+      {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+      'Content-Type': 'application/json',
+    }
+    ),
+  };
+  constructor(private http:HttpClient) {}
 
-  constructor() {}
+  PUBLISH(){
+    
+  }
 
   /**
   * @returns Arreglo de usuarios de ejemplo

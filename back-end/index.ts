@@ -6,7 +6,13 @@ const publicaciones = require("./routes/publication")
 const categorias = require("./routes/categorias")
 const unidades = require("./routes/unidades")
 const estadosp = require("./routes/estadosproductos")
- 
+
+
+const configuracion={
+   hostname: "127.0.0.1",
+   port: 8080,
+}
+
 require('dotenv').config();
 
 app.set('port','8080')
@@ -19,8 +25,8 @@ app.use('/',unidades)
 app.use('/',estadosp)
 
 
-app.listen(app.get('port'), () => {
-   console.log("Welcome to my API");
+app.listen(configuracion, () => {
+   console.log(`Conectando al servidor http://${configuracion.hostname}:${configuracion.port}`)
 })
 
 mongoose
