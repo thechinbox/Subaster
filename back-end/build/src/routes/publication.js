@@ -62,14 +62,59 @@ function updatePublication(idpublicacion, iddireccion, res) {
     });
 }
 publishC.get("/getpublicaciones", (req, res) => {
+    let publicaciones = new Array();
     publicationS
         .find(req.query)
         .then((data) => {
-        res.send(JSON.stringify(data));
+        for (let publicacion of data) {
+            let p = {
+                id: publicacion._id,
+                nombre: publicacion.nombre,
+                descripcion: publicacion.descripcion,
+                categoria: publicacion.categoria,
+                unidad: publicacion.unidad,
+                estadopublicacion: publicacion.estadopublicacion,
+                estadoproducto: publicacion.estadoproducto,
+                fechapublicacion: publicacion.fechapublicacion,
+                precio: publicacion.precio,
+                cantidad: publicacion.cantidad,
+                direccion: {
+                    id: publicacion.iddireccion,
+                    region: " ",
+                    comuna: " ",
+                    direccionS: " ",
+                    latitud: 0,
+                    longitud: 0
+                },
+                url: new Array()
+            };
+            publicaciones.push(p);
+        }
+        console.log(publicaciones);
+        res.send(JSON.stringify(publicaciones));
     })
         .catch((err) => {
         console.log("Error encontrado");
         res.json(err);
+    });
+});
+publishC.get("/getdireccion", (req, res) => {
+    direccionS
+        .findOne({ _id: { $gte: req.query.id } }, (err, data) => {
+        if (err) {
+            console.log("Error encontrado al añadir iddireccion en publicacion");
+            console.log(err);
+        }
+        let direccion = {
+            id: data._id,
+            region: data.region,
+            comuna: data.comuna,
+            direccion: data.direccion,
+            latitud: data.latitud,
+            longitud: data.longitud
+        };
+        console.log(direccion);
+        res.send(direccion);
     });
 });
 publishC.get("/getpublicacion", (req, res) => {

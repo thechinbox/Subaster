@@ -4,6 +4,9 @@ import { MenuItems } from '../data/Interfaces/menu-items';
 import { Publication } from '../data/Interfaces/publication';
 import { PublicationService } from '../data/Services/publication.service';
 import { Categoria } from '../data/Interfaces/categoria';
+import { BrowseService } from '../data/Services/browse.service';
+import { Publish } from '../data/Interfaces/publish';
+import { NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 
 
 @Component({
@@ -14,31 +17,35 @@ import { Categoria } from '../data/Interfaces/categoria';
 export class BrowserComponent implements OnInit {
 
   MenuItems : Array<Categoria>;
-  publicaciones : Publication[];
-  constructor( private _menuItemsService : MenuItemsService , private publicationService: PublicationService) {
-    this.MenuItems = this._menuItemsService.obtenerItems();;
-    this.publicaciones = this._menuItemsService.obtenerPublicaciones();
+  publicaciones : Array<Publish>;
+  currentRoute: string
+  constructor( private _menuItemsService : MenuItemsService , private router: Router ,private browse:BrowseService) {
+    this.currentRoute= "";
+    this.MenuItems = this._menuItemsService.obtenerItems();
+    this.publicaciones = browse.getpublications()
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.url.split("?")[0];
+        let after = event.urlAfterRedirects.split("?");
+        if(this.currentRoute.includes("/browse")){
+          console.log("?"+after[1]);
+          this.browse.setpublications("?"+after[1]).then(()=>{
+            this.publicaciones = browse.getpublications()
+            console.log(this.publicaciones);
+            
+          })          
+        }
+      }
+  });
    }
 
   ngOnInit(): void {
-     
-    this.obtenerPublicacion();
+
   }
 
 
   checkboxSelected(){
     /* Desarrollar funcion de filtro */
   }
-
-
-  obtenerPublicacion(){
-    this.publicationService.getPost().subscribe(data => {
-      for(let i in data){
-        console.log(data);
-        
-      }
-    })
-
-  }
-
 }
+

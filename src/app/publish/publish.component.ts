@@ -196,6 +196,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
       }
     }
     let direccion:Direccion = {
+      id:"",
       region:values.region,
       comuna:values.comuna,
       direccion:values.direccion,
@@ -211,6 +212,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
                d.getSeconds()].join(':');
     let hoy = new Date(dformat);
     let publish:Publish = {
+      id:"",
       nombre:values.nombre,
       descripcion:values.descripcion,
       categoria:values.categoria,

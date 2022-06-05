@@ -20,7 +20,7 @@
             </a>
             <ul id="dropcat" class="dropdown-menu" aria-labelledby="navbarDropdown2" [ngbCollapse]="isCollapsed3">
               <div *ngFor="let categoria of lista">
-                <li><a class="dropdown-item" href="#">{{categoria}}</a></li>
+                <li><button class="dropdown-item" (click)="filtrar(categoria)">{{categoria.categoria}}</button></li>
                 <li><hr class="dropdown-divider"></li>
               </div>
             </ul>

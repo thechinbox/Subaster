@@ -2,10 +2,10 @@ import { Comuna } from "./comuna";
 import { Region } from "./region";
 
 export interface Direccion{
-    idpublicacion:String;
-    region:Region;
-    comuna:Comuna;
-    direccion:string;
+    id:String
+    region:Region["id"];
+    comuna:Comuna["id"];
+    direccion:String;
     latitud:number;
     longitud:number;
 }
