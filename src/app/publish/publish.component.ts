@@ -176,9 +176,23 @@ export class PublishComponent implements OnInit, AfterViewInit {
       }
     }
   }
-  
 
-
-
+  onSubmit(): void {
+    let values = this.publicacionForm.value  
+    for(let i in this.regiones){
+      if(this.regiones[i].region == values.region){
+        values.region = this.regiones[i].id;
+        for(let j in this.regiones[i].comunas){
+          if(this.regiones[i].comunas[j].comuna == values.comuna){
+            values.comuna = this.regiones[i].comunas[j].id
+            break;
+          }
+        }
+        break;
+      }
+    }
+    
+    
+  }
   
 }
