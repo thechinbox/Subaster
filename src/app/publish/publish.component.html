@@ -1,5 +1,5 @@
 <div class="container my-5">
-    <form class="row" [formGroup]="publicacionForm" >
+    <form class="row" [formGroup]="publicacionForm" (ngSubmit)="onSubmit()">
         <div class="col-12 col-md-8">
             <input type="file" class="form-control-file" (change)="selectFile($event)" accept=".jpg,.jpeg,.png,.mp4"  formControlName="media">
             <div class="error" *ngIf="publicacionForm.controls['media'].errors && (publicacionForm.controls['media'].dirty || publicacionForm.controls['media'].touched)">
@@ -58,7 +58,7 @@
                 <div class="col-12 mt-2">
                     <h4>Categoria</h4>
                     <select   class="form-select " id="dropdowncategoria" aria-label="categoria"  formControlName="categoria">
-                        <option *ngFor="let category of lista_Cat" value="{{category}}" >{{category.categoria}}</option>
+                        <option *ngFor="let category of lista_Cat" value="{{category.id}}" >{{category.categoria}}</option>
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['categoria'].errors && (publicacionForm.controls['categoria'].dirty || publicacionForm.controls['categoria'].touched)">
                         <p *ngIf="publicacionForm.controls['categoria'].hasError('required')">*Campo requerido</p>
@@ -67,7 +67,7 @@
                 <div class="col-12 mt-4">
                     <h4>Estado</h4>
                     <select  class="form-select " id="dropdownestado" aria-label="estado"  formControlName="estado">
-                        <option  *ngFor="let state of lista_Est" value="{{state}}">{{state.estadoproducto}}</option>
+                        <option  *ngFor="let state of lista_Est" value="{{state.id}}">{{state.estadoproducto}}</option>
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['estado'].errors && (publicacionForm.controls['estado'].dirty || publicacionForm.controls['estado'].touched)">
                         <p *ngIf="publicacionForm.controls['estado'].hasError('required')">*Campo requerido</p>
@@ -76,7 +76,7 @@
                 <div class="col-12 mt-4">
                     <h4>Unidad</h4>
                     <select  class="form-select " id="dropdownunidad" aria-label="unidad"  formControlName="unidad">
-                        <option *ngFor="let unit of lista_Unit" value="{{unit}}">{{unit.unidad}}</option>
+                        <option *ngFor="let unit of lista_Unit" value="{{unit.id}}">{{unit.unidad}}</option>
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['unidad'].errors && (publicacionForm.controls['unidad'].dirty || publicacionForm.controls['unidad'].touched)">
                         <p *ngIf="publicacionForm.controls['unidad'].hasError('required')">*Campo requerido</p>
@@ -85,7 +85,7 @@
                 <div class="col-12 mt-2">
                     <div class="form-group">
                         <h4 >Precio del Articulo ($CLP)</h4>
-                        <input type="number" min="0" id="precio" class="form-control" placeholder="Ej: 1"  formControlName="precio">
+                        <input type="number" min="0" id="precio" class="form-control" placeholder="Ej: 200000"  formControlName="precio">
                     </div>
                     <div class="error" *ngIf="publicacionForm.controls['precio'].errors && (publicacionForm.controls['precio'].dirty || publicacionForm.controls['precio'].touched)">
                         <p *ngIf="publicacionForm.controls['precio'].hasError('required')">*Campo requerido</p>
@@ -93,7 +93,7 @@
                     </div>
                 </div>
                 <div  class="col-12 mt-5">
-                    <button id="upload-grande" [disabled]="publicacionForm.invalid" class="btn btn-lg upload">Subir Publicacion</button>
+                    <button id="upload-grande" type="submit"  [disabled]="publicacionForm.invalid" class="btn btn-lg upload">Subir Publicacion</button>
                 </div>
             </div>
         </div>
@@ -140,7 +140,7 @@
             </div>
         </div>
         <div class="col-12 mt-5 d-flex justify-content-center">
-            <button id="upload-pequeño" [disabled]="publicacionForm.invalid" class="btn btn-lg upload">Subir Publicacion</button>
+            <button id="upload-pequeño" type="submit" [disabled]="publicacionForm.invalid" class="btn btn-lg upload">Subir Publicacion</button>
         </div>
     </form>
 </div>
