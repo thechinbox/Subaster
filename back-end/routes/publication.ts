@@ -31,5 +31,15 @@ publishC.get("/getpublicaciones", (req:any, res:any) => {
     })
 })
 
+publishC.get("/getpublicacion", (req:any,res:any) => {
+    publicationS
+    .find(req.query)
+    .then((data:any) =>{
+        res.send(JSON.stringify(data));
+    })
+    .catch((err:any) => {
+        res.json(err);
+    })
+})
 
 module.exports = publishC;

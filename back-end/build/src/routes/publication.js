@@ -29,4 +29,14 @@ publishC.get("/getpublicaciones", (req, res) => {
         res.json(err);
     });
 });
+publishC.get("/getpublicacion", (req, res) => {
+    publicationS
+        .find(req.query)
+        .then((data) => {
+        res.send(JSON.stringify(data));
+    })
+        .catch((err) => {
+        res.json(err);
+    });
+});
 module.exports = publishC;
