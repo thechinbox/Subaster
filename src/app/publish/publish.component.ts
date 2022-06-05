@@ -7,6 +7,9 @@ import { Comuna } from '../data/Interfaces/comuna';
 import { Categoria } from '../data/Interfaces/categoria';
 import { Estadoproducto } from '../data/Interfaces/estadoproducto';
 import { Unidad } from '../data/Interfaces/unidad';
+import { Publish } from '../data/Interfaces/publish';
+import { Direccion } from '../data/Interfaces/direccion';
+import { PublicationService } from '../data/Services/publication.service';
 
 @Component({
   selector: 'app-publish',
@@ -34,7 +37,8 @@ export class PublishComponent implements OnInit, AfterViewInit {
   //Formulario
   publicacionForm : FormGroup;
 
-  constructor(private atributos:AttributesService, private geografia:ChileinfoService) {  
+  constructor(private atributos:AttributesService, private geografia:ChileinfoService, private publicar:PublicationService) { 
+    let a =this.atributos.getactivepub()   
     this.lista_Cat = atributos.getcategorias();
     this.lista_Est = atributos.getestados();
     this.lista_Unit = atributos.getunidades();
@@ -191,8 +195,38 @@ export class PublishComponent implements OnInit, AfterViewInit {
         break;
       }
     }
-    
-    
+    let direccion:Direccion = {
+      region:values.region,
+      comuna:values.comuna,
+      direccion:values.direccion,
+      latitud:this.lat,
+      longitud:this.lng
+    };
+    var d = new Date,
+    dformat = [d.getMonth()+1,
+               d.getDate(),
+               d.getFullYear()].join('/')+' '+
+              [d.getHours(),
+               d.getMinutes(),
+               d.getSeconds()].join(':');
+    let hoy = new Date(dformat);
+    let publish:Publish = {
+      nombre:values.nombre,
+      descripcion:values.descripcion,
+      categoria:values.categoria,
+      unidad:values.unidad,
+      estadoproducto:values.estado,
+      estadopublicacion:this.atributos.getactivepub(),
+      fechapublicacion: hoy,
+      precio:values.precio,
+      cantidad:values.cantidad,
+      direccion:direccion,
+      url: new Array()
+    }
+    this.publicar.PUBLISH(publish).subscribe(datos =>{
+      console.log(datos);
+      
+    })
   }
   
 }

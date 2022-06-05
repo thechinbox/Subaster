@@ -1,23 +1,56 @@
 import {express} from '../index.js';
 import {mongoose} from '../index.js';
+import { Direccion } from '../Interfaces/direccion.js';
+import { Publish } from '../Interfaces/publish.js';
 
 const publishC = express.Router();
 let publicationS = require("../models/publicationS");
-let getunidad = require("./unidades");
+let direccionS = require("../models/direccionS")
 
-//crear usuario
+//Publicar Producto
 publishC.post("/publish", (req:any,res:any)=>{
-    req.body.categoria = mongoose.Types.ObjectId(req.body.categoria)
-    req.body.estadoproducto = mongoose.Types.ObjectId(req.body.estadoproducto)
-    req.body.unidad = mongoose.Types.ObjectId(req.body.unidad)
-    req.body.tipoventa = mongoose.Types.ObjectId(req.body.tipoventa)
-    publicationS(req.body)
+    let infopublicacion:Publish = req.body
+    let direccion:Direccion = infopublicacion.direccion
+    publicationS(infopublicacion)
     .save()
-    .then((data:any)=>{
-        data = res.json(data);
+    .then((data:any) => {    
+        let continues = saveDirection(data._id, direccion, res);        
     })
-    .catch((err:any) => res.json(err,'puta la wea'))
+    .catch((err:any) =>{
+        res.send(JSON.stringify({status:err}))
+    })
+    
 })
+//Crear direccion asociada al producto
+async function  saveDirection(idpublicacion:any, direccion:Direccion, res:any){
+    let d =  new direccionS({
+        idpublicacion:idpublicacion,
+        region:direccion.region,
+        comuna: direccion.comuna,
+        direccion:direccion.direccion,
+        latitud:direccion.latitud,
+        longitud:direccion.longitud
+    })
+    d.save((err:any,data:any) =>{
+        if(err){
+            console.log("Error encontrado.");
+            console.log(err);
+        } 
+        let update = updatePublication(idpublicacion, data._id, res)
+        return JSON.stringify(update)
+    })
+}
+//Añadir la direccion asociada al producto.
+async function updatePublication(idpublicacion:any, iddireccion:any, res:any){;
+    publicationS
+    .findOneAndUpdate({_id: idpublicacion}, {$set: {iddireccion: iddireccion}}, (err:any, data:any) =>{
+        if(err){
+            console.log("Error encontrado al añadir iddireccion en publicacion");
+            console.log(err);            
+        }
+        res.send(JSON.stringify(data));
+    })
+}
 
 publishC.get("/getpublicaciones", (req:any, res:any) => {
     publicationS

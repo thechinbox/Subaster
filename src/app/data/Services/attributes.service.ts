@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Categoria } from '../Interfaces/categoria';
 import { Estadoproducto } from '../Interfaces/estadoproducto';
 import { Unidad } from '../Interfaces/unidad';
-
+import { Estadopublicacion } from '../Interfaces/estadopublicacion';
 @Injectable({
   providedIn: 'root'
 })
@@ -23,11 +23,13 @@ export class AttributesService {
 
   unidades:Array<Unidad>;
   estadosproducto:Array<Estadoproducto>;
+  estadospublicacion:Array<Estadopublicacion>;
   categorias:Array<Categoria>;
 
   constructor(private http:HttpClient) {
     this.unidades = new Array<Unidad>();
     this.estadosproducto = new Array<Estadoproducto>();
+    this.estadospublicacion = new Array<Estadopublicacion>();
     this.categorias = new Array<Categoria>();
     this.GETUNIDADES().subscribe(data => {
       for(let i in data){
@@ -41,7 +43,12 @@ export class AttributesService {
     })
     this.GETCATEGORIAS().subscribe(data => {
       for(let i in data){
-       this.categorias.push({id:data[i]._id, categoria:data[i].categoria})
+         this.categorias.push({id:data[i]._id, categoria:data[i].categoria})
+      }
+    })
+    this.GETESTADOS().subscribe(data => {
+      for(let i in data){
+       this.estadospublicacion.push({id:data[i]._id, estadopublicacion:data[i].estadopublicacion})
       }
     })
   }
@@ -58,6 +65,10 @@ export class AttributesService {
     return this.http.get(`${environment.hostname}/getcategorias`,this.HttpUploadOptions);
   }
 
+  GETESTADOS():Observable<any>{
+    return this.http.get(`${environment.hostname}/getestadospublicacion`,this.HttpUploadOptions);
+  }
+
   getcategorias(){
     return this.categorias;
   }
@@ -68,5 +79,19 @@ export class AttributesService {
 
   getunidades(){
     return this.unidades
+  }
+
+  getestadospublicacion(){
+    return this.estadospublicacion
+  }
+
+  getactivepub(){
+    let idactive = "";
+    for(let estado of this.estadospublicacion){
+      if(estado.estadopublicacion == "activa"){
+        idactive = estado.id
+      }
+    }
+    return idactive
   }
 }
