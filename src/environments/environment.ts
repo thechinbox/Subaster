@@ -3,26 +3,20 @@
 // The list of file replacements can be found in `angular.json`.
 
 // Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyB-1ZOWLmkBWFhplKvpy-mR3hoPnd0zGAE",
-  authDomain: "subaster-4fb24.firebaseapp.com",
-  projectId: "subaster-4fb24",
-  storageBucket: "subaster-4fb24.appspot.com",
-  messagingSenderId: "404375391813",
-  appId: "1:404375391813:web:9d2feffed130485c161d2c"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
 
 export const environment = {
   production: false,
-  hostname:"http://127.0.0.1:8080"
+  hostname:"http://127.0.0.1:8080",
+  firebaseConfig : {
+    apiKey: "AIzaSyB-1ZOWLmkBWFhplKvpy-mR3hoPnd0zGAE",
+    authDomain: "subaster-4fb24.firebaseapp.com",
+    databaseURL: "https://subaster-4fb24-default-rtdb.firebaseio.com",
+    projectId: "subaster-4fb24",
+    storageBucket: "subaster-4fb24.appspot.com",
+    messagingSenderId: "404375391813",
+    appId: "1:404375391813:web:9d2feffed130485c161d2c"
+  }
 };
 
 
