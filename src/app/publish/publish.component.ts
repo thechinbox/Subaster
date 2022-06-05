@@ -1,5 +1,12 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { ChileinfoService } from '../data/Services/chileinfo.service';
+import { AttributesService } from '../data/Services/attributes.service';
+import { Region } from '../data/Interfaces/region';
+import { Comuna } from '../data/Interfaces/comuna';
+import { Categoria } from '../data/Interfaces/categoria';
+import { Estadoproducto } from '../data/Interfaces/estadoproducto';
+import { Unidad } from '../data/Interfaces/unidad';
 
 @Component({
   selector: 'app-publish',
@@ -8,31 +15,13 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 
 export class PublishComponent implements OnInit, AfterViewInit {
-  //Comunas 
-  Tarapaca = new Array("Arica");
-  Antofagasta = new Array("Alto Hospicio","Iquique","Pozo Almonte");
-  Atacama = new Array("Caldera","Chanaral","Copiapo","Diego de Almagro","El Salvador","Huasco","Tierra Amarilla","Vallenar");
-  Coquimbo = new Array("Andacollo","Combarbala","Coquimbo","El Palqui","Illapel","La Serena","Los Vilos","Montepatria","Ovalle","Salamanca","Vicuna");
-  Valparaiso = new Array("Algarrobo","Cabildo","Calle Larga","Cartagena","Casablanca","Catemu","Concon","El Melon","El Quisco","El Tabo","Hijuelas","La Calera","La Cruz","La Ligua","Las Ventanas","Limache","Llaillay","Los Andes","Nogales","Olmue","Placilla de Penuelas","Putaendo","Quillota","Quilpue","Quintero","Rinconada","San Antonio","San Esteban","San Felipe","Santa Maria","Santo Domingo","Valparaiso","Villa Alemana","Villa Los Almendros","Vina del Mar");
-  OHiggins = new Array("Chimbarongo","Codegua","Donihue","Graneros","Gultro","Las Cabras","Lo Miranda","Machali","Nancagua","Palmilla","Peumo","Pichilemu","Punta Diamante","Quinta de Tilcoco","Rancagua","Rengo","Requinoa","San Fernando","San Francisco de Mostazal","San Vicente de Tagua Tagua","Santa Cruz");
-  Maule = new Array("Cauquenes","Constitucion","Curico","Hualane","Linares","Longavi","Molina","Parral","San Clemente","San Javier","Talca","Teno","Villa Alegre");
-  Bio_Bio = new Array("Arauco","Bulnes","Cabrero","Canete","Chiguayante","Chillan","Chillan Viejo","Coelemu","Coihueco","Concepcion","Conurbacion La Laja-San Rosendo","Coronel","Curanilahue","Hualpen","Hualqui","Huepil","Lebu","Los alamos","Los angeles","Lota","Monte aguila","Mulchen","Nacimiento","Penco","Quillon","Quirihue","San Carlos","San Pedro de la Paz","Santa Barbara","Santa Juana","Talcahuano","Tome","Yumbel","Yungay");
-  Araucania = new Array("Angol","Carahue","Collipulli","Cunco","Curacautin","Freire","Gorbea","Labranza","Lautaro","Loncoche","Nueva Imperial","Padre Las Casas","Pitrufquen","Pucon","Puren","Renaico","Temuco","Traiguen","Victoria","Villarrica");
-  Los_Lagos = new Array("Futrono","La Union","Lanco","Los Lagos","Paillaco","Panguipulli","Rio Bueno","San Jose de la Mariquina","Valdivia");
-  Aisen = new Array("Coihaique","Puerto Aisen");
-  Magallanes_y_Antartica = new Array("Punta Arenas","Puerto Natales");
-  Metropolitana = new Array("Alto Jahuel","Bajos de San Agustin","Batuco","Buin","Cerrillos","Cerro Navia","Colina","Conchali","Curacavi","El Bosque","El Monte","Estacion Central","Hospital","Huechuraba","Independencia","Isla de Maipo","La Cisterna","La Florida","La Granja","La Islita","La Pintana","La Reina","Lampa","Las Condes","Lo Barnechea","Lo Espejo","Lo Prado","Macul","Maipu","Melipilla","Nunoa","Padre Hurtado","Paine","Pedro Aguirre Cerda","Penaflor","Penalolen","Pirque","Providencia","Pudahuel","Puente Alto","Quilicura","Quinta Normal","Recoleta","Renca","San Bernardo","San Joaquin","San Jose de Maipo","San Miguel","San Ramon","Santiago","Talagante","Tiltil","Vitacura");
-  Los_Rios = new Array("Ancud","Calbuco","Castro","Fresia","Frutillar","Llanquihue","Los Muermos","Osorno","Puerto Montt","Puerto Varas","Purranque","Quellon","Rio Negro");
-  Arica_y_Parinacota = new Array("Antofagasta","Calama","Maria Elena","Mejillones","Taltal","Tocopilla");
   region ="";
   comuna ="";
 
   //Listas y Dropdowns
-  lista_Cat = ["Aceros y elementos metálicos ", "Electricidad",    "Artefactos sanitarios y gasfitería", "Revestimientos y estucos",
-    "Maderas y muebles", "Equipos y herramientas", "Pinturas y accesorios", "Cerámicos y adhesivos", "Puertas y ventanas",
-    "Residuos peligrosos", "Seguridad"];
-  lista_Est = ["Nuevo","Usado","Usado-Como Nuevo","Nuevo-Abierto","Residuo"];
-  lista_Unit = ["Sacos", "KG", "UN", "ML", "M2", "M3", "Cajas", "Tinetas", "Pallet"];
+  lista_Cat:Array<Categoria>;
+  lista_Est:Array<Estadoproducto>;
+  lista_Unit: Array<Unidad>;
   isCollapsed = true;
   urli= new Array();
   urlv= new Array();
@@ -40,11 +29,16 @@ export class PublishComponent implements OnInit, AfterViewInit {
   lat:number;
   lng:number;
 
+  regiones:Array<Region>;
 
   //Formulario
   publicacionForm : FormGroup;
 
-  constructor() {
+  constructor(private atributos:AttributesService, private geografia:ChileinfoService) {  
+    this.lista_Cat = atributos.getcategorias();
+    this.lista_Est = atributos.getestados();
+    this.lista_Unit = atributos.getunidades();
+    this.regiones = geografia.getregiones();
     this.lat=0;
     this.lng=0;
     this.publicacionForm = new FormGroup({
@@ -99,17 +93,14 @@ export class PublishComponent implements OnInit, AfterViewInit {
     let select:any = document.getElementById("comuna");
     let direccion:any = document.getElementById("direccion");
     select.disabled = true;
-    direccion.disabled = true;
+    direccion.disabled = true; 
   }
 
   initMap(){
     
   }
 
-  buscar_ciudad(e:any){
-    let region = e.target.value;    
-    this.region = region;
-    let comunas = eval("this."+region)
+  buscar_ciudad(e:any){   
     let select:any = document.getElementById("comuna");
     select.disabled = false; 
     let direccion:any = document.getElementById("direccion");
@@ -121,16 +112,19 @@ export class PublishComponent implements OnInit, AfterViewInit {
     let  nuevaopcion = new Option("","", true,true);
     nuevaopcion.disabled = true;  
     select?.appendChild(nuevaopcion)
+    let comunas:Array<Comuna> = this.geografia.getcomunas(e.target.value);
     for (let index = 0; index < comunas.length; index++) {
-      let  nuevaopcion = new Option(comunas[index], comunas[index], false,false);   
+      let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,false);   
       select?.appendChild(nuevaopcion)
     }          
-    
+    this.region = e.target.value
+    this.comuna = ""
   }
 
   enable(e:any){    
     let direccion:any = document.getElementById("direccion");
     direccion.disabled = false;
+    this.comuna = e.target.value
   }
 
   direccionShow(e:any){
@@ -138,6 +132,8 @@ export class PublishComponent implements OnInit, AfterViewInit {
     if(direccion.value.trim() != "" && direccion.value != null){
       let direccion = (<HTMLInputElement>document.getElementById("direccion")).value;
       let geocoder = new google.maps.Geocoder();
+      console.log(direccion + "," + this.comuna + "," + this.region);
+      
       geocoder.geocode({ 'address': direccion + "," + this.comuna + "," + this.region}, (results, status) =>{
         if(status == google.maps.GeocoderStatus.OK){
           let resultados:any = results;

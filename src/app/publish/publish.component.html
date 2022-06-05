@@ -58,7 +58,7 @@
                 <div class="col-12 mt-2">
                     <h4>Categoria</h4>
                     <select   class="form-select " id="dropdowncategoria" aria-label="categoria"  formControlName="categoria">
-                        <option *ngFor="let category of lista_Cat" value="{{category}}" >{{category}}</option>
+                        <option *ngFor="let category of lista_Cat" value="{{category}}" >{{category.categoria}}</option>
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['categoria'].errors && (publicacionForm.controls['categoria'].dirty || publicacionForm.controls['categoria'].touched)">
                         <p *ngIf="publicacionForm.controls['categoria'].hasError('required')">*Campo requerido</p>
@@ -67,7 +67,7 @@
                 <div class="col-12 mt-4">
                     <h4>Estado</h4>
                     <select  class="form-select " id="dropdownestado" aria-label="estado"  formControlName="estado">
-                        <option  *ngFor="let state of lista_Est" value="{{state}}">{{state}}</option>
+                        <option  *ngFor="let state of lista_Est" value="{{state}}">{{state.estadoproducto}}</option>
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['estado'].errors && (publicacionForm.controls['estado'].dirty || publicacionForm.controls['estado'].touched)">
                         <p *ngIf="publicacionForm.controls['estado'].hasError('required')">*Campo requerido</p>
@@ -76,7 +76,7 @@
                 <div class="col-12 mt-4">
                     <h4>Unidad</h4>
                     <select  class="form-select " id="dropdownunidad" aria-label="unidad"  formControlName="unidad">
-                        <option *ngFor="let unit of lista_Unit" value="{{unit}}">{{unit}}</option>
+                        <option *ngFor="let unit of lista_Unit" value="{{unit}}">{{unit.unidad}}</option>
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['unidad'].errors && (publicacionForm.controls['unidad'].dirty || publicacionForm.controls['unidad'].touched)">
                         <p *ngIf="publicacionForm.controls['unidad'].hasError('required')">*Campo requerido</p>
@@ -103,21 +103,7 @@
                 <div class="col-12 mb-2">
                     <label>Region</label>
                     <select (change)="buscar_ciudad($event)" class="form-select " name="region" id="region" formControlName="region">
-                        <option value="Tarapaca">Tarapaca</option>
-                        <option value="Antofagasta">Antofagasta</option>
-                        <option value="Atacama">Atacama</option>
-                        <option value="Coquimbo">Coquimbo</option>
-                        <option value="Valparaiso">Valparaiso</option>
-                        <option value="OHiggins">O'Higgins</option>
-                        <option value="Maule">Maule</option>
-                        <option value="Bio_Bio">Bio - Bio</option>
-                        <option value="Araucania">Araucania</option>
-                        <option value="Los_Lagos">Los Lagos</option>
-                        <option value="Aisen">Aisen</option>
-                        <option value="Magallanes_y_Antartica">Magallanes Y Antartica</option>
-                        <option value="Metropolitana">Metropolitana</option>
-                        <option value="Los_Rios">Los Rios</option>
-                        <option value="Arica_y_Parinacota">Arica y Parinacota</option>
+                        <option *ngFor="let r of regiones" value="{{r.region}}"> {{r.region}}</option>
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['region'].errors && (publicacionForm.controls['region'].dirty || publicacionForm.controls['region'].touched)">
                         <p *ngIf="publicacionForm.controls['region'].hasError('required')">*Campo requerido</p>                    

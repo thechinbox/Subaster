@@ -6,6 +6,8 @@ const publicaciones = require("./routes/publication")
 const categorias = require("./routes/categorias")
 const unidades = require("./routes/unidades")
 const estadosp = require("./routes/estadosproductos")
+const regiones = require("./routes/region")
+const comunas = require("./routes/comuna")
 const cors=require('cors');
 
 const configuracion={
@@ -24,6 +26,8 @@ app.use('/',publicaciones)
 app.use('/',categorias)
 app.use('/',unidades)
 app.use('/',estadosp)
+app.use('/',regiones)
+app.use('/',comunas)
 
 
 app.listen(configuracion, () => {

@@ -11,9 +11,15 @@ estadopC.post("/upestadoproducto", (req, res) => {
         .catch((err) => res.json(err, 'puta la wea'));
 });
 estadopC.get("/getestadosp", (req, res) => {
+    let estadosp = new Array();
     estadopS
         .find()
-        .then((data) => res.json(data))
+        .then((data) => {
+        for (let i in data) {
+            estadosp.push(data[i]);
+        }
+        res.send(estadosp);
+    })
         .catch((err) => res.json({ message: err }));
 });
 module.exports = estadopC;

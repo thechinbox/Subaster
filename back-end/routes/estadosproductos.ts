@@ -12,9 +12,15 @@ estadopC.post("/upestadoproducto", (req:any,res:any)=>{
 })
 
 estadopC.get("/getestadosp", (req:any,res:any)=>{
+    let estadosp = new Array();
     estadopS
     .find()
-    .then((data:any) => res.json(data))
+    .then((data:any) => {       
+        for(let i in data){
+            estadosp.push(data[i]);
+        }
+        res.send(estadosp);
+    })
     .catch((err:any) => res.json({message:err}))
 })
 

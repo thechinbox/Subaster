@@ -1,8 +1,8 @@
 import {mongoose} from '../index.js';
 
 const regionSchema = mongoose.Schema({
-      nombre: {
+      region: {
         type: 'string'
       }
 });
-module.exports = mongoose.model('region',regionSchema)
+module.exports = mongoose.model('regiones',regionSchema)

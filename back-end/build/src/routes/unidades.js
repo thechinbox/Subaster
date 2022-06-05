@@ -11,9 +11,15 @@ unidadC.post("/upunidad", (req, res) => {
         .catch((err) => res.json(err));
 });
 unidadC.get("/getunidades", (req, res) => {
+    let unidades = new Array();
     unidadS
         .find()
-        .then((data) => res.json(data))
+        .then((data) => {
+        for (let i in data) {
+            unidades.push(data[i]);
+        }
+        res.send(unidades);
+    })
         .catch((err) => res.json({ message: err }));
 });
 module.exports = unidadC;

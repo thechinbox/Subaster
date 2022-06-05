@@ -26,5 +26,5 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:8080/getpublicaciones HTTP/1.1
+GET http://localhost:8080/getcomunas?idregion=629bc3f354a7927ab3845ade HTTP/1.1
 Content-Type: application/json
