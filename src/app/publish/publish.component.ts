@@ -100,10 +100,10 @@ export class PublishComponent implements OnInit, AfterViewInit {
           let reader = new FileReader();
           reader.readAsDataURL(archivos[0]);
           reader.onloadend = () =>{
-            console.log(reader.result);
+            /* console.log(reader.result); */
             this.imagenes.push(reader.result);
             this.storageService.subirImagen(nombre + "-" + Date.now(), reader.result).then(urlImagen => {
-              console.log(urlImagen);
+              /* console.log(urlImagen); */
               /* let usuario={
                 idusuario:"",
                 productimg:""
