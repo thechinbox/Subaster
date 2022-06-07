@@ -7,6 +7,8 @@ import { Comuna } from '../data/Interfaces/comuna';
 import { Categoria } from '../data/Interfaces/categoria';
 import { Estadoproducto } from '../data/Interfaces/estadoproducto';
 import { Unidad } from '../data/Interfaces/unidad';
+import { StorageService } from '../data/Services/storage.service';
+import { url } from 'inspector';
 
 @Component({
   selector: 'app-publish',
@@ -25,7 +27,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
   isCollapsed = true;
   urli= new Array();
   urlv= new Array();
-  
+
   lat:number;
   lng:number;
 
@@ -34,7 +36,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
   //Formulario
   publicacionForm : FormGroup;
 
-  constructor(private atributos:AttributesService, private geografia:ChileinfoService) {  
+  constructor(private atributos:AttributesService, private geografia:ChileinfoService, private storageService:StorageService) {
     this.lista_Cat = atributos.getcategorias();
     this.lista_Est = atributos.getestados();
     this.lista_Unit = atributos.getunidades();
@@ -82,27 +84,52 @@ export class PublishComponent implements OnInit, AfterViewInit {
         Validators.maxLength(50)
       ])
     })
-    
+
   }
 
-  ngAfterViewInit(): void {    
+  ngAfterViewInit(): void {
   }
+
+  /*  FIREBASE SUBIR IMAGEN STORAGE* */
+      imagenes:any [] = [];
+      videos:any[] = [];
+      cargarImagen(event:any){
+        let archivos = event.target.files
+        let nombre = "usuario";
+        for(let i=0; i<archivos.length; i++){
+          let reader = new FileReader();
+          reader.readAsDataURL(archivos[0]);
+          reader.onloadend = () =>{
+            /* console.log(reader.result); */
+            this.imagenes.push(reader.result);
+            this.storageService.subirImagen(nombre + "-" + Date.now(), reader.result).then(urlImagen => {
+              /* console.log(urlImagen); */
+              /* let usuario={
+                idusuario:"",
+                productimg:""
+              } */
+            });
+          }
+        }
+      }
+
+  /*  */
 
 
   ngOnInit(): void {
     let select:any = document.getElementById("comuna");
     let direccion:any = document.getElementById("direccion");
     select.disabled = true;
-    direccion.disabled = true; 
+    direccion.disabled = true;
   }
 
   initMap(){
-    
+
   }
 
-  buscar_ciudad(e:any){   
+  buscar_ciudad(e:any){
     let select:any = document.getElementById("comuna");
-    select.disabled = false; 
+    select.disabled = false;
     let direccion:any = document.getElementById("direccion");
     direccion.value = null;
     direccion.disabled = true;
@@ -110,18 +137,18 @@ export class PublishComponent implements OnInit, AfterViewInit {
       select.removeChild(select.firstChild);
     }
     let  nuevaopcion = new Option("","", true,true);
-    nuevaopcion.disabled = true;  
+    nuevaopcion.disabled = true;
     select?.appendChild(nuevaopcion)
     let comunas:Array<Comuna> = this.geografia.getcomunas(e.target.value);
     for (let index = 0; index < comunas.length; index++) {
-      let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,false);   
+      let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,false);
       select?.appendChild(nuevaopcion)
-    }          
+    }
     this.region = e.target.value
     this.comuna = ""
   }
 
-  enable(e:any){    
+  enable(e:any){
     let direccion:any = document.getElementById("direccion");
     direccion.disabled = false;
     this.comuna = e.target.value
@@ -133,12 +160,12 @@ export class PublishComponent implements OnInit, AfterViewInit {
       let direccion = (<HTMLInputElement>document.getElementById("direccion")).value;
       let geocoder = new google.maps.Geocoder();
       console.log(direccion + "," + this.comuna + "," + this.region);
-      
+
       geocoder.geocode({ 'address': direccion + "," + this.comuna + "," + this.region}, (results, status) =>{
         if(status == google.maps.GeocoderStatus.OK){
           let resultados:any = results;
           this.lat = resultados[0].geometry.location.lat();
-          this.lng = resultados[0].geometry.location.lng();  
+          this.lng = resultados[0].geometry.location.lng();
         }
       })
     }
@@ -150,7 +177,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
       return el != null;
     });
     console.log(this.urli);
-    
+
   }
 
   deletevid(i:any){
@@ -178,7 +205,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit(): void {
-    let values = this.publicacionForm.value  
+    let values = this.publicacionForm.value
     for(let i in this.regiones){
       if(this.regiones[i].region == values.region){
         values.region = this.regiones[i].id;
@@ -191,8 +218,8 @@ export class PublishComponent implements OnInit, AfterViewInit {
         break;
       }
     }
-    
-    
+
+
   }
-  
+
 }

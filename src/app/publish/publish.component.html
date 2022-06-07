@@ -1,7 +1,7 @@
 <div class="container my-5">
     <form class="row" [formGroup]="publicacionForm" (ngSubmit)="onSubmit()">
         <div class="col-12 col-md-8">
-            <input type="file" class="form-control-file" (change)="selectFile($event)" accept=".jpg,.jpeg,.png,.mp4"  formControlName="media">
+            <input type="file" class="form-control-file" (change)="selectFile($event);cargarImagen($event)" accept=".jpg,.jpeg,.png,.mp4, MKV" multiple  formControlName="media">
             <div class="error" *ngIf="publicacionForm.controls['media'].errors && (publicacionForm.controls['media'].dirty || publicacionForm.controls['media'].touched)">
                 <p *ngIf="publicacionForm.controls['media'].hasError('required')">*Campo requerido</p>
             </div>
@@ -21,7 +21,7 @@
                     <br/><video class="mx-2" src="{{url}}" height="200"></video><br/>
                 </button>
             </div>
-            
+
         </div>
         <div class="col-12 col-md-8 mt-5">
             <div class="form-group">
@@ -106,7 +106,7 @@
                         <option *ngFor="let r of regiones" value="{{r.region}}"> {{r.region}}</option>
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['region'].errors && (publicacionForm.controls['region'].dirty || publicacionForm.controls['region'].touched)">
-                        <p *ngIf="publicacionForm.controls['region'].hasError('required')">*Campo requerido</p>                    
+                        <p *ngIf="publicacionForm.controls['region'].hasError('required')">*Campo requerido</p>
                     </div>
                 </div>
                 <div class="col-12">
@@ -114,8 +114,8 @@
                     <select (change)="enable($event)" class="form-select" name="comuna" id="comuna" formControlName="comuna">
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['comuna'].errors && (publicacionForm.controls['comuna'].dirty || publicacionForm.controls['comuna'].touched)">
-                        <p *ngIf="publicacionForm.controls['comuna'].hasError('required')">*Campo requerido</p>       
-                        <p *ngIf="publicacionForm.controls['comuna'].hasError('nullValidator')">*Campo requerido</p>       
+                        <p *ngIf="publicacionForm.controls['comuna'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="publicacionForm.controls['comuna'].hasError('nullValidator')">*Campo requerido</p>
                     </div>
                 </div>
                 <div class="col-12 mt-2">
@@ -123,8 +123,8 @@
                         <label>Ingrese su direccion:</label>
                         <input type="text" class="form-control" id="direccion" (change)="direccionShow($event)"  formControlName="direccion" >
                         <div class="error" *ngIf="publicacionForm.controls['direccion'].errors && (publicacionForm.controls['direccion'].dirty || publicacionForm.controls['direccion'].touched)">
-                            <p *ngIf="publicacionForm.controls['direccion'].hasError('required')">*Campo requerido</p>   
-                            <p *ngIf="publicacionForm.controls['direccion'].hasError('maxlength')">*La direccion no puede pasar los 50 caracteres.</p>                    
+                            <p *ngIf="publicacionForm.controls['direccion'].hasError('required')">*Campo requerido</p>
+                            <p *ngIf="publicacionForm.controls['direccion'].hasError('maxlength')">*La direccion no puede pasar los 50 caracteres.</p>
                         </div>
                     </div>
                     <div >
