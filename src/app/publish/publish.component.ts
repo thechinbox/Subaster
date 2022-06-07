@@ -7,6 +7,12 @@ import { Comuna } from '../data/Interfaces/comuna';
 import { Categoria } from '../data/Interfaces/categoria';
 import { Estadoproducto } from '../data/Interfaces/estadoproducto';
 import { Unidad } from '../data/Interfaces/unidad';
+import { Publish } from '../data/Interfaces/publish';
+import { Direccion } from '../data/Interfaces/direccion';
+import { PublicationService } from '../data/Services/publication.service';
+import { StorageService } from '../data/Services/storage.service';
+import {MediaContent} from '../data/Interfaces/media-content'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-publish',
@@ -17,15 +23,15 @@ import { Unidad } from '../data/Interfaces/unidad';
 export class PublishComponent implements OnInit, AfterViewInit {
   region ="";
   comuna ="";
-
+  
+  imagenes:any [] = [];
+  videos:any[] = [];
   //Listas y Dropdowns
   lista_Cat:Array<Categoria>;
   lista_Est:Array<Estadoproducto>;
   lista_Unit: Array<Unidad>;
   isCollapsed = true;
-  urli= new Array();
-  urlv= new Array();
-  
+  nombre = "usuario";
   lat:number;
   lng:number;
 
@@ -34,7 +40,9 @@ export class PublishComponent implements OnInit, AfterViewInit {
   //Formulario
   publicacionForm : FormGroup;
 
-  constructor(private atributos:AttributesService, private geografia:ChileinfoService) {  
+  constructor(private atributos:AttributesService, private geografia:ChileinfoService, private publicar:PublicationService, 
+              private storageService:StorageService, private router:Router) { 
+    let a =this.atributos.getactivepub()   
     this.lista_Cat = atributos.getcategorias();
     this.lista_Est = atributos.getestados();
     this.lista_Unit = atributos.getunidades();
@@ -82,27 +90,29 @@ export class PublishComponent implements OnInit, AfterViewInit {
         Validators.maxLength(50)
       ])
     })
-    
   }
 
-  ngAfterViewInit(): void {    
+  ngAfterViewInit(): void {
   }
-
 
   ngOnInit(): void {
+    let cargando:any = document.getElementById("cargando")
+    let subiendo:any = document.getElementById("subido")
     let select:any = document.getElementById("comuna");
     let direccion:any = document.getElementById("direccion");
+    cargando.style.display = "none";
+    subiendo.style.display = "none";
     select.disabled = true;
-    direccion.disabled = true; 
+    direccion.disabled = true;
   }
 
   initMap(){
-    
+
   }
 
-  buscar_ciudad(e:any){   
+  buscar_ciudad(e:any){
     let select:any = document.getElementById("comuna");
-    select.disabled = false; 
+    select.disabled = false;
     let direccion:any = document.getElementById("direccion");
     direccion.value = null;
     direccion.disabled = true;
@@ -110,18 +120,18 @@ export class PublishComponent implements OnInit, AfterViewInit {
       select.removeChild(select.firstChild);
     }
     let  nuevaopcion = new Option("","", true,true);
-    nuevaopcion.disabled = true;  
+    nuevaopcion.disabled = true;
     select?.appendChild(nuevaopcion)
     let comunas:Array<Comuna> = this.geografia.getcomunas(e.target.value);
     for (let index = 0; index < comunas.length; index++) {
-      let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,false);   
+      let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,false);
       select?.appendChild(nuevaopcion)
-    }          
+    }
     this.region = e.target.value
     this.comuna = ""
   }
 
-  enable(e:any){    
+  enable(e:any){
     let direccion:any = document.getElementById("direccion");
     direccion.disabled = false;
     this.comuna = e.target.value
@@ -133,52 +143,66 @@ export class PublishComponent implements OnInit, AfterViewInit {
       let direccion = (<HTMLInputElement>document.getElementById("direccion")).value;
       let geocoder = new google.maps.Geocoder();
       console.log(direccion + "," + this.comuna + "," + this.region);
-      
+
       geocoder.geocode({ 'address': direccion + "," + this.comuna + "," + this.region}, (results, status) =>{
         if(status == google.maps.GeocoderStatus.OK){
           let resultados:any = results;
           this.lat = resultados[0].geometry.location.lat();
-          this.lng = resultados[0].geometry.location.lng();  
+          this.lng = resultados[0].geometry.location.lng();
         }
       })
     }
   }
 
   deleteimg(i:any){
-    delete this.urli[i]
-    this.urli = this.urli.filter(function (el) {
+    delete this.imagenes[i]
+    this.imagenes = this.imagenes.filter(function (el) {
       return el != null;
     });
-    console.log(this.urli);
-    
+    console.log(this.imagenes);
+
   }
 
   deletevid(i:any){
-    delete this.urlv[i]
-    this.urlv = this.urlv.filter(function (el) {
+    delete this.videos[i]
+    this.videos = this.videos.filter(function (el) {
       return el != null;
     });
   }
 
-  selectFile(event:any){
-    if(event.target.files){
+  /*  FIREBASE SUBIR IMAGEN STORAGE* */
+      
+  cargarImagen(event:any){
+    let archivos = event.target.files
+    for(let i=0; i<archivos.length; i++){
       let reader = new FileReader();
-      if(event.target.files[0].type.split("/")[0] == "video"){
-        reader.readAsDataURL(event.target.files[0])
-        reader.onload = (event:any) =>{
-          this.urlv.push(event.target.result)
-        }
-      }else if(event.target.files[0].type.split("/")[0] == "image"){
-        reader.readAsDataURL(event.target.files[0])
-        reader.onload = (event:any) =>{
-          this.urli.push(event.target.result)
-        }
+      reader.readAsDataURL(archivos[0]);
+      reader.onloadend = () =>{
+        /* console.log(reader.result); */
+        this.imagenes.push(reader.result);
       }
     }
   }
 
-  onSubmit(): void {
-    let values = this.publicacionForm.value  
+/*  */
+  async waitUpload(){
+    let form:any = document.getElementById("formulario")
+    let cargando:any = document.getElementById("cargando")
+    let subido:any = document.getElementById("subido")
+    cargando.style.display = "block";
+    form.style.display = "none";
+    await this.onSubmit().then(data =>{
+      cargando.style.display = "none";
+      subido.style.display = "block";
+      setTimeout(() => {
+        this.router.navigateByUrl("/home")
+      }, 1000);
+    })
+    
+  }
+
+  async onSubmit() {
+    let values = this.publicacionForm.value
     for(let i in this.regiones){
       if(this.regiones[i].region == values.region){
         values.region = this.regiones[i].id;
@@ -191,8 +215,50 @@ export class PublishComponent implements OnInit, AfterViewInit {
         break;
       }
     }
+    let direccion:Direccion = {
+      id:"",
+      region:values.region,
+      comuna:values.comuna,
+      direccion:values.direccion,
+      latitud:this.lat,
+      longitud:this.lng
+    };
+    var d = new Date,
+    dformat = [d.getMonth()+1,
+               d.getDate(),
+               d.getFullYear()].join('/')+' '+
+              [d.getHours(),
+               d.getMinutes(),
+               d.getSeconds()].join(':');
+    let hoy = new Date(dformat);
+    let urlsFirebase= new Array();
+    for(let url of this.imagenes){
+      await this.storageService.subirImagen(this.nombre + "-" + Date.now(), url).then( data =>{
+        urlsFirebase.push({
+          url: data
+        })
+      })
+    }
     
-    
+    let publish:Publish = {
+      id:"",
+      nombre:values.nombre,
+      descripcion:values.descripcion,
+      categoria:values.categoria,
+      unidad:values.unidad,
+      estadoproducto:values.estado,
+      estadopublicacion:this.atributos.getactivepub(),
+      fechapublicacion: hoy,
+      precio:values.precio,
+      cantidad:values.cantidad,
+      direccion:direccion,
+      url: urlsFirebase
+    }
+
+    this.publicar.PUBLISH(publish).subscribe(datos =>{
+      console.log(datos);
+      
+    })
   }
-  
+
 }
