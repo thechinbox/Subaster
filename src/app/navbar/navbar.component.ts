@@ -1,5 +1,9 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
-
+import { Router, RouterLink } from '@angular/router';
+import { Categoria } from 'back-end/Interfaces/categoria';
+import { AttributesService } from '../data/Services/attributes.service';
+import { BrowseService } from '../data/Services/browse.service';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
@@ -9,13 +13,21 @@ export class NavbarComponent implements OnInit {
   isCollapsed = true;
   isCollapsed2 = true;
   isCollapsed3 = true;
-  lista = ["Aceros y elementos metálicos ", "Electricidad",    "Artefactos sanitarios y gasfitería", "Revestimientos y estucos",
-    "Maderas y muebles", "Equipos y herramientas", "Pinturas y accesorios", "Cerámicos y adhesivos", "Puertas y ventanas",
-    "Residuos peligrosos", "Seguridad"];
+  lista:Categoria[];
 
-  constructor() { }
+  constructor(private atributos:AttributesService, private browse:BrowseService, private router:Router) {
+    this.lista = atributos.getcategorias()
+  }
 
   ngOnInit(): void {
+  }
+
+  filtrar(categoria:Categoria){
+    let filtro = "?categoria="+categoria.id
+    this.browse.setpublications(filtro).then(()=>
+      this.router.navigateByUrl("/browser"+filtro)
+    );
+    
   }
 
 }

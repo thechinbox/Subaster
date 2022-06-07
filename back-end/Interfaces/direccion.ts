@@ -2,7 +2,7 @@ import { Comuna } from "./comuna";
 import { Region } from "./region";
 
 export interface Direccion{
-    id:String;
+    id:String
     region:Region["id"];
     comuna:Comuna["id"];
     direccion:String;

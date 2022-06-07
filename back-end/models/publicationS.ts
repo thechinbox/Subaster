@@ -1,26 +1,41 @@
 import {mongoose} from '../index.js';
 
 const publicationS = mongoose.Schema({
-    nombre: {
+    idpublicacion: {
+        type: 'objectId'
+      },
+      nombre: {
         type: 'string'
-    },
-    descripcion: {
+      },
+      descripcion: {
         type: 'string'
-    },
-    categoria: {
+      },
+      categoria: {
         type: 'objectId'
-    },
-    estadoproducto: {
+      },
+      estadoproducto: {
         type: 'objectId'
-    },
-    unidad: {
+      },
+      estadopublicacion: {
         type: 'objectId'
-    },
-    fechapublicacion: {
+      },
+      unidad: {
+        type: 'objectId'
+      },
+      fechapublicacion: {
         type: 'date'
-    },
-    tipoventa:{
+      },
+      precio: {
+        type: 'Number'
+      },
+      cantidad: {
+        type: 'Number'
+      },
+      iddireccion: {
         type: 'objectId'
-    }
+      },
+      idcontenido: {
+        type: 'objectId'
+      }
 });
-module.exports = mongoose.model('publicaciones',publicationS)
+module.exports = mongoose.model('fijas',publicationS)

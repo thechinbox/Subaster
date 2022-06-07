@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Publication } from '../Interfaces/publication';
 import { Comment } from '../Interfaces/comment';
+import { Publish } from '../Interfaces/publish';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +23,12 @@ export class PublicationService {
   };
   constructor(private http:HttpClient) {}
 
-  PUBLISH():Observable<any>{
-    return this.http.post(`${environment.hostname}/publish`,JSON.stringify({}),this.HttpUploadOptions)
+  PUBLISH(publish:Publish):Observable<any>{
+    return this.http.post(`${environment.hostname}/publish`,JSON.stringify(publish),this.HttpUploadOptions)
   }
 
   getPost():Observable<any>{
     return this.http.get(`${environment.hostname}/getpublicaciones`,this.HttpUploadOptions);
-    
   }
 
   /**

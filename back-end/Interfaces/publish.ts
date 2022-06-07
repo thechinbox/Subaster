@@ -6,7 +6,7 @@ import { MediaContent } from "./media-content";
 import { Estadopublicacion } from "./estadopublicacion";
 
 export interface Publish {
-    id:String,
+    id:String;
     nombre:String;
     descripcion:String;
     categoria:Categoria["id"];
