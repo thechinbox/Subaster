@@ -9,15 +9,19 @@ import { MediaContent } from '../Interfaces/media-content.js';
 const publishC = express.Router();
 let publicationS = require("../models/publicationS");
 let direccionS = require("../models/direccionS")
-
+let contentS = require("../models/contentS")
 //Publicar Producto
 publishC.post("/publish", (req:any,res:any)=>{
     let infopublicacion:Publish = req.body
     let direccion:Direccion = infopublicacion.direccion
+    let media:Array<MediaContent> = infopublicacion.url
+    console.log(media);
+    
     publicationS(infopublicacion)
     .save()
     .then((data:any) => {    
-        let continues = saveDirection(data._id, direccion, res);        
+        let direccionUpload = saveDirection(data._id, direccion, media, res);    
+        
     })
     .catch((err:any) =>{
         res.send(JSON.stringify({status:err}))
@@ -25,7 +29,7 @@ publishC.post("/publish", (req:any,res:any)=>{
     
 })
 //Crear direccion asociada al producto
-async function  saveDirection(idpublicacion:any, direccion:Direccion, res:any){
+async function saveDirection(idpublicacion:any, direccion:Direccion, media:Array<MediaContent>, res:any){
     let d =  new direccionS({
         idpublicacion:idpublicacion,
         region:direccion.region,
@@ -37,12 +41,34 @@ async function  saveDirection(idpublicacion:any, direccion:Direccion, res:any){
     d.save((err:any,data:any) =>{
         if(err){
             console.log("Error encontrado.");
-            console.log(err);
+            res.send(JSON.stringify(err))
+            
         } 
-        let update = updatePublication(idpublicacion, data._id, res)
-        return JSON.stringify(update)
+        
+        saveContent(idpublicacion,data._id,media,res)
+        
     })
 }
+
+//Crear contenidos asociados al producto
+async function saveContent(idpublicacion:any,iddireccion:any,urls:Array<MediaContent>, res:any) {
+    for(let url of urls){
+        let urlUpload = new contentS({
+            idpublicacion:idpublicacion,
+            url:url.url
+        })
+        urlUpload.save((err:any,data:any)=>{
+            if(err){
+                console.log(err);
+                res.send(JSON.stringify(err))
+            }
+            console.log("Se subio: ", data);
+        })
+    }
+    let update = updatePublication(idpublicacion, iddireccion, res) 
+    return JSON.stringify(update)  
+}
+
 //Añadir la direccion asociada al producto.
 async function updatePublication(idpublicacion:any, iddireccion:any, res:any){;
     publicationS

@@ -11,7 +11,8 @@ import { Publish } from '../data/Interfaces/publish';
 import { Direccion } from '../data/Interfaces/direccion';
 import { PublicationService } from '../data/Services/publication.service';
 import { StorageService } from '../data/Services/storage.service';
-import { url } from 'inspector';
+import {MediaContent} from '../data/Interfaces/media-content'
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-publish',
@@ -22,15 +23,15 @@ import { url } from 'inspector';
 export class PublishComponent implements OnInit, AfterViewInit {
   region ="";
   comuna ="";
-
+  
+  imagenes:any [] = [];
+  videos:any[] = [];
   //Listas y Dropdowns
   lista_Cat:Array<Categoria>;
   lista_Est:Array<Estadoproducto>;
   lista_Unit: Array<Unidad>;
   isCollapsed = true;
-  urli= new Array();
-  urlv= new Array();
-
+  nombre = "usuario";
   lat:number;
   lng:number;
 
@@ -39,7 +40,8 @@ export class PublishComponent implements OnInit, AfterViewInit {
   //Formulario
   publicacionForm : FormGroup;
 
-  constructor(private atributos:AttributesService, private geografia:ChileinfoService, private publicar:PublicationService, private storageService:StorageService) { 
+  constructor(private atributos:AttributesService, private geografia:ChileinfoService, private publicar:PublicationService, 
+              private storageService:StorageService, private router:Router) { 
     let a =this.atributos.getactivepub()   
     this.lista_Cat = atributos.getcategorias();
     this.lista_Est = atributos.getestados();
@@ -88,41 +90,18 @@ export class PublishComponent implements OnInit, AfterViewInit {
         Validators.maxLength(50)
       ])
     })
-
   }
 
   ngAfterViewInit(): void {
   }
 
-  /*  FIREBASE SUBIR IMAGEN STORAGE* */
-      imagenes:any [] = [];
-      videos:any[] = [];
-      cargarImagen(event:any){
-        let archivos = event.target.files
-        let nombre = "usuario";
-        for(let i=0; i<archivos.length; i++){
-          let reader = new FileReader();
-          reader.readAsDataURL(archivos[0]);
-          reader.onloadend = () =>{
-            /* console.log(reader.result); */
-            this.imagenes.push(reader.result);
-            this.storageService.subirImagen(nombre + "-" + Date.now(), reader.result).then(urlImagen => {
-              /* console.log(urlImagen); */
-              /* let usuario={
-                idusuario:"",
-                productimg:""
-              } */
-            });
-          }
-        }
-      }
-
-  /*  */
-
-
   ngOnInit(): void {
+    let cargando:any = document.getElementById("cargando")
+    let subiendo:any = document.getElementById("subido")
     let select:any = document.getElementById("comuna");
     let direccion:any = document.getElementById("direccion");
+    cargando.style.display = "none";
+    subiendo.style.display = "none";
     select.disabled = true;
     direccion.disabled = true;
   }
@@ -176,39 +155,53 @@ export class PublishComponent implements OnInit, AfterViewInit {
   }
 
   deleteimg(i:any){
-    delete this.urli[i]
-    this.urli = this.urli.filter(function (el) {
+    delete this.imagenes[i]
+    this.imagenes = this.imagenes.filter(function (el) {
       return el != null;
     });
-    console.log(this.urli);
+    console.log(this.imagenes);
 
   }
 
   deletevid(i:any){
-    delete this.urlv[i]
-    this.urlv = this.urlv.filter(function (el) {
+    delete this.videos[i]
+    this.videos = this.videos.filter(function (el) {
       return el != null;
     });
   }
 
-  selectFile(event:any){
-    if(event.target.files){
+  /*  FIREBASE SUBIR IMAGEN STORAGE* */
+      
+  cargarImagen(event:any){
+    let archivos = event.target.files
+    for(let i=0; i<archivos.length; i++){
       let reader = new FileReader();
-      if(event.target.files[0].type.split("/")[0] == "video"){
-        reader.readAsDataURL(event.target.files[0])
-        reader.onload = (event:any) =>{
-          this.urlv.push(event.target.result)
-        }
-      }else if(event.target.files[0].type.split("/")[0] == "image"){
-        reader.readAsDataURL(event.target.files[0])
-        reader.onload = (event:any) =>{
-          this.urli.push(event.target.result)
-        }
+      reader.readAsDataURL(archivos[0]);
+      reader.onloadend = () =>{
+        /* console.log(reader.result); */
+        this.imagenes.push(reader.result);
       }
     }
   }
 
-  onSubmit(): void {
+/*  */
+  async waitUpload(){
+    let form:any = document.getElementById("formulario")
+    let cargando:any = document.getElementById("cargando")
+    let subido:any = document.getElementById("subido")
+    cargando.style.display = "block";
+    form.style.display = "none";
+    await this.onSubmit().then(data =>{
+      cargando.style.display = "none";
+      subido.style.display = "block";
+      setTimeout(() => {
+        this.router.navigateByUrl("/home")
+      }, 1000);
+    })
+    
+  }
+
+  async onSubmit() {
     let values = this.publicacionForm.value
     for(let i in this.regiones){
       if(this.regiones[i].region == values.region){
@@ -238,6 +231,15 @@ export class PublishComponent implements OnInit, AfterViewInit {
                d.getMinutes(),
                d.getSeconds()].join(':');
     let hoy = new Date(dformat);
+    let urlsFirebase= new Array();
+    for(let url of this.imagenes){
+      await this.storageService.subirImagen(this.nombre + "-" + Date.now(), url).then( data =>{
+        urlsFirebase.push({
+          url: data
+        })
+      })
+    }
+    
     let publish:Publish = {
       id:"",
       nombre:values.nombre,
@@ -250,8 +252,9 @@ export class PublishComponent implements OnInit, AfterViewInit {
       precio:values.precio,
       cantidad:values.cantidad,
       direccion:direccion,
-      url: new Array()
+      url: urlsFirebase
     }
+
     this.publicar.PUBLISH(publish).subscribe(datos =>{
       console.log(datos);
       

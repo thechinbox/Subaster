@@ -13,21 +13,24 @@ const index_js_1 = require("../index.js");
 const publishC = index_js_1.express.Router();
 let publicationS = require("../models/publicationS");
 let direccionS = require("../models/direccionS");
+let contentS = require("../models/contentS");
 //Publicar Producto
 publishC.post("/publish", (req, res) => {
     let infopublicacion = req.body;
     let direccion = infopublicacion.direccion;
+    let media = infopublicacion.url;
+    console.log(media);
     publicationS(infopublicacion)
         .save()
         .then((data) => {
-        let continues = saveDirection(data._id, direccion, res);
+        let direccionUpload = saveDirection(data._id, direccion, media, res);
     })
         .catch((err) => {
         res.send(JSON.stringify({ status: err }));
     });
 });
 //Crear direccion asociada al producto
-function saveDirection(idpublicacion, direccion, res) {
+function saveDirection(idpublicacion, direccion, media, res) {
     return __awaiter(this, void 0, void 0, function* () {
         let d = new direccionS({
             idpublicacion: idpublicacion,
@@ -40,11 +43,30 @@ function saveDirection(idpublicacion, direccion, res) {
         d.save((err, data) => {
             if (err) {
                 console.log("Error encontrado.");
-                console.log(err);
+                res.send(JSON.stringify(err));
             }
-            let update = updatePublication(idpublicacion, data._id, res);
-            return JSON.stringify(update);
+            saveContent(idpublicacion, data._id, media, res);
         });
+    });
+}
+//Crear contenidos asociados al producto
+function saveContent(idpublicacion, iddireccion, urls, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        for (let url of urls) {
+            let urlUpload = new contentS({
+                idpublicacion: idpublicacion,
+                url: url.url
+            });
+            urlUpload.save((err, data) => {
+                if (err) {
+                    console.log(err);
+                    res.send(JSON.stringify(err));
+                }
+                console.log("Se subio: ", data);
+            });
+        }
+        let update = updatePublication(idpublicacion, iddireccion, res);
+        return JSON.stringify(update);
     });
 }
 //Añadir la direccion asociada al producto.

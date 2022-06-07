@@ -17,7 +17,7 @@ export class StorageService {
   async subirImagen(nombre:string, imgBase64:any){
     try{
       let respuesta = await this.storageRef.child("users/"+nombre).putString(imgBase64,'data_url');
-      return await respuesta.ref.getDownloadURL();
+      return  (await respuesta.ref.getDownloadURL());
     }catch(err){
       console.log(err);
       return console.log('error')
