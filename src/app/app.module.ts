@@ -22,6 +22,11 @@ import { PublicationService } from './data/Services/publication.service';
 import { UserService } from './data/Services/user.service';
 import { BrowserComponent } from './browser/browser.component';
 import { MenuItemsService } from './data/Services/menu-items.service';
+import { ProfileComponent } from './profile/profile.component';
+import { StorageService } from './data/Services/storage.service';
+import { AttributesService } from './data/Services/attributes.service';
+import { BrowseService } from './data/Services/browse.service';
+import { ChileinfoService } from './data/Services/chileinfo.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +40,8 @@ import { MenuItemsService } from './data/Services/menu-items.service';
     FooterComponent,
     RegistroComponent,
     PublicacionComponent,
-    BrowserComponent
+    BrowserComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +53,9 @@ import { MenuItemsService } from './data/Services/menu-items.service';
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [UserService, PublicationService, MenuItemsService],
+  providers: [UserService, PublicationService, MenuItemsService,
+              StorageService, AttributesService,
+              BrowseService, ChileinfoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

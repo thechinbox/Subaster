@@ -1,0 +1,27 @@
+h1 {
+    max-width: 940px;
+    font-size: 2em;
+    /* Si el navegador no reconoce lato, usamos sans-serif */
+    //font-family: Lato, sans-serif;
+    font-weight: 400;
+    line-height: 1.1;
+    padding-bottom: 1rem;
+    //border-bottom: 1px solid grey;
+    //border-top: 1px solid grey;
+}
+
+.contenedor-todo {
+    margin-top: 40px;
+}
+
+.contenedor-tarjeta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+.contenedor-imagen img{
+    border-radius: 100%;
+}

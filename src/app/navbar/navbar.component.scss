@@ -1,16 +1,24 @@
 $verde-claro: #85c285;
 $verde-oscuro: rgba(0, 128, 0, 0.477);
+$color-letra-navbar: rgb(255, 255, 255);
 
-a, a:visited{
-    color:black;
+ul{
+    align-items: center;
 }
-
 #menucolapsado::-ms-expand{
     border-color: red;
 }
 #navbar{
     background-color: $verde-oscuro;
-    min-height: 10vh;
+    min-height: 11vh;
+}
+.nav-item a{
+    font-size: x-large;
+    color: $color-letra-navbar;
+}
+.nav-item a:hover{
+    font-size: xx-large;
+    color: rgb(0, 157, 26);
 }
 .container-fluid{
     display: flex;
