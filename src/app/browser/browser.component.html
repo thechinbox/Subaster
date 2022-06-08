@@ -4,10 +4,7 @@
         <section class="products-list">
           <h4>Filtrar por categorías</h4>
           <br>
-          <div *ngFor="let item of MenuItems">
-              <input type="checkbox" href="#" id="categoryItem" category="all" name="filtro">
-              <label for="filtro" id="categoryItem">{{item.categoria}}</label>
-          </div>
+          <app-categorias (checkChecked)="checkChecked($event)" [seleccionadas]="seleccionadas" [categorias]="categorias"></app-categorias>
         </section>
       </div>
       <div class="col-8">

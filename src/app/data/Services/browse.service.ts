@@ -21,7 +21,7 @@ export class BrowseService {
   
   filter:any;
   publicaciones:Array<Publish>;
-  idseleccionadas:any[]
+  private idseleccionadas:any[]
 
   constructor(private http:HttpClient) {
     this.publicaciones = new Array();
@@ -39,17 +39,19 @@ export class BrowseService {
 
   async setFilter(ids:any){
     try{
+      this.idseleccionadas = ids
       this.filter = "?categoria=";
       for(let i = 0; i<ids.length; i++){
-        if(i == ids.length - 1 ){
-          this.filter = this.filter  + ids[i]  
-        }else{
-          this.filter = this.filter + ids[i]  + ","
-        }
+        this.filter = this.filter + ids[i]  + ","
       }
     }catch(err:any){
       console.log(err);
-      
     }
   }
+
+  getSeleccionadas(){
+    return this.idseleccionadas;
+  }
+
+  
 }
