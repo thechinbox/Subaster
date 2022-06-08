@@ -24,8 +24,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
   region ="";
   comuna ="";
   
-  imagenes:any [] = [];
-  videos:any[] = [];
+  media:any [] = [];
   //Listas y Dropdowns
   lista_Cat:Array<Categoria>;
   lista_Est:Array<Estadoproducto>;
@@ -154,37 +153,32 @@ export class PublishComponent implements OnInit, AfterViewInit {
     }
   }
 
-  deleteimg(i:any){
-    delete this.imagenes[i]
-    this.imagenes = this.imagenes.filter(function (el) {
+  deletemedia(i:any){    
+    delete this.media[i]
+    this.media = this.media.filter(function (el) {
       return el != null;
     });
-    console.log(this.imagenes);
 
+    let d:any= document.getElementById("media");
+    if(this.media.length == 0){
+      d.value = null
+    }
   }
 
-  deletevid(i:any){
-    delete this.videos[i]
-    this.videos = this.videos.filter(function (el) {
-      return el != null;
-    });
-  }
 
-  /*  FIREBASE SUBIR IMAGEN STORAGE* */
-      
   cargarImagen(event:any){
     let archivos = event.target.files
     for(let i=0; i<archivos.length; i++){
       let reader = new FileReader();
       reader.readAsDataURL(archivos[0]);
       reader.onloadend = () =>{
-        /* console.log(reader.result); */
-        this.imagenes.push(reader.result);
+        this.media.push(reader.result);        
       }
     }
+    
+    
   }
 
-/*  */
   async waitUpload(){
     let form:any = document.getElementById("formulario")
     let cargando:any = document.getElementById("cargando")
@@ -232,7 +226,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
                d.getSeconds()].join(':');
     let hoy = new Date(dformat);
     let urlsFirebase= new Array();
-    for(let url of this.imagenes){
+    for(let url of this.media){
       await this.storageService.subirImagen(this.nombre + "-" + Date.now(), url).then( data =>{
         urlsFirebase.push({
           url: data

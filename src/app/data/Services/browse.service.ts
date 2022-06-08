@@ -19,9 +19,13 @@ export class BrowseService {
     ),
   };
   
+  filters:any;
   publicaciones:Array<Publish>;
+
+
   constructor(private http:HttpClient) {
     this.publicaciones = new Array();
+    this.filters = ""
   }
 
   GETPUBLICATIONS(filters:any):Observable<any>{
@@ -31,18 +35,15 @@ export class BrowseService {
     return this.http.get(`${environment.hostname}/getdireccion?id=`+id,this.HttpUploadOptions);
   }
 
-  async setpublications(filters:any){
-    this.GETPUBLICATIONS(filters).subscribe(data =>{
-      this.publicaciones = data;
-    })
-    for(let publicacion of this.publicaciones){
-      this.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
-        publicacion.direccion= data2;
-      })
-    }    
+  async setFilter(filters:any){
+    try{
+      this.filters = filters;
+    }catch(err:any){
+      console.log(err);
+      
+    }
   }
-
-  getpublications():Array<Publish>{
-    return this.publicaciones
+  getFilters(){
+    return this.filters
   }
 }

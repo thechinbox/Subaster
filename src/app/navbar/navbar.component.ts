@@ -22,12 +22,10 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  filtrar(categoria:Categoria){
+  async filtrar(categoria:Categoria){
     let filtro = "?categoria="+categoria.id
-    this.browse.setpublications(filtro).then(()=>
-      this.router.navigateByUrl("/browser"+filtro)
-    );
-    
+    await this.browse.setFilter(filtro)
+    this.router.navigateByUrl('/browser?categoria='+this.atributos.getcategoria(categoria.id))
   }
 
 }

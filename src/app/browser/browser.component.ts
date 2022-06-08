@@ -22,28 +22,38 @@ export class BrowserComponent implements OnInit {
   constructor( private _menuItemsService : MenuItemsService , private router: Router ,private browse:BrowseService) {
     this.currentRoute= "";
     this.MenuItems = this._menuItemsService.obtenerItems();
-    this.publicaciones = browse.getpublications()
-    this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationEnd) {
-        this.currentRoute = event.url.split("?")[0];
-        let after = event.urlAfterRedirects.split("?");
-        if(this.currentRoute.includes("/browse")){
-          console.log("?"+after[1]);
-          this.browse.setpublications("?"+after[1]).then(()=>{
-            this.publicaciones = browse.getpublications()
-            console.log(this.publicaciones);
-            
-          })          
-        }
-      }
-  });
+    this.publicaciones = [];
+    
    }
 
   ngOnInit(): void {
-
+    this.browse.GETPUBLICATIONS(this.browse.getFilters()).subscribe(data =>{
+      this.publicaciones = data;
+      for(let publicacion of this.publicaciones){
+        this.browse.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
+          publicacion.direccion= data2;
+        })
+      }    
+    })
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        if(event.url.includes("/browser") && event.urlAfterRedirects.includes("/browser")){
+            this.updatePulications()
+          }
+        }
+      });
   }
 
-
+  async updatePulications(){
+    this.browse.GETPUBLICATIONS(this.browse.getFilters()).subscribe(data =>{
+      this.publicaciones = data;
+      for(let publicacion of this.publicaciones){
+        this.browse.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
+          publicacion.direccion= data2;
+        })
+      }    
+    })
+  }
   checkboxSelected(){
     /* Desarrollar funcion de filtro */
   }
