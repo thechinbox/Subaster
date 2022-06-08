@@ -36,6 +36,10 @@ export class BrowserComponent implements OnInit {
         this.browse.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
           publicacion.direccion= data2;
         })
+        this.browse.GETMEDIA(publicacion.id).subscribe(data3 =>{
+          publicacion.url= data3;
+
+        })
       }    
     })
     this.router.events.subscribe((event: any) => {

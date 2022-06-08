@@ -33,8 +33,13 @@ export class BrowseService {
     console.log(this.filter);
     return this.http.get(`${environment.hostname}/getpublicaciones`+this.filter,this.HttpUploadOptions);
   }
+
   GETDIRECTION(id:any):Observable<any>{
     return this.http.get(`${environment.hostname}/getdireccion?id=`+id,this.HttpUploadOptions);
+  }
+
+  GETMEDIA(id:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/getmedia?id=`+id,this.HttpUploadOptions);
   }
 
   async setFilter(ids:any){

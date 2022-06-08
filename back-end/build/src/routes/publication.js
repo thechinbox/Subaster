@@ -130,7 +130,7 @@ publishC.get("/getdireccion", (req, res) => {
     direccionS
         .findOne({ _id: { $gte: req.query.id } }, (err, data) => {
         if (err) {
-            console.log("Error encontrado al añadir iddireccion en publicacion");
+            console.log("Error encontrado al obtener iddireccion en publicacion");
             console.log(err);
         }
         let direccion = {
@@ -143,6 +143,27 @@ publishC.get("/getdireccion", (req, res) => {
         };
         console.log(direccion);
         res.send(direccion);
+    });
+});
+publishC.get("/getmedia", (req, res) => {
+    console.log(req.query.id);
+    console.log("yep");
+    contentS
+        .findOne({ _id: { $gte: req.query.id } }, (err, data) => {
+        if (err) {
+            console.log("Error encontrado al obtener contenido de la publicacion");
+            console.log(err);
+        }
+        console.log(data);
+        let urls = data;
+        let parser = new Array();
+        for (let url of urls) {
+            console.log(url);
+            parser.push(url.url);
+        }
+        let content = parser;
+        console.log(content);
+        res.send(content);
     });
 });
 publishC.get("/getpublicacion", (req, res) => {
