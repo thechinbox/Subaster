@@ -11,9 +11,11 @@
         <h4>Todos los productos</h4>
         <br>
         <div class="row">
-          <div class="col-6" *ngFor="let item of publicaciones">
+          <div class="col-6 mt-2" *ngFor="let item of publicaciones">
             <div class="card">
-              <img src="{{item.url[0]}}" routerLink="/publicacion" class="card-img-top" alt="...">
+              <div class="d-flex justify-content-center ">
+                <img src="{{item.url[0]}}" routerLink="/publicacion" style="width: 50%;" class="card-img-top" alt="...">
+              </div>
               <div class="card-body">
                 <h5 class="card-title">{{item.nombre}}</h5>
                 <h5 class="card-subtitle">${{item.precio}}</h5>
