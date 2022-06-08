@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import {PublicationService} from '../data/Services/publication.service';
+import { Publish } from '../data/Interfaces/publish';
+import { MediaContent } from 'back-end/Interfaces/media-content';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Direction } from 'readline';
 
 @Component({
   selector: 'app-home',
@@ -6,11 +11,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  lista = ["a","b","c","d","e"]
+  lista : Array<Publish>
+  imgPublicaciones : Array<MediaContent>;
+  constructor(private _publicationService:PublicationService) {
+    this.lista = new Array;
+    this.imgPublicaciones = new Array;
+  }
 
-  constructor() { }
+  homePublications(){
+   this._publicationService.getPost().subscribe(data => {
+      this.lista = data;
+      this.imgPublicaciones = data.url;
+      console.log(this.imgPublicaciones)
+    })
+  }
 
   ngOnInit(): void {
+    this.homePublications();
   }
 
   getheight(){
