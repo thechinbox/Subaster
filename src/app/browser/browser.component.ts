@@ -35,10 +35,11 @@ export class BrowserComponent implements OnInit {
       for(let publicacion of this.publicaciones){
         this.browse.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
           publicacion.direccion= data2;
-        })
-        this.browse.GETMEDIA(publicacion.id).subscribe(data3 =>{
-          publicacion.url= data3;
-
+          this.browse.GETMEDIA(publicacion.id).subscribe(data3 =>{
+            publicacion.url= data3;
+            console.log(publicacion);
+            
+          })
         })
       }    
     })
@@ -58,6 +59,11 @@ export class BrowserComponent implements OnInit {
       for(let publicacion of this.publicaciones){
         this.browse.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
           publicacion.direccion= data2;
+          this.browse.GETMEDIA(publicacion.id).subscribe(data3 =>{
+            publicacion.url= data3;
+            console.log(publicacion);
+            
+          })
         })
       }
       console.log(this.publicaciones);

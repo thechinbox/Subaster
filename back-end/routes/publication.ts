@@ -146,15 +146,18 @@ publishC.get("/getdireccion", (req:any,res:any) =>{
     })
 })
 
-publishC.get("/getmedia", (req:any,res:any) =>{        
+publishC.get("/getmedia", (req:any,res:any) =>{ 
     contentS
-    .findOne({_id:{$gte:req.query.id}}, (err:any, data:any) =>{
+    .find({idpublicacion:{$gte:req.query.id}}, (err:any, data:any) =>{
         if(err){
             console.log("Error encontrado al obtener contenido de la publicacion");
             console.log(err);            
-        }
-
-        res.send(data)
+        } 
+        let urls = new Array()
+        for(let url of data){
+            urls.push(url.url)
+        }              
+        res.send(urls)
     })
 })
 
