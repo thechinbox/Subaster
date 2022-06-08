@@ -27,7 +27,7 @@ export class BrowserComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.browse.GETPUBLICATIONS(this.browse.getFilters()).subscribe(data =>{
+    this.browse.GETPUBLICATIONS().subscribe(data =>{
       this.publicaciones = data;
       for(let publicacion of this.publicaciones){
         this.browse.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
@@ -41,11 +41,11 @@ export class BrowserComponent implements OnInit {
             this.updatePulications()
           }
         }
-      });
+    });
   }
 
   async updatePulications(){
-    this.browse.GETPUBLICATIONS(this.browse.getFilters()).subscribe(data =>{
+    this.browse.GETPUBLICATIONS().subscribe(data =>{
       this.publicaciones = data;
       for(let publicacion of this.publicaciones){
         this.browse.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{

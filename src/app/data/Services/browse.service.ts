@@ -19,31 +19,37 @@ export class BrowseService {
     ),
   };
   
-  filters:any;
+  filter:any;
   publicaciones:Array<Publish>;
-
+  idseleccionadas:any[]
 
   constructor(private http:HttpClient) {
     this.publicaciones = new Array();
-    this.filters = ""
+    this.idseleccionadas = new Array();
+    this.filter = ""
   }
 
-  GETPUBLICATIONS(filters:any):Observable<any>{
-    return this.http.get(`${environment.hostname}/getpublicaciones`+filters,this.HttpUploadOptions);
+  GETPUBLICATIONS():Observable<any>{
+    console.log(this.filter);
+    return this.http.get(`${environment.hostname}/getpublicaciones`+this.filter,this.HttpUploadOptions);
   }
   GETDIRECTION(id:any):Observable<any>{
     return this.http.get(`${environment.hostname}/getdireccion?id=`+id,this.HttpUploadOptions);
   }
 
-  async setFilter(filters:any){
+  async setFilter(ids:any){
     try{
-      this.filters = filters;
+      this.filter = "?categoria=";
+      for(let i = 0; i<ids.length; i++){
+        if(i == ids.length - 1 ){
+          this.filter = this.filter  + ids[i]  
+        }else{
+          this.filter = this.filter + ids[i]  + ","
+        }
+      }
     }catch(err:any){
       console.log(err);
       
     }
-  }
-  getFilters(){
-    return this.filters
   }
 }

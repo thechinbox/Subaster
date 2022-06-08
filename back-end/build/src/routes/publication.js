@@ -85,8 +85,15 @@ function updatePublication(idpublicacion, iddireccion, res) {
 }
 publishC.get("/getpublicaciones", (req, res) => {
     let publicaciones = new Array();
+    let idsQuery = new Array();
+    for (let id of req.query.categoria.split(",")) {
+        if (id != "") {
+            idsQuery.push(id);
+        }
+    }
+    console.log(idsQuery);
     publicationS
-        .find(req.query)
+        .find({ categoria: idsQuery })
         .then((data) => {
         for (let publicacion of data) {
             let p = {
@@ -112,7 +119,6 @@ publishC.get("/getpublicaciones", (req, res) => {
             };
             publicaciones.push(p);
         }
-        console.log(publicaciones);
         res.send(JSON.stringify(publicaciones));
     })
         .catch((err) => {

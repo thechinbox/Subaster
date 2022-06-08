@@ -23,8 +23,7 @@ export class NavbarComponent implements OnInit {
   }
 
   async filtrar(categoria:Categoria){
-    let filtro = "?categoria="+categoria.id
-    await this.browse.setFilter(filtro)
+    await this.browse.setFilter([categoria.id + ","])
     this.router.navigateByUrl('/browser?categoria='+this.atributos.getcategoria(categoria.id))
   }
 
