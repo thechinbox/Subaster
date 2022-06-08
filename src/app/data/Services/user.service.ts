@@ -49,4 +49,15 @@ export class UserService {
 
     return ejemplos;
   }
+
+  obtenerUsuario():User {
+    let ejemplo: User = {
+      "idUser": 1,
+      "name": "Fernando Espinoza",
+      "email": "espinoza@gmail.com",
+      "password": "hola123",
+      'image':'../../assets/user_coment.png'
+    }
+    return ejemplo;
+  }
 }

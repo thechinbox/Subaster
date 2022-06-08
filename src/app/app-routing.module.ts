@@ -7,6 +7,7 @@ import { UsComponent } from './us/us.component';
 import { RegistroComponent } from './registro/registro.component';
 import { PublicacionComponent } from './publicacion/publicacion.component';
 import { BrowserComponent } from './browser/browser.component';
+import { ProfileComponent } from './profile/profile.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -16,7 +17,8 @@ const routes: Routes = [
   {path:'nosotros', component:UsComponent},
   {path:'login', component:LoginComponent},
   {path:'registro', component:RegistroComponent},
-  {path:'browser', component:BrowserComponent}
+  {path:'browser', component:BrowserComponent},
+  {path:'profile', component:ProfileComponent}
 ];
 
 @NgModule({
