@@ -61,12 +61,13 @@
                 <carousel [height]="getheight()" class="row carousel" [cellsToShow]=4>
                     <div class="carousel-cell" *ngFor="let product of lista">
                         <div class="card" style="min-width: 100%">
-                            <img class="card-img-top" src="../../assets/tubos.jpg" alt="Card image cap">
+                            <img class="card-img-top" src="{{product.url[0]}}" alt="Card image cap">
                             <div class="card-body">
                                 <p>Cierra en 13 Dias</p>
-                                <h5 class="card-title">Venta de Tubos PVC</h5>
+                                <h5 class="card-title">{{product.nombre}}</h5>
                                 <h4>Valor Actual</h4>
-                                <h4>$50.000 CLP</h4>
+                                <h4>{{product.precio}}</h4>
+
                             </div>
                         </div>
                     </div>

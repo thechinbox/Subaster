@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {PublicationService} from '../data/Services/publication.service';
+import { Publish } from '../data/Interfaces/publish';
 
 @Component({
   selector: 'app-home',
@@ -6,11 +8,21 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  lista = ["a","b","c","d","e"]
+  lista : Array<Publish>
 
-  constructor() { }
+  constructor(private _publicationService:PublicationService) {
+    this.lista = new Array;
+  }
+
+  homePublications(){
+   this._publicationService.getPost().subscribe(data => {
+      this.lista = data;
+      console.log(this.lista);
+    })
+  }
 
   ngOnInit(): void {
+    this.homePublications();
   }
 
   getheight(){
