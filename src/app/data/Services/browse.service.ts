@@ -39,8 +39,6 @@ export class BrowseService {
   }
 
   GETMEDIA(id:any):Observable<any>{
-    console.log(id);
-    
     return this.http.get(`${environment.hostname}/getmedia?id=`+id,this.HttpUploadOptions);
   }
 
