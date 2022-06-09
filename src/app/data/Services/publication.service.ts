@@ -32,6 +32,9 @@ export class PublicationService {
   getPost():Observable<any>{
     return this.http.get(`${environment.hostname}/getpublicaciones`,this.HttpUploadOptions);
   }
+  GETPUBLICATION(id:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/getpublicacion?=id`+id,this.HttpUploadOptions);
+  }
 
   /**
   * @returns Arreglo de usuarios de ejemplo

@@ -4,6 +4,7 @@ import { Publish } from '../data/Interfaces/publish';
 import { MediaContent } from 'back-end/Interfaces/media-content';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Direction } from 'readline';
+import { BrowseService } from '../data/Services/browse.service';
 
 @Component({
   selector: 'app-home',
@@ -12,23 +13,29 @@ import { Direction } from 'readline';
 })
 export class HomeComponent implements OnInit {
   lista : Array<Publish>
-  imgPublicaciones : Array<MediaContent>;
-  constructor(private _publicationService:PublicationService) {
+  constructor(private _publicationService:PublicationService, private browse:BrowseService) {
     this.lista = new Array;
-    this.imgPublicaciones = new Array;
   }
 
   homePublications(){
    this._publicationService.getPost().subscribe(data => {
       this.lista = data;
-      this.imgPublicaciones = data.url;
-      console.log(this.imgPublicaciones)
+      for(let publicacion of this.lista){
+        this.browse.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
+          publicacion.direccion= data2;
+          this.browse.GETMEDIA(publicacion.id).subscribe(data3 =>{
+            publicacion.url= data3;
+            console.log(publicacion);
+            
+          })
+        })
+      }
     })
   }
 
   ngOnInit(): void {
     this.homePublications();
-  }
+  } 
 
   getheight(){
     return screen.height/2;

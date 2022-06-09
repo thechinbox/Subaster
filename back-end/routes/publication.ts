@@ -81,7 +81,7 @@ async function updatePublication(idpublicacion:any, iddireccion:any, res:any){;
     })
 }
 
-publishC.get("/getpublicaciones", (req:any, res:any) => {
+publishC.get("/getpublicacionesid", (req:any, res:any) => {
     let publicaciones = new Array()
     let idsQuery = new Array();
     for(let id of req.query.categoria.split(",")){
@@ -92,6 +92,43 @@ publishC.get("/getpublicaciones", (req:any, res:any) => {
     console.log(idsQuery)
     publicationS
     .find({categoria: idsQuery})
+    .then((data:any) => {
+        for(let publicacion of data){
+            let p = {
+                id: publicacion._id,
+                nombre:publicacion.nombre,
+                descripcion:publicacion.descripcion,
+                categoria:publicacion.categoria,
+                unidad:publicacion.unidad,
+                estadopublicacion:publicacion.estadopublicacion,
+                estadoproducto:publicacion.estadoproducto,
+                fechapublicacion:publicacion.fechapublicacion,
+                precio:publicacion.precio,
+                cantidad:publicacion.cantidad,
+                direccion:{
+                    id:publicacion.iddireccion,
+                    region:" ",
+                    comuna:" ",
+                    direccionS:" ",
+                    latitud:0,
+                    longitud:0
+                },
+                url:new Array()
+            }
+            publicaciones.push(p)
+        }
+        res.send(JSON.stringify(publicaciones));
+    })
+    .catch((err:any) => {
+        console.log("Error encontrado");
+        res.json(err)
+    })
+})
+
+publishC.get("/getpublicaciones", (req:any, res:any) => {
+    let publicaciones = new Array()
+    publicationS
+    .find()
     .then((data:any) => {
         for(let publicacion of data){
             let p = {
@@ -157,13 +194,15 @@ publishC.get("/getmedia", (req:any,res:any) =>{
         for(let url of data){
             urls.push(url.url)
         }              
+        console.log(urls);
+        
         res.send(urls)
     })
 })
 
 publishC.get("/getpublicacion", (req:any,res:any) => {
     publicationS
-    .find(req.query)
+    .find(req.query.id)
     .then((data:any) =>{
         res.send(JSON.stringify(data));
     })

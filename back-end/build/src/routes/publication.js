@@ -83,7 +83,7 @@ function updatePublication(idpublicacion, iddireccion, res) {
         });
     });
 }
-publishC.get("/getpublicaciones", (req, res) => {
+publishC.get("/getpublicacionesid", (req, res) => {
     let publicaciones = new Array();
     let idsQuery = new Array();
     for (let id of req.query.categoria.split(",")) {
@@ -94,6 +94,42 @@ publishC.get("/getpublicaciones", (req, res) => {
     console.log(idsQuery);
     publicationS
         .find({ categoria: idsQuery })
+        .then((data) => {
+        for (let publicacion of data) {
+            let p = {
+                id: publicacion._id,
+                nombre: publicacion.nombre,
+                descripcion: publicacion.descripcion,
+                categoria: publicacion.categoria,
+                unidad: publicacion.unidad,
+                estadopublicacion: publicacion.estadopublicacion,
+                estadoproducto: publicacion.estadoproducto,
+                fechapublicacion: publicacion.fechapublicacion,
+                precio: publicacion.precio,
+                cantidad: publicacion.cantidad,
+                direccion: {
+                    id: publicacion.iddireccion,
+                    region: " ",
+                    comuna: " ",
+                    direccionS: " ",
+                    latitud: 0,
+                    longitud: 0
+                },
+                url: new Array()
+            };
+            publicaciones.push(p);
+        }
+        res.send(JSON.stringify(publicaciones));
+    })
+        .catch((err) => {
+        console.log("Error encontrado");
+        res.json(err);
+    });
+});
+publishC.get("/getpublicaciones", (req, res) => {
+    let publicaciones = new Array();
+    publicationS
+        .find()
         .then((data) => {
         for (let publicacion of data) {
             let p = {
@@ -156,12 +192,13 @@ publishC.get("/getmedia", (req, res) => {
         for (let url of data) {
             urls.push(url.url);
         }
+        console.log(urls);
         res.send(urls);
     });
 });
 publishC.get("/getpublicacion", (req, res) => {
     publicationS
-        .find(req.query)
+        .find(req.query.id)
         .then((data) => {
         res.send(JSON.stringify(data));
     })

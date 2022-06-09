@@ -31,7 +31,7 @@ export class BrowseService {
 
   GETPUBLICATIONS():Observable<any>{
     console.log(this.filter);
-    return this.http.get(`${environment.hostname}/getpublicaciones`+this.filter,this.HttpUploadOptions);
+    return this.http.get(`${environment.hostname}/getpublicacionesid`+this.filter,this.HttpUploadOptions);
   }
 
   GETDIRECTION(id:any):Observable<any>{
