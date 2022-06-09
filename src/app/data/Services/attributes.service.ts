@@ -73,6 +73,15 @@ export class AttributesService {
     return this.categorias;
   }
 
+  getcategoria(id:any){
+    for(let categoria of this.categorias){
+      if(categoria.id == id){
+        return categoria.categoria
+      }
+    }
+    return "not found"
+  }
+
   getestados(){
     return this.estadosproducto
   }

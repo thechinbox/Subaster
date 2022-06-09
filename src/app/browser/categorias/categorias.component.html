@@ -1,0 +1,4 @@
+<div id="categorias" *ngFor="let item of categorias">
+    <input (change)="check(item)" type="checkbox" id="{{item.id}}" category="all" name="filtro">
+    <label for="filtro" id="categoryItem">{{item.categoria}}</label>
+</div>

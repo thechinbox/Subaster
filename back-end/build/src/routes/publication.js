@@ -85,8 +85,15 @@ function updatePublication(idpublicacion, iddireccion, res) {
 }
 publishC.get("/getpublicaciones", (req, res) => {
     let publicaciones = new Array();
+    let idsQuery = new Array();
+    for (let id of req.query.categoria.split(",")) {
+        if (id != "") {
+            idsQuery.push(id);
+        }
+    }
+    console.log(idsQuery);
     publicationS
-        .find(req.query)
+        .find({ categoria: idsQuery })
         .then((data) => {
         for (let publicacion of data) {
             let p = {
@@ -112,7 +119,6 @@ publishC.get("/getpublicaciones", (req, res) => {
             };
             publicaciones.push(p);
         }
-        console.log(publicaciones);
         res.send(JSON.stringify(publicaciones));
     })
         .catch((err) => {
@@ -124,7 +130,7 @@ publishC.get("/getdireccion", (req, res) => {
     direccionS
         .findOne({ _id: { $gte: req.query.id } }, (err, data) => {
         if (err) {
-            console.log("Error encontrado al añadir iddireccion en publicacion");
+            console.log("Error encontrado al obtener iddireccion en publicacion");
             console.log(err);
         }
         let direccion = {
@@ -137,6 +143,20 @@ publishC.get("/getdireccion", (req, res) => {
         };
         console.log(direccion);
         res.send(direccion);
+    });
+});
+publishC.get("/getmedia", (req, res) => {
+    contentS
+        .find({ idpublicacion: { $gte: req.query.id } }, (err, data) => {
+        if (err) {
+            console.log("Error encontrado al obtener contenido de la publicacion");
+            console.log(err);
+        }
+        let urls = new Array();
+        for (let url of data) {
+            urls.push(url.url);
+        }
+        res.send(urls);
     });
 });
 publishC.get("/getpublicacion", (req, res) => {

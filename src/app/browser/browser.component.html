@@ -1,22 +1,27 @@
   <div class="container-fluid">
     <div class="row  mt-5">
-      <div class="col-4 p-md-5">
-        <section class="products-list">
+      <div class="col-lg-4 p-md-5">
+        <section class="row products-list">
           <h4>Filtrar por categorías</h4>
           <br>
-          <div *ngFor="let item of MenuItems">
-              <input type="checkbox" href="#" id="categoryItem" category="all" name="filtro">
-              <label for="filtro" id="categoryItem">{{item.categoria}}</label>
-          </div>
+          <app-categorias class="col-12" (checkChecked)="checkChecked($event)" [seleccionadas]="seleccionadas" [categorias]="categorias"></app-categorias>
         </section>
       </div>
-      <div class="col-8">
+      <div class="col-lg-8">
         <h4>Todos los productos</h4>
         <br>
-        <div class="card" style="width: 10rem; height: 10rem;" *ngFor="let item of publicaciones">
-          <img src="" routerLink="/publicacion" class="card-img-top" alt="...">
-          <div class="card-body">
-            <p class="item-description">{{item.nombre}}</p>
+        <div class="row">
+          <div class="col-6 mt-2" *ngFor="let item of publicaciones">
+            <div class="card">
+              <div class="d-flex justify-content-center ">
+                <img src="{{item.url[0]}}" routerLink="/publicacion" style="width: 50%;" class="card-img-top" alt="...">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{item.nombre}}</h5>
+                <h5 class="card-subtitle">${{item.precio}}</h5>
+                <p class="card-text mt-1">{{item.descripcion}}</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

@@ -27,6 +27,7 @@ import { StorageService } from './data/Services/storage.service';
 import { AttributesService } from './data/Services/attributes.service';
 import { BrowseService } from './data/Services/browse.service';
 import { ChileinfoService } from './data/Services/chileinfo.service';
+import { CategoriasComponent } from './browser/categorias/categorias.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { ChileinfoService } from './data/Services/chileinfo.service';
     RegistroComponent,
     PublicacionComponent,
     BrowserComponent,
-    ProfileComponent
+    ProfileComponent,
+    CategoriasComponent
   ],
   imports: [
     BrowserModule,

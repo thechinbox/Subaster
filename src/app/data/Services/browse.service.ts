@@ -19,30 +19,44 @@ export class BrowseService {
     ),
   };
   
+  filter:any;
   publicaciones:Array<Publish>;
+  private idseleccionadas:any[]
+
   constructor(private http:HttpClient) {
     this.publicaciones = new Array();
+    this.idseleccionadas = new Array();
+    this.filter = ""
   }
 
-  GETPUBLICATIONS(filters:any):Observable<any>{
-    return this.http.get(`${environment.hostname}/getpublicaciones`+filters,this.HttpUploadOptions);
+  GETPUBLICATIONS():Observable<any>{
+    console.log(this.filter);
+    return this.http.get(`${environment.hostname}/getpublicaciones`+this.filter,this.HttpUploadOptions);
   }
+
   GETDIRECTION(id:any):Observable<any>{
     return this.http.get(`${environment.hostname}/getdireccion?id=`+id,this.HttpUploadOptions);
   }
 
-  async setpublications(filters:any){
-    this.GETPUBLICATIONS(filters).subscribe(data =>{
-      this.publicaciones = data;
-    })
-    for(let publicacion of this.publicaciones){
-      this.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
-        publicacion.direccion= data2;
-      })
-    }    
+  GETMEDIA(id:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/getmedia?id=`+id,this.HttpUploadOptions);
   }
 
-  getpublications():Array<Publish>{
-    return this.publicaciones
+  async setFilter(ids:any){
+    try{
+      this.idseleccionadas = ids
+      this.filter = "?categoria=";
+      for(let i = 0; i<ids.length; i++){
+        this.filter = this.filter + ids[i]  + ","
+      }
+    }catch(err:any){
+      console.log(err);
+    }
   }
+
+  getSeleccionadas(){
+    return this.idseleccionadas;
+  }
+
+  
 }
