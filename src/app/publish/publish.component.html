@@ -1,7 +1,7 @@
 <div class="container my-5">
     <form class="row" id="formulario"[formGroup]="publicacionForm" (ngSubmit)="waitUpload()">
         <div class="col-12 col-md-8">
-            <input type="file" class="form-control-file" (change)="cargarImagen($event)" accept=".jpg,.jpeg,.png,.mp4, MKV" multiple  formControlName="media">
+            <input type="file" class="form-control-file" id="media" (change)="cargarImagen($event)" accept=".jpg,.jpeg,.png,.mp4, MKV" multiple  formControlName="media">
             <div class="error" *ngIf="publicacionForm.controls['media'].errors && (publicacionForm.controls['media'].dirty || publicacionForm.controls['media'].touched)">
                 <p *ngIf="publicacionForm.controls['media'].hasError('required')">*Campo requerido</p>
             </div>
@@ -9,16 +9,16 @@
         <div class="col-12  mt-5" >
             <h5>Imagenes</h5>
             <div id="imagenes">
-                <button class="button_img" *ngFor="let url of imagenes, let i = index" [attr.data-index]="i" (click)="deleteimg(i)">
-                    <img  class="preview mx-2" src="{{url}}">
+                <button class="button_img" *ngFor="let url of media, let i = index" [attr.data-index]="i" (click)="deletemedia(i)">
+                    <img *ngIf="'image' == this.url.split('/')[0].split(':')[1]" class="preview mx-2" src="{{url}}">
                 </button>
             </div>
         </div>
         <div class="col-12 mt-5">
             <h5>Videos</h5>
             <div id="videos">
-                <button class="button_img" *ngFor="let url of videos, let i = index" [attr.data-index]="i" (click)="deletevid(i)">
-                    <br/><video class="mx-2" src="{{url}}" height="200"></video><br/>
+                <button class="button_img" *ngFor="let url of media, let i = index" [attr.data-index]="i" (click)="deletemedia(i)">
+                    <br/><video *ngIf="'video' == this.url.split('/')[0].split(':')[1]" class="mx-2" src="{{url}}" height="200"></video><br/>
                 </button>
             </div>
 
