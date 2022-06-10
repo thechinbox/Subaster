@@ -1,5 +1,6 @@
 import {express} from '../index.js';
 import { Direccion } from '../Interfaces/direccion.js';
+import { User } from '../Interfaces/user.js';
 
 const usuariosC = express.Router();
 let userS = require("../models/userS");
@@ -57,11 +58,25 @@ usuariosC.get("/login", (req:any, res:any) =>{
         if(data){
             console.log(data);
             let validPassword = await bcrypt.compare(req.query.contrasena, data.contrasena);
-            if(validPassword){
-                await getDireccion(data._id).then(data2 => {
-                    res.send(JSON.stringify({usuario:data, direccion: data2}))
-                })
-                
+            if(validPassword){               
+                let user:User = {
+                id: data._id,
+                nombre:data.nombre,
+                apellidos:data.apellidos,
+                correo:data.correo,
+                celular:data.celular,
+                contrasena:data.contrasena,
+                direccion: {
+                    id:"",
+                    region:" ",
+                    comuna:" ",
+                    direccion:"",
+                    latitud:0,
+                    longitud:0
+                },
+                fechacreacion:data.fechacreacion
+                }
+                res.send(user)
             }else{
                 res.send(JSON.stringify({status:"Contraseña Invalida"}))
             }
@@ -73,9 +88,9 @@ usuariosC.get("/login", (req:any, res:any) =>{
     
 })
 
-async function getDireccion(id:any) {
+usuariosC.get("/direccionUsuario",(req:any, res:any) =>{
     direccionS
-    .findOne({idusuario:id}, (err:any, data:any) =>{
+    .findOne({idusuario:req.query.id}, (err:any, data:any) =>{
         if(err){
             console.log("Error encontrado al obtener iddireccion en publicacion");
             console.log(err);            
@@ -88,7 +103,7 @@ async function getDireccion(id:any) {
             latitud:data.latitud,
             longitud:data.longitud
         }    
-        return direccion;    
+        res.send(direccion);    
     })
-}
+})
 module.exports = usuariosC;

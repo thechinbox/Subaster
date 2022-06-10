@@ -11,7 +11,6 @@ import { UserService } from '../data/Services/user.service';
 export class LoginComponent implements OnInit {
 
   logincontrol : FormGroup;
-
   constructor(private userService:UserService) {
     this.logincontrol = new FormGroup({
       email : new FormControl('', [
@@ -38,6 +37,11 @@ export class LoginComponent implements OnInit {
     this.userService.LOGIN(values.email,values.pass).subscribe(data =>{
       console.log(data);
       
+      this.userService.GETDIRECCION(data.id).subscribe(data2 =>{
+        data.direccion = data2 
+        console.log(data);
+        
+      })
     })
   }
 }

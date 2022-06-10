@@ -28,6 +28,9 @@ export class UserService {
     return this.http.get(`${environment.hostname}/login?correo=`+correo+"&contrasena="+contrasena,this.HttpUploadOptions)
   }
 
+  GETDIRECCION(id:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/direccionUsuario?id=`+id,this.HttpUploadOptions)
+  }
   obtenerUsuario():User {
     let ejemplo: User = {
       "id": "",

@@ -63,9 +63,24 @@ usuariosC.get("/login", (req, res) => {
             console.log(data);
             let validPassword = yield bcrypt.compare(req.query.contrasena, data.contrasena);
             if (validPassword) {
-                yield getDireccion(data._id).then(data2 => {
-                    res.send(JSON.stringify({ usuario: data, direccion: data2 }));
-                });
+                let user = {
+                    id: data._id,
+                    nombre: data.nombre,
+                    apellidos: data.apellidos,
+                    correo: data.correo,
+                    celular: data.celular,
+                    contrasena: data.contrasena,
+                    direccion: {
+                        id: "",
+                        region: " ",
+                        comuna: " ",
+                        direccion: "",
+                        latitud: 0,
+                        longitud: 0
+                    },
+                    fechacreacion: data.fechacreacion
+                };
+                res.send(user);
             }
             else {
                 res.send(JSON.stringify({ status: "Contraseña Invalida" }));
@@ -76,24 +91,22 @@ usuariosC.get("/login", (req, res) => {
         res.send(JSON.stringify(err));
     });
 });
-function getDireccion(id) {
-    return __awaiter(this, void 0, void 0, function* () {
-        direccionS
-            .findOne({ idusuario: id }, (err, data) => {
-            if (err) {
-                console.log("Error encontrado al obtener iddireccion en publicacion");
-                console.log(err);
-            }
-            let direccion = {
-                id: data._id,
-                region: data.region,
-                comuna: data.comuna,
-                direccion: data.direccion,
-                latitud: data.latitud,
-                longitud: data.longitud
-            };
-            return direccion;
-        });
+usuariosC.get("/direccionUsuario", (req, res) => {
+    direccionS
+        .findOne({ idusuario: req.query.id }, (err, data) => {
+        if (err) {
+            console.log("Error encontrado al obtener iddireccion en publicacion");
+            console.log(err);
+        }
+        let direccion = {
+            id: data._id,
+            region: data.region,
+            comuna: data.comuna,
+            direccion: data.direccion,
+            latitud: data.latitud,
+            longitud: data.longitud
+        };
+        res.send(direccion);
     });
-}
+});
 module.exports = usuariosC;
