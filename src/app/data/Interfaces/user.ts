@@ -1,7 +1,12 @@
+import { Direccion } from "./direccion";
+
 export interface User {
-    idUser: number;
-    name: string;
-    email: string;
-    password: string;
-    image:string;
+    id: string;
+    nombre: string;
+    apellidos: string;
+    direccion: Direccion;
+    correo: string;
+    celular: number;
+    contrasena: string;
+    fechacreacion:Date;
 }

@@ -1,6 +1,9 @@
 import {mongoose} from '../index.js';
 
 const userSchema = mongoose.Schema({
+      idusuario:{
+        type: 'objectId'
+      },
       nombre: {
         type: 'string'
       },
@@ -13,11 +16,11 @@ const userSchema = mongoose.Schema({
       celular: {
         type: 'Number'
       },
-      contraseña: {
+      contrasena: {
         type: 'string'
       },
       fechacreacion: {
         type: 'date'
       }
 });
-module.exports = mongoose.model('usuario',userSchema)
+module.exports = mongoose.model('usuarios',userSchema)

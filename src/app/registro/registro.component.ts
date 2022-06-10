@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { } from '@angular/google-maps';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Comuna } from '../data/Interfaces/comuna';
+import { Direccion } from '../data/Interfaces/direccion';
 import { Region } from '../data/Interfaces/region';
+import { User } from '../data/Interfaces/user';
 import { ChileinfoService } from '../data/Services/chileinfo.service';
+import { UserService } from '../data/Services/user.service';
 
 @Component({
   selector: 'app-registro',
@@ -11,16 +14,20 @@ import { ChileinfoService } from '../data/Services/chileinfo.service';
   styleUrls: ['./registro.component.scss']
 })
 export class RegistroComponent implements OnInit {
+  title="google-maps"
+
+  matchPass = false;
 
   registrocontrol : FormGroup;
   regiones:Array<Region>;
-  lng:Number;
-  lat:Number;
-  constructor(private geografia:ChileinfoService) {
+  lng:number;
+  lat:number;
+  constructor(private geografia:ChileinfoService, private router:Router, private userS:UserService, private fb:FormBuilder) {
     this.lat = 0;
     this.lng = 0;
     this.regiones = this.geografia.getregiones();
-    this.registrocontrol = new FormGroup({
+    this.registrocontrol = new FormGroup({})
+    this.registrocontrol = fb.group({
       names : new FormControl('', [
         Validators.required,
         Validators.maxLength(50)
@@ -38,20 +45,17 @@ export class RegistroComponent implements OnInit {
       ]),
       lastname : new FormControl('', [
         Validators.required,
-        Validators.minLength(10),
         Validators.maxLength(50)
       ]),
       phone : new FormControl('', [
         Validators.required,
-        Validators.minLength(9),
-        Validators.maxLength(9),
-        Validators.pattern("^[0-9]")
+        Validators.pattern("^[0-9]{9}")
       ]),
       repeatpass : new FormControl('', [
         Validators.required,
         Validators.nullValidator,
         Validators.minLength(10),
-        Validators.maxLength(30)
+        Validators.maxLength(30),
       ]),
       region: new FormControl('',[
         Validators.required
@@ -62,25 +66,40 @@ export class RegistroComponent implements OnInit {
       direccion : new FormControl('', [
         Validators.required,
         Validators.maxLength(50)
-      ])
-
+      ]),
     })
-   }
+   } 
 
-
-
-  async ngOnInit() {
-    await this.añadirMapa();
+  ngOnInit() {
+    let cargando:any = document.getElementById("cargando")
+    let subiendo:any = document.getElementById("subido")
+    cargando.style.display = "none";
+    subiendo.style.display = "none";
+    
+    let select:any = document.getElementById("comuna");
+    let direccion:any = document.getElementById("direccion");
+    select.disabled = true;
+    direccion.disabled = true;
+    
+    let nomatch:any = document.getElementById("nomatch")
+    nomatch.style.display = "none";
+    let repeat = document.getElementById("repeatpass")
+    repeat?.addEventListener('input', (e:any)=>{
+      let pass:any = document.getElementById("pass")
+      let error:any = document.getElementById("nomatch")
+      if(pass.value != e.target.value){
+        error.style.display = "block"
+        this.matchPass = false;
+      }else if (pass.value == e.target.value){
+        error.style.display = "none"
+        this.matchPass = true;
+      }else if(e.target.vale == null ){
+        error.style.display = "none"
+        this.matchPass = false;
+      }
+    }) 
   }
 
-  async añadirMapa(){
-    let mapa:any = document.getElementById('map');
-    let map =  new google.maps.Map(mapa, {
-      center: {lat: -34.397, lng: 150.644},
-      zoom: 8
-    });
-    mapa?.appendChild(map)
-  }
   buscar_ciudad(e:any){
     let select:any = document.getElementById("comuna");
     select.disabled = false;
@@ -105,7 +124,7 @@ export class RegistroComponent implements OnInit {
     direccion.disabled = false;
   }
 
-  direccionShow(e:any){
+  async direccionShow(e:any){
     let region = this.registrocontrol.value.region
     let comuna = this.registrocontrol.value.comuna
     let direccion:any = document.getElementById("direccion");
@@ -114,13 +133,77 @@ export class RegistroComponent implements OnInit {
       let geocoder = new google.maps.Geocoder();
       console.log(direccion + "," + comuna + "," + region);
 
-      geocoder.geocode({ 'address': direccion + "," + comuna + "," + region}, (results, status) =>{
+      await geocoder.geocode({ 'address': direccion + "," + comuna + "," + region}, async (results, status) =>{
         if(status == google.maps.GeocoderStatus.OK){
           let resultados:any = results;
-          this.lat = resultados[0].geometry.location.lat();
-          this.lng = resultados[0].geometry.location.lng();
+          this.lat = await resultados[0].geometry.location.lat();
+          this.lng = await resultados[0].geometry.location.lng();
+          console.log(this.lat,this.lng);
+          
         }
       })
     }
   }
+
+  async waitUpload(){
+    let form:any = document.getElementById("form")
+    let cargando:any = document.getElementById("cargando")
+    let subido:any = document.getElementById("subido")
+    cargando.style.display = "block";
+    form.style.display = "none";
+    await this.onSubmit().then(data =>{
+      cargando.style.display = "none";
+      subido.style.display = "block";
+      /*setTimeout(() => {
+        this.router.navigateByUrl("/login")
+      }, 1000);*/
+    })
+  }
+
+  async onSubmit() {
+    let values = this.registrocontrol.value
+    for(let i in this.regiones){
+      if(this.regiones[i].region == values.region){
+        values.region = this.regiones[i].id;
+        for(let j in this.regiones[i].comunas){
+          if(this.regiones[i].comunas[j].comuna == values.comuna){
+            values.comuna = this.regiones[i].comunas[j].id
+            break;
+          }
+        }
+        break;
+      }
+    }
+    let direccion:Direccion = {
+      id:"",
+      region:values.region,
+      comuna:values.comuna,
+      direccion:values.direccion,
+      latitud:this.lat,
+      longitud:this.lng
+    };
+    var d = new Date,
+    dformat = [d.getMonth()+1,
+               d.getDate(),
+               d.getFullYear()].join('/')+' '+
+              [d.getHours(),
+               d.getMinutes(),
+               d.getSeconds()].join(':');
+    let hoy = new Date(dformat);
+    let newUser:User = {
+      "nombre":values.names,
+      "apellidos":values.lastname,
+      "correo":values.email,
+      "celular":values.phone,
+      "direccion":direccion,
+      "contrasena":values.pass,
+      "fechacreacion":hoy,
+      "id":"",
+    }
+    this.userS.SIGNUP(newUser).subscribe(datos =>{
+      console.log(datos);
+      
+    })
+  }
+ 
 }

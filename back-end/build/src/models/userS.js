@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = require("../index.js");
 const userSchema = index_js_1.mongoose.Schema({
+    idusuario: {
+        type: 'objectId'
+    },
     nombre: {
         type: 'string'
     },
@@ -14,11 +17,11 @@ const userSchema = index_js_1.mongoose.Schema({
     celular: {
         type: 'Number'
     },
-    contraseña: {
+    contrasena: {
         type: 'string'
     },
     fechacreacion: {
         type: 'date'
     }
 });
-module.exports = index_js_1.mongoose.model('usuario', userSchema);
+module.exports = index_js_1.mongoose.model('usuarios', userSchema);

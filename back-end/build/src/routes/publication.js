@@ -19,7 +19,6 @@ publishC.post("/publish", (req, res) => {
     let infopublicacion = req.body;
     let direccion = infopublicacion.direccion;
     let media = infopublicacion.url;
-    console.log(media);
     publicationS(infopublicacion)
         .save()
         .then((data) => {
@@ -62,7 +61,6 @@ function saveContent(idpublicacion, iddireccion, urls, res) {
                     console.log(err);
                     res.send(JSON.stringify(err));
                 }
-                console.log("Se subio: ", data);
             });
         }
         let update = updatePublication(idpublicacion, iddireccion, res);
@@ -177,13 +175,12 @@ publishC.get("/getdireccion", (req, res) => {
             latitud: data.latitud,
             longitud: data.longitud
         };
-        console.log(direccion);
         res.send(direccion);
     });
 });
 publishC.get("/getmedia", (req, res) => {
     contentS
-        .find({ idpublicacion: { $gte: req.query.id } }, (err, data) => {
+        .find({ idpublicacion: req.query.id }, (err, data) => {
         if (err) {
             console.log("Error encontrado al obtener contenido de la publicacion");
             console.log(err);
@@ -192,7 +189,6 @@ publishC.get("/getmedia", (req, res) => {
         for (let url of data) {
             urls.push(url.url);
         }
-        console.log(urls);
         res.send(urls);
     });
 });

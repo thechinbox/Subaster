@@ -2,6 +2,9 @@
     border-radius: 50px;
     background-color: rgba(128, 128, 128, 0.179);
 }
+.form-control:disabled{
+    background-color: rgb(134, 141, 238);
+}
 label{
     color: blue;
     font-size: x-large;
@@ -19,6 +22,6 @@ button{
     background-color: rgba(6, 255, 6, 0.367);
     border-radius: 100px;
 }
-.error {
+.error, #nomatch {
   color: red;
 }

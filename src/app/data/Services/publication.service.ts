@@ -24,8 +24,6 @@ export class PublicationService {
   constructor(private http:HttpClient) {}
 
   PUBLISH(publish:Publish):Observable<any>{
-    console.log(publish);
-    
     return this.http.post(`${environment.hostname}/publish`,JSON.stringify(publish),this.HttpUploadOptions)
   }
 

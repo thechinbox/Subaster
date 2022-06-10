@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Validators } from '@angular/forms';
+import { UserService } from '../data/Services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
 
   logincontrol : FormGroup;
 
-  constructor() {
+  constructor(private userService:UserService) {
     this.logincontrol = new FormGroup({
       email : new FormControl('', [
         Validators.required,
@@ -32,4 +33,11 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  waitUpload(){
+    let values = this.logincontrol.value
+    this.userService.LOGIN(values.email,values.pass).subscribe(data =>{
+      console.log(data);
+      
+    })
+  }
 }

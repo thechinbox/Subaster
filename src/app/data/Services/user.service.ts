@@ -1,62 +1,50 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { User } from '../Interfaces/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  HttpUploadOptions = {
+    headers: new HttpHeaders(
+      {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET,POST,OPTIONS,DELETE,PUT',
+      'Content-Type': 'application/json',
+    }
+    ),
+  };
+  constructor(private http:HttpClient) { }
 
-  constructor() { }
+  SIGNUP(user:User):Observable<any>{
+    return this.http.post(`${environment.hostname}/signup`,JSON.stringify(user),this.HttpUploadOptions)
+  }
 
-  /**
- * @returns Arreglo de usuarios de ejemplo
- */
-  obtenerEjemplos(): Array<User> {
-
-    let ejemplos: Array<User> = [
-        {
-            "idUser": 1,
-            "name": "Fernando Espinoza",
-            "email": "espinoza@gmail.com",
-            "password": "hola123",
-            'image':''
-        },{
-            "idUser": 2,
-            "name": "Matias Rojas",
-            "email": "rojas213@gmail.com",
-            "password": "hola123",
-            'image':''
-        },{
-            "idUser": 3,
-            "name": "Martina López",
-            "email": "marti123@gmail.com",
-            "password": "hola123",
-            'image':''
-        },{
-            "idUser": 4,
-            "name": "Cristian Arredondo",
-            "email": "arredondo14@gmail.com",
-            "password": "hola123",
-            'image':''
-        },{
-            "idUser": 5,
-            "name": "Josefa Blanco",
-            "email": "blancojose123@gmail.com",
-            "password": "hola123",
-            'image':''
-        }
-    ];
-
-    return ejemplos;
+  LOGIN(correo:any, contrasena:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/login?correo=`+correo+"&contrasena="+contrasena,this.HttpUploadOptions)
   }
 
   obtenerUsuario():User {
     let ejemplo: User = {
-      "idUser": 1,
-      "name": "Fernando Espinoza",
-      "email": "espinoza@gmail.com",
-      "password": "hola123",
-      'image':'../../assets/user_coment.png'
+      "id": "",
+      "nombre": "Fernando",
+      "apellidos": "Espinoza",
+      "direccion":{
+        "id":"",
+        "region":"",
+        "comuna":"",
+        "direccion":"",
+        "latitud":0,
+        "longitud":0
+      },
+      "correo": "espinoza@gmail.com",
+      "fechacreacion":new Date(),
+      "contrasena": "hola123",
+      "celular":0
     }
     return ejemplo;
   }
