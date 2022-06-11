@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ModalSwitchService } from 'src/app/data/Services/modal-switch.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Validators } from '@angular/forms';
-//import { sendMail } from 'src/js/emailer';
 
 @Component({
   selector: 'app-publicacion-modal',
@@ -35,8 +34,8 @@ export class ModalComponent implements OnInit {
     //console.log(this.montoValor.toString());
     let input = document.getElementById('confirmarBtn');
     input?.setAttribute('disabled', '');
-    //sendMail();
-    alert("Hemos enviado un correo electrónico de confirmación");
+    alert("Enviaremos un correo de confirmación a su cuenta");
     this._switchModal.SetPublicacionPujarSwitch(false);
+    this._switchModal.confirmarPuja();
   }
 }

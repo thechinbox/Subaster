@@ -3,7 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.mongoose = exports.express = void 0;
 exports.express = require('express');
 exports.mongoose = require("mongoose");
-const app = (0, exports.express)();
+const app = exports.express();
+const correo = require('./routes/emailer');
 const usuarios = require("./routes/user");
 const publicaciones = require("./routes/publication");
 const categorias = require("./routes/categorias");
@@ -28,6 +29,7 @@ app.use('/', estadosp);
 app.use('/', estados);
 app.use('/', regiones);
 app.use('/', comunas);
+app.use('/', correo);
 app.listen(configuracion, () => {
     console.log(`Conectando al servidor http://${configuracion.hostname}:${configuracion.port}`);
 });
