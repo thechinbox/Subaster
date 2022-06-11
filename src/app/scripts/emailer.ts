@@ -54,7 +54,7 @@ const mail={
  * 
  * @returns Comprobacion de la operacion.
  */
-async function sendMail() {
+export async function sendMail() {
     try {
         const accessToken = await oAuth2Client.getAccessToken();
         const transporter = nodemailer.createTransport({
@@ -78,7 +78,7 @@ async function sendMail() {
     //sendMail().then(result => res.status(200).send("enviado")).catch((error) => console.log(error.message));
 }
 
-sendMail();
+//sendMail();
 //module.exports = router;
 
 //exports.sendMail = () => this.sendMail()
