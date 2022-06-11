@@ -18,7 +18,27 @@ export class UserService {
     }
     ),
   };
-  constructor(private http:HttpClient) { }
+
+  user:User;
+  constructor(private http:HttpClient) {
+    this.user = {
+      id: "",
+      nombre:"",
+      apellidos:"",
+      correo:"",
+      celular:0,
+      contrasena:"",
+      direccion: {
+          id:"",
+          region:" ",
+          comuna:" ",
+          direccion:"",
+          latitud:0,
+          longitud:0
+      },
+      fechacreacion: new Date()
+      }
+  }
 
   SIGNUP(user:User):Observable<any>{
     return this.http.post(`${environment.hostname}/signup`,JSON.stringify(user),this.HttpUploadOptions)
@@ -31,6 +51,11 @@ export class UserService {
   GETDIRECCION(id:any):Observable<any>{
     return this.http.get(`${environment.hostname}/direccionUsuario?id=`+id,this.HttpUploadOptions)
   }
+
+  setUsuario(user:User){
+    this.user = user;
+  }
+
   obtenerUsuario():User {
     let ejemplo: User = {
       "id": "",

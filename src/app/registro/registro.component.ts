@@ -17,7 +17,10 @@ export class RegistroComponent implements OnInit {
   title="google-maps"
 
   matchPass = false;
-
+  cargando = false;
+  subido = false;
+  send = false;
+  err = false;
   registrocontrol : FormGroup;
   regiones:Array<Region>;
   lng:number;
@@ -71,11 +74,6 @@ export class RegistroComponent implements OnInit {
    } 
 
   ngOnInit() {
-    let cargando:any = document.getElementById("cargando")
-    let subiendo:any = document.getElementById("subido")
-    cargando.style.display = "none";
-    subiendo.style.display = "none";
-    
     let select:any = document.getElementById("comuna");
     let direccion:any = document.getElementById("direccion");
     select.disabled = true;
@@ -146,17 +144,26 @@ export class RegistroComponent implements OnInit {
   }
 
   async waitUpload(){
-    let form:any = document.getElementById("form")
-    let cargando:any = document.getElementById("cargando")
-    let subido:any = document.getElementById("subido")
-    cargando.style.display = "block";
-    form.style.display = "none";
+    let form:any = document.getElementById("formulario")
+    form.style.display = 'none';
+    this.send = true;
+    this.cargando = true;
     await this.onSubmit().then(data =>{
-      cargando.style.display = "none";
-      subido.style.display = "block";
-      /*setTimeout(() => {
-        this.router.navigateByUrl("/login")
-      }, 1000);*/
+      if(data != null){
+        this.cargando = false;
+        this.subido = true;
+        setTimeout(() => {
+          this.router.navigateByUrl("/login")
+        }, 1000);
+      }else{
+        this.cargando = false;
+        this.err = true;
+        form.style.display = 'block'
+        this.registrocontrol.reset();
+        setTimeout(() => {
+          this.err = false;
+        }, 5000);
+      }
     })
   }
 
@@ -201,8 +208,10 @@ export class RegistroComponent implements OnInit {
       "id":"",
     }
     this.userS.SIGNUP(newUser).subscribe(datos =>{
-      console.log(datos);
-      
+      if(datos.status == "invalid"){
+        return null
+      }
+      return datos;
     })
   }
  

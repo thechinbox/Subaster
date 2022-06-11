@@ -11,28 +11,50 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = require("../index.js");
 const usuariosC = index_js_1.express.Router();
+let verify = require("../models/userS");
 let userS = require("../models/userS");
 let direccionS = require("../models/direccionUsuarioS");
 let bcrypt = require("bcrypt");
 //crear usuario
 usuariosC.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let user = new userS({
-        nombre: req.body.nombre,
-        apellidos: req.body.apellidos,
-        correo: req.body.correo,
-        celular: req.body.celular,
-        fechacreacion: req.body.fechacreacion,
-    });
-    let salt = yield bcrypt.genSalt(10);
-    user.contrasena = yield bcrypt.hash(req.body.contrasena, salt);
-    user
-        .save()
+    yield verify
+        .find({ correo: req.body.correo })
         .then((data) => __awaiter(void 0, void 0, void 0, function* () {
-        let d = yield saveDirection(data._id, req.body.direccion);
-        res.send(JSON.stringify(data));
+        console.log(data.length == 0);
+        if (data.length == 0) {
+            yield addUser(req, res);
+        }
+        else {
+            res.send({ status: "invalid" });
+        }
     }))
-        .catch((err) => res.json(err, 'puta la wea'));
+        .catch((err) => {
+        console.log("Entro al catch");
+        console.log(err);
+        res.send({ status: "invalid" });
+    });
 }));
+function addUser(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let user = new userS({
+            nombre: req.body.nombre,
+            apellidos: req.body.apellidos,
+            correo: req.body.correo,
+            celular: req.body.celular,
+            fechacreacion: req.body.fechacreacion,
+        });
+        let salt = yield bcrypt.genSalt(10);
+        user.contrasena = yield bcrypt.hash(req.body.contrasena, salt);
+        user
+            .save()
+            .then((data2) => __awaiter(this, void 0, void 0, function* () {
+            console.log(data2);
+            let d = yield saveDirection(data2._id, req.body.direccion);
+            res.send(JSON.stringify(data2));
+        }))
+            .catch((err) => res.json(err, 'puta la wea'));
+    });
+}
 function saveDirection(idusuario, direccion) {
     return __awaiter(this, void 0, void 0, function* () {
         let d = new direccionS({
@@ -45,7 +67,7 @@ function saveDirection(idusuario, direccion) {
         });
         d.save((err, data) => {
             if (err) {
-                console.log("Error encontrado.");
+                console.log("Error encontrado al ingresar direccion del Usuario");
                 console.log(JSON.stringify(err));
                 return (JSON.stringify(err));
             }
@@ -54,13 +76,12 @@ function saveDirection(idusuario, direccion) {
     });
 }
 usuariosC.get("/login", (req, res) => {
-    console.log(req.query.correo);
+    let email = req.query.correo;
     userS
-        .findOne({ correo: "ejemplo@gmail.com" })
+        .findOne({ correo: email })
         .then((data) => __awaiter(void 0, void 0, void 0, function* () {
         console.log(data);
         if (data) {
-            console.log(data);
             let validPassword = yield bcrypt.compare(req.query.contrasena, data.contrasena);
             if (validPassword) {
                 let user = {
@@ -83,19 +104,22 @@ usuariosC.get("/login", (req, res) => {
                 res.send(user);
             }
             else {
-                res.send(JSON.stringify({ status: "Contraseña Invalida" }));
+                res.send(JSON.stringify({ status: "invalidpassword" }));
             }
+        }
+        else {
+            res.send(JSON.stringify({ status: "invalid" }));
         }
     }))
         .catch((err) => {
-        res.send(JSON.stringify(err));
+        res.send(JSON.stringify({ status: "invalid" }));
     });
 });
 usuariosC.get("/direccionUsuario", (req, res) => {
     direccionS
         .findOne({ idusuario: req.query.id }, (err, data) => {
         if (err) {
-            console.log("Error encontrado al obtener iddireccion en publicacion");
+            console.log("Error encontrado al obtener direccion del Usuario");
             console.log(err);
         }
         let direccion = {

@@ -1,32 +1,46 @@
   <div class="container mt-5">
-      <form novalidate class="row d-flex justify-content-center" (ngSubmit)="waitUpload()" [formGroup]="logincontrol">
-          <div class="col-12 mb-5">
-              <h2 class="d-flex justify-content-center">INICIO DE SESIÓN</h2>
-          </div>
-          <div class="form-group col-md-6 mx-md-2 mb-5">
-              <label class="d-flex justify-content-center" for="exampleInputEmail1">CORREO ELECTRÓNICO:</label>
-              <input type="email" class="form-control form-control-lg" id="correo" placeholder="correoejemplo@empresa.cl" formControlName="email">
-              <div class="error" *ngIf="logincontrol.controls['email'].errors && (logincontrol.controls['email'].dirty || logincontrol.controls['email'].touched)">
+    <div class="row d-flex justify-content-center ">
+        <div *ngIf="cargando" class="col-12 d-flex justify-content-center my-5">
+          <h1>Ingresando</h1>
+        </div>
+        <div *ngIf="subido" class="col-12 d-flex justify-content-center my-5">
+          <h1 >Ingreso Exitoso</h1>
+        </div>
+        <div *ngIf="correoinvalido" class="col-12 d-flex justify-content-center my-5">
+            <h3 class="error">Correo Inexistente en Nuestra Base de Datos</h3>
+        </div>
+        <div *ngIf="contrasenainvalida" class="col-12 d-flex justify-content-center my-5">
+            <h3 class="error">Contraseña Erronea</h3>
+        </div>
+    </div>
+    <form *ngIf="!send" class="row d-flex justify-content-center" (ngSubmit)="waitUpload()" [formGroup]="logincontrol" novalidate>
+        <div class="col-12 mb-5">
+            <h2 class="d-flex justify-content-center">INICIO DE SESIÓN</h2>
+        </div>
+        <div class="form-group col-md-6 mx-md-2 mb-5">
+            <label class="d-flex justify-content-center" for="exampleInputEmail1">CORREO ELECTRÓNICO:</label>
+            <input type="email" class="form-control form-control-lg" id="correo" placeholder="correoejemplo@empresa.cl" formControlName="email">
+            <div class="error" *ngIf="logincontrol.controls['email'].errors && (logincontrol.controls['email'].dirty || logincontrol.controls['email'].touched)">
                 <p *ngIf="logincontrol.controls['email'].hasError('required')">*Campo requerido</p>
                 <p *ngIf="logincontrol.controls['email'].hasError('email')">*El correo no tiene el formato requerido</p>
                 <p *ngIf="logincontrol.controls['email'].hasError('maxlength')">*Máximo 50 caracteres</p>
-              </div>
-          </div>
-          <div class="form-group col-md-6 mx-md-2 mb-3">
-              <label class="d-flex justify-content-center" for="exampleInputPassword1">CONTRASEÑA:</label>
-              <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" formControlName="pass">
-              <div class="error" *ngIf="logincontrol.controls['pass'].errors && (logincontrol.controls['pass'].dirty || logincontrol.controls['pass'].touched)">
+            </div>
+        </div>
+        <div class="form-group col-md-6 mx-md-2 mb-3">
+            <label class="d-flex justify-content-center" for="exampleInputPassword1">CONTRASEÑA:</label>
+            <input type="password" class="form-control form-control-lg" id="exampleInputPassword1" placeholder="Password" formControlName="pass">
+            <div class="error" *ngIf="logincontrol.controls['pass'].errors && (logincontrol.controls['pass'].dirty || logincontrol.controls['pass'].touched)">
                 <p *ngIf="logincontrol.controls['pass'].hasError('required')">*Campo requerido</p>
                 <p *ngIf="logincontrol.controls['pass'].hasError('minlength')">*Mínimo 10 caracteres</p>
                 <p *ngIf="logincontrol.controls['pass'].hasError('maxlength')">*Máximo 20 caracteres</p>
-              </div>
-          </div>
-          <div class="col-12 mb-4">
-              <a class="d-flex justify-content-center">¿Olvidaste tu contraseña?</a>
-          </div>
-          <div class="col-12 d-flex justify-content-center mb-5">
-              <button class="btn btn-lg me-5" type="submit" [disabled]="logincontrol.invalid" >Iniciar Sesión</button>
-              <button class="btn btn-lg" routerLink="/registro">Registrarse</button>
-          </div>
-      </form>
-  </div>
+            </div>
+        </div>
+        <div class="col-12 mb-4">
+            <a class="d-flex justify-content-center">¿Olvidaste tu contraseña?</a>
+        </div>
+        <div class="col-12 d-flex justify-content-center mb-5">
+            <button class="btn btn-lg me-5" type="submit" [disabled]="logincontrol.invalid" >Iniciar Sesión</button>
+            <button class="btn btn-lg" routerLink="/registro">Registrarse</button>
+        </div>
+    </form>
+</div>

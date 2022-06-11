@@ -1,109 +1,116 @@
 <div class="container mt-5">
   <h2 class="d-flex justify-content-center mb-5">Registrarse</h2>
-  <form id="form" class="row d-flex justify-content-center " [formGroup]="registrocontrol" (ngSubmit)="waitUpload()" novalidate>
-    <div class="row d-flex justify-content-center mx-md-2">
-      <div class="col-md-6 col-12 mb-5">
-        <label for="nombres" class="form-label d-flex justify-content-center">Nombres</label>
-        <input type="text" class="form-control form-control-lg" id="nombres" formControlName="names"/>
-        <div class="error" *ngIf="registrocontrol.controls['names'].errors && (registrocontrol.controls['names'].dirty || registrocontrol.controls['names'].touched)">
-          <p *ngIf="registrocontrol.controls['names'].hasError('required')">*Campo requerido</p>
-          <p *ngIf="registrocontrol.controls['names'].hasError('maxlength')">*Máximo 50 caracteres</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-12 mb-5">
-        <label for="apellidos" class="form-label d-flex justify-content-center">Apellidos</label>
-        <input type="text" class="form-control form-control-lg" id="apellidos" formControlName="lastname"/>
-        <div class="error" *ngIf="registrocontrol.controls['lastname'].errors && (registrocontrol.controls['lastname'].dirty || registrocontrol.controls['lastname'].touched)">
-          <p *ngIf="registrocontrol.controls['lastname'].hasError('required')">*Campo requerido</p>
-          <p *ngIf="registrocontrol.controls['lastname'].hasError('maxlength')">*Máximo 50 caracteres</p>
-        </div>
-      </div>  
-    </div>
-    <div class="row d-flex justify-content-center mx-md-2">
-      <div class="form-group col-md-6 col-12 mb-5">
-        <label class="d-flex justify-content-center" for="exampleInputEmail1">Correo Electrónico </label>
-        <input type="email" class="form-control form-control-lg" id="correo" placeholder="correoejemplo@empresa.cl" formControlName="email">
-        <div class="error" *ngIf="registrocontrol.controls['email'].errors && (registrocontrol.controls['email'].dirty || registrocontrol.controls['email'].touched)">
-          <p *ngIf="registrocontrol.controls['email'].hasError('required')">*Campo requerido</p>
-          <p *ngIf="registrocontrol.controls['email'].hasError('email')">*El correo no tiene el formato requerido</p>
-          <p *ngIf="registrocontrol.controls['email'].hasError('maxlength')">*Máximo 50 caracteres</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-12 mb-5">
-        <label for="celular" class="form-label d-flex justify-content-center">Celular</label>
-        <input placeholder="912345678"
-          type="tel"
-          class="form-control form-control-lg"
-          id="celular"
-          formControlName="phone"
-        />
-        <div class="error" *ngIf="registrocontrol.controls['phone'].errors && (registrocontrol.controls['phone'].dirty || registrocontrol.controls['phone'].touched)">
-          <p *ngIf="registrocontrol.controls['phone'].hasError('required')">*Campo requerido</p>
-          <p *ngIf="registrocontrol.controls['phone'].hasError('pattern')">*El campo debe contener 9 caracteres numericos</p>
-        </div>
-      </div>
-    </div>
-    <div class="row  d-flex justify-content-center mx-md-2">
-      <div class="form-group col-md-6 col-12  mb-5">
-        <label class="d-flex justify-content-center" for="exampleInputEmail1">Ingrese su Contraseña </label>
-        <input class="form-control form-control-lg" type="password" name="clave" id="pass" placeholder="Ingrese su Contraseña" formControlName="pass">
-        <div class="error" *ngIf="registrocontrol.controls['pass'].errors && (registrocontrol.controls['pass'].dirty || registrocontrol.controls['pass'].touched)">
-          <p *ngIf="registrocontrol.controls['pass'].hasError('required')">*Campo requerido</p>
-          <p *ngIf="registrocontrol.controls['pass'].hasError('minlength')">*Mínimo 10 caracteres</p>
-          <p *ngIf="registrocontrol.controls['pass'].hasError('maxlength')">*Máximo 30 caracteres</p>
-        </div>
-      </div>
-      <div class="form-group col-md-6 col-12 mb-5">
-        <label class="d-flex justify-content-center" for="repetirclave">Repita su Contraseña </label>
-        <input class="  form-control form-control-lg" type="password" name="repetirclave" id="repeatpass" placeholder="Repetir contraseña" formControlName="repeatpass">
-        <p id="nomatch">*Las contraseñas no coinciden</p>
-        <div class="error" *ngIf="registrocontrol.controls['repeatpass'].errors && (registrocontrol.controls['repeatpass'].dirty || registrocontrol.controls['repeatpass'].touched)">
-          <p *ngIf="registrocontrol.controls['repeatpass'].hasError('required')">*Campo requerido</p>
-        </div>
-      </div>
-    </div>
-    <div class="row  d-flex justify-content-center mx-md-2">
-      <div class="col-md-6 col-12 mb-5">
-        <label class="d-flex justify-content-center">Region</label>
-        <select (change)="buscar_ciudad($event)" class="form-select form-control form-control-lg" name="region" id="region" formControlName="region">
-            <option *ngFor="let r of regiones" value="{{r.region}}"> {{r.region}}</option>
-        </select>
-        <div class="error" *ngIf="registrocontrol.controls['region'].errors && (registrocontrol.controls['region'].dirty || registrocontrol.controls['region'].touched)">
-            <p *ngIf="registrocontrol.controls['region'].hasError('required')">*Campo requerido</p>
-        </div>
-      </div>
-      <div class="col-md-6 col-12 mb-5">
-        <label class="d-flex justify-content-center">Comuna</label>
-        <select (change)="enable($event)" class="form-select form-control form-control-lg" name="comuna" id="comuna" formControlName="comuna">
-        </select>
-        <div class="error" *ngIf="registrocontrol.controls['comuna'].errors && (registrocontrol.controls['comuna'].dirty || registrocontrol.controls['comuna'].touched)">
-            <p *ngIf="registrocontrol.controls['comuna'].hasError('required')">*Campo requerido</p>
-        </div>
-    </div>
-    </div>
-    <div class="row d-flex justify-content-center mx-md-2">
-      <div class="form-group col-md-8 col-12 mb-5">
-        <label class="d-flex justify-content-center">Ingrese su direccion</label>
-        <input type="text" class="form-control  d-flex justify-content-center " id="direccion" (change)="direccionShow($event)"  formControlName="direccion" >
-        <div class="error" *ngIf="registrocontrol.controls['direccion'].errors && (registrocontrol.controls['direccion'].dirty || registrocontrol.controls['direccion'].touched)">
-            <p *ngIf="registrocontrol.controls['direccion'].hasError('required')">*Campo requerido</p>
-            <p *ngIf="registrocontrol.controls['direccion'].hasError('maxlength')">*La direccion no puede pasar los 50 caracteres.</p>
-        </div>
-      </div>
-    </div>
-    <div class="form-group d-flex justify-content-center col-md-6 mx-md-2 ">
-      <button class=" btn btn-lg me-5" type="submit" [disabled]="registrocontrol.invalid || !matchPass" > Registrarse </button>
-    </div>
-    <div class="d-flex justify-content-center col-md-6 mx-md-2">
-      <p><a routerLink="/login" >¿Ya tienes una Cuenta?</a></p>
-    </div>
-  </form>
-  <div class="row d-flex justify-content-center my-5">
-    <div id="cargando" class="col-12">
+  <div class="row d-flex justify-content-center ">
+    <div *ngIf="cargando" class="col-12 d-flex justify-content-center my-5">
       <h1>Registrando Nuevo Usuario</h1>
     </div>
-    <div id="subido" class="col-12">
+    <div *ngIf="subido" class="col-12 d-flex justify-content-center my-5">
       <h1 >Registro Exitoso</h1>
+    </div>
+    <div *ngIf="err" class="col-12 d-flex justify-content-center my-5">
+      <h3 class="error">Correo ya registrado en el Sitio Web</h3>
+    </div>
   </div>
-  </div>
+  <form class="row d-flex justify-content-center " [formGroup]="registrocontrol" (ngSubmit)="waitUpload()" novalidate>
+    <div id="formulario" class="col-12">
+      <div class="row d-flex justify-content-center mx-md-2">
+        <div class="col-md-6 col-12 mb-5">
+          <label for="nombres" class="form-label d-flex justify-content-center">Nombres</label>
+          <input type="text" class="form-control form-control-lg" id="nombres" formControlName="names"/>
+          <div class="error" *ngIf="registrocontrol.controls['names'].errors && (registrocontrol.controls['names'].dirty || registrocontrol.controls['names'].touched)">
+            <p *ngIf="registrocontrol.controls['names'].hasError('required')">*Campo requerido</p>
+            <p *ngIf="registrocontrol.controls['names'].hasError('maxlength')">*Máximo 50 caracteres</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-12 mb-5">
+          <label for="apellidos" class="form-label d-flex justify-content-center">Apellidos</label>
+          <input type="text" class="form-control form-control-lg" id="apellidos" formControlName="lastname"/>
+          <div class="error" *ngIf="registrocontrol.controls['lastname'].errors && (registrocontrol.controls['lastname'].dirty || registrocontrol.controls['lastname'].touched)">
+            <p *ngIf="registrocontrol.controls['lastname'].hasError('required')">*Campo requerido</p>
+            <p *ngIf="registrocontrol.controls['lastname'].hasError('maxlength')">*Máximo 50 caracteres</p>
+          </div>
+        </div>  
+      </div>
+      <div class="row d-flex justify-content-center mx-md-2">
+        <div class="form-group col-md-6 col-12 mb-5">
+          <label class="d-flex justify-content-center" for="exampleInputEmail1">Correo Electrónico </label>
+          <input type="email" class="form-control form-control-lg" id="correo" placeholder="correoejemplo@empresa.cl" formControlName="email">
+          <div class="error" *ngIf="registrocontrol.controls['email'].errors && (registrocontrol.controls['email'].dirty || registrocontrol.controls['email'].touched)">
+            <p *ngIf="registrocontrol.controls['email'].hasError('required')">*Campo requerido</p>
+            <p *ngIf="registrocontrol.controls['email'].hasError('email')">*El correo no tiene el formato requerido</p>
+            <p *ngIf="registrocontrol.controls['email'].hasError('maxlength')">*Máximo 50 caracteres</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-12 mb-5">
+          <label for="celular" class="form-label d-flex justify-content-center">Celular</label>
+          <input placeholder="912345678"
+            type="tel"
+            class="form-control form-control-lg"
+            id="celular"
+            formControlName="phone"
+          />
+          <div class="error" *ngIf="registrocontrol.controls['phone'].errors && (registrocontrol.controls['phone'].dirty || registrocontrol.controls['phone'].touched)">
+            <p *ngIf="registrocontrol.controls['phone'].hasError('required')">*Campo requerido</p>
+            <p *ngIf="registrocontrol.controls['phone'].hasError('pattern')">*El campo debe contener 9 caracteres numericos</p>
+          </div>
+        </div>
+      </div>
+      <div class="row  d-flex justify-content-center mx-md-2">
+        <div class="form-group col-md-6 col-12  mb-5">
+          <label class="d-flex justify-content-center" for="exampleInputEmail1">Ingrese su Contraseña </label>
+          <input class="form-control form-control-lg" type="password" name="clave" id="pass" placeholder="Ingrese su Contraseña" formControlName="pass">
+          <div class="error" *ngIf="registrocontrol.controls['pass'].errors && (registrocontrol.controls['pass'].dirty || registrocontrol.controls['pass'].touched)">
+            <p *ngIf="registrocontrol.controls['pass'].hasError('required')">*Campo requerido</p>
+            <p *ngIf="registrocontrol.controls['pass'].hasError('minlength')">*Mínimo 10 caracteres</p>
+            <p *ngIf="registrocontrol.controls['pass'].hasError('maxlength')">*Máximo 30 caracteres</p>
+          </div>
+        </div>
+        <div class="form-group col-md-6 col-12 mb-5">
+          <label class="d-flex justify-content-center" for="repetirclave">Repita su Contraseña </label>
+          <input class="  form-control form-control-lg" type="password" name="repetirclave" id="repeatpass" placeholder="Repetir contraseña" formControlName="repeatpass">
+          <p id="nomatch">*Las contraseñas no coinciden</p>
+          <div class="error" *ngIf="registrocontrol.controls['repeatpass'].errors && (registrocontrol.controls['repeatpass'].dirty || registrocontrol.controls['repeatpass'].touched)">
+            <p *ngIf="registrocontrol.controls['repeatpass'].hasError('required')">*Campo requerido</p>
+          </div>
+        </div>
+      </div>
+      <div class="row  d-flex justify-content-center mx-md-2">
+        <div class="col-md-6 col-12 mb-5">
+          <label class="d-flex justify-content-center">Region</label>
+          <select (change)="buscar_ciudad($event)" class="form-select form-control form-control-lg" name="region" id="region" formControlName="region">
+              <option *ngFor="let r of regiones" value="{{r.region}}"> {{r.region}}</option>
+          </select>
+          <div class="error" *ngIf="registrocontrol.controls['region'].errors && (registrocontrol.controls['region'].dirty || registrocontrol.controls['region'].touched)">
+              <p *ngIf="registrocontrol.controls['region'].hasError('required')">*Campo requerido</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-12 mb-5">
+          <label class="d-flex justify-content-center">Comuna</label>
+          <select (change)="enable($event)" class="form-select form-control form-control-lg" name="comuna" id="comuna" formControlName="comuna">
+          </select>
+          <div class="error" *ngIf="registrocontrol.controls['comuna'].errors && (registrocontrol.controls['comuna'].dirty || registrocontrol.controls['comuna'].touched)">
+              <p *ngIf="registrocontrol.controls['comuna'].hasError('required')">*Campo requerido</p>
+          </div>
+      </div>
+      </div>
+      <div class="row d-flex justify-content-center mx-md-2">
+        <div class="form-group col-md-8 col-12 mb-5">
+          <label class="d-flex justify-content-center">Ingrese su direccion</label>
+          <input type="text" class="form-control  d-flex justify-content-center " id="direccion" (change)="direccionShow($event)"  formControlName="direccion" >
+          <div class="error" *ngIf="registrocontrol.controls['direccion'].errors && (registrocontrol.controls['direccion'].dirty || registrocontrol.controls['direccion'].touched)">
+              <p *ngIf="registrocontrol.controls['direccion'].hasError('required')">*Campo requerido</p>
+              <p *ngIf="registrocontrol.controls['direccion'].hasError('maxlength')">*La direccion no puede pasar los 50 caracteres.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-center mx-md-2">
+        <div class="form-group d-flex justify-content-center col-md-6 mx-md-2 ">
+          <button class=" d-flex justify-content-center  btn btn-lg me-5" type="submit" [disabled]="registrocontrol.invalid || !matchPass" > Registrarse </button>
+        </div>
+        <div class="d-flex justify-content-center col-md-6 mx-md-2">
+          <p><a routerLink="/login" >¿Ya tienes una Cuenta?</a></p>
+        </div>
+      </div>
+    </div>
+  </form>
 </div>
