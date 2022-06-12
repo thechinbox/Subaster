@@ -13,11 +13,12 @@ ul{
     min-height: 11vh;
 }
 .nav-item a{
-    font-size: x-large;
+    font-size: larger;
     color: $color-letra-navbar;
 }
+
 .nav-item a:hover{
-    font-size: xx-large;
+    //font-size: x-large;
     color: rgb(0, 157, 26);
 }
 .container-fluid{
