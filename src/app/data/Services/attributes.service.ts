@@ -82,6 +82,24 @@ export class AttributesService {
     return "not found"
   }
 
+  getestado(id:any){
+    for(let estado of this.estadosproducto){
+      if(estado.id == id){
+        return estado.estadoproducto
+      }
+    }
+    return "not found"
+  }
+
+  getunidad(id:any){
+    for(let unidad of this.unidades){
+      if(unidad.id == id){
+        return unidad.unidad
+      }
+    }
+    return "not found"
+  }
+
   getestados(){
     return this.estadosproducto
   }

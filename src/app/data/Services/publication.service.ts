@@ -31,7 +31,10 @@ export class PublicationService {
     return this.http.get(`${environment.hostname}/getpublicaciones`,this.HttpUploadOptions);
   }
   GETPUBLICATION(id:any):Observable<any>{
-    return this.http.get(`${environment.hostname}/getpublicacion?=id`+id,this.HttpUploadOptions);
+    return this.http.get(`${environment.hostname}/getpublicacion?id=`+id,this.HttpUploadOptions);
+  }
+  GETDIRECTION(id:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/getdireccion?id=`+id,this.HttpUploadOptions);
   }
 
   /**

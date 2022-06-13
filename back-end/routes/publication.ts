@@ -17,14 +17,14 @@ publishC.post("/publish", (req:any,res:any)=>{
     let media:Array<MediaContent> = infopublicacion.url
     publicationS(infopublicacion)
     .save()
-    .then((data:any) => {    
-        let direccionUpload = saveDirection(data._id, direccion, media, res);    
-        
+    .then((data:any) => {
+        let direccionUpload = saveDirection(data._id, direccion, media, res);
+
     })
     .catch((err:any) =>{
         res.send(JSON.stringify({status:err}))
     })
-    
+
 })
 //Crear direccion asociada al producto
 async function saveDirection(idpublicacion:any, direccion:Direccion, media:Array<MediaContent>, res:any){
@@ -40,11 +40,11 @@ async function saveDirection(idpublicacion:any, direccion:Direccion, media:Array
         if(err){
             console.log("Error encontrado.");
             res.send(JSON.stringify(err))
-            
-        } 
-        
+
+        }
+
         saveContent(idpublicacion,data._id,media,res)
-        
+
     })
 }
 
@@ -62,8 +62,8 @@ async function saveContent(idpublicacion:any,iddireccion:any,urls:Array<MediaCon
             }
         })
     }
-    let update = updatePublication(idpublicacion, iddireccion, res) 
-    return JSON.stringify(update)  
+    let update = updatePublication(idpublicacion, iddireccion, res)
+    return JSON.stringify(update)
 }
 
 //Añadir la direccion asociada al producto.
@@ -72,7 +72,7 @@ async function updatePublication(idpublicacion:any, iddireccion:any, res:any){;
     .findOneAndUpdate({_id: idpublicacion}, {$set: {iddireccion: iddireccion}}, (err:any, data:any) =>{
         if(err){
             console.log("Error encontrado al añadir iddireccion en publicacion");
-            console.log(err);            
+            console.log(err);
         }
         res.send(JSON.stringify(data));
     })
@@ -159,12 +159,12 @@ publishC.get("/getpublicaciones", (req:any, res:any) => {
     })
 })
 
-publishC.get("/getdireccion", (req:any,res:any) =>{        
+publishC.get("/getdireccion", (req:any,res:any) =>{
     direccionS
-    .findOne({_id:{$gte:req.query.id}}, (err:any, data:any) =>{
+    .findOne({idpublicacion:req.query.id}, (err:any, data:any) =>{
         if(err){
             console.log("Error encontrado al obtener iddireccion en publicacion");
-            console.log(err);            
+            console.log(err);
         }
         let direccion:Direccion = {
             id:data._id,
@@ -173,31 +173,55 @@ publishC.get("/getdireccion", (req:any,res:any) =>{
             direccion:data.direccion,
             latitud:data.latitud,
             longitud:data.longitud
-        }        
+        }
         res.send(direccion)
     })
 })
 
-publishC.get("/getmedia", (req:any,res:any) =>{ 
+publishC.get("/getmedia", (req:any,res:any) =>{
     contentS
     .find({idpublicacion: req.query.id}, (err:any, data:any) =>{
         if(err){
             console.log("Error encontrado al obtener contenido de la publicacion");
-            console.log(err);            
-        } 
+            console.log(err);
+        }
         let urls = new Array()
         for(let url of data){
             urls.push(url.url)
-        }              
+        }
         res.send(urls)
     })
 })
 
 publishC.get("/getpublicacion", (req:any,res:any) => {
+  console.log(req.query.id);
     publicationS
-    .find(req.query.id)
-    .then((data:any) =>{
-        res.send(JSON.stringify(data));
+    .findById(req.query.id)
+    .then((publicacion:any) =>{
+      let p = {
+        id: publicacion._id,
+        nombre:publicacion.nombre,
+        descripcion:publicacion.descripcion,
+        categoria:publicacion.categoria,
+        unidad:publicacion.unidad,
+        estadopublicacion:publicacion.estadopublicacion,
+        estadoproducto:publicacion.estadoproducto,
+        fechapublicacion:publicacion.fechapublicacion,
+        precio:publicacion.precio,
+        cantidad:publicacion.cantidad,
+        direccion:{
+            id:publicacion.iddireccion,
+            region:" ",
+            comuna:" ",
+            direccionS:" ",
+            latitud:0,
+            longitud:0
+        },
+        url:new Array()
+    }
+      console.log(p);
+
+        res.send(JSON.stringify(p));
     })
     .catch((err:any) => {
         res.json(err);

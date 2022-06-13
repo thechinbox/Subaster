@@ -11,42 +11,42 @@
             </div>
         </div>
         <div class="contenedor-titulos">
-            <h1 id="txt-titulo" class="negro">{{publication.tittle}}</h1>
+            <h1 id="txt-titulo" class="negro">{{publication.nombre}}</h1>
             <div id="contenedor-valor">
                 <p class="gris" id="txt-valor">VALOR ACTUAL: </p>
                 <p class="azul" id="txt-moneda">CLP$</p>
-                <p class="azul" id="valor">{{publication.price}}</p>
+                <p class="azul" id="valor">{{publication.precio}}</p>
             </div>
             <div class="negro" class="negrita" id="contenedor-fecha">
-                <p id="txt-cierra">Fecha Término</p>
-                <p id="fecha-fin">{{publication.date_e}}</p>
+                <p id="txt-cierra">Fecha Publicación</p>
+                <p id="fecha-fin">{{publication.fechapublicacion}}</p>
             </div>
             <div class="negro" class="negrita" id="contenedor-pujar">
-                <p id="txt-cierra">Cierra en 13 días</p>
-                <button class="btn btn-lg my-3" type="button" id="botonPujar">Pujar</button>
+                <!-- <p id="txt-cierra">Cierra en 13 días</p> -->
+                <button class="btn btn-lg my-3" type="button" id="botonPujar">Comprar</button>
             </div>
         </div>
     </div>
     <div class="contenedor-detalles my-2">
-        <p class="negro negrita">Publicado el {{publication.date_i}}</p>
+        <p class="negro negrita">Publicado el {{publication.fechapublicacion}}</p>
         <h3 class="gris mt-4">Descripción:</h3>
         <ul>
-            <li class="gris fuente-lista">Marca: {{publication.brand}}</li>
-            <li class="gris fuente-lista">Modelo: {{publication.model}}</li>
-            <li class="gris fuente-lista">Largo: {{publication.lenght}}</li>
-            <li class="gris fuente-lista">Diametro: {{publication.diameter}}</li>
-            <li class="gris fuente-lista">Material: {{publication.material}}</li>
-            <li class="gris fuente-lista">Peso: {{publication.weight}}</li>
-            <li class="gris fuente-lista">Origen: {{publication.source}}</li>
+            <!-- <li class="gris fuente-lista">Marca: {{publication.brand}}</li> -->
+            <!-- <li class="gris fuente-lista">Modelo: {{publication.model}}</li> -->
+            <li class="gris fuente-lista">Unidad: {{publication.unidad}}</li>
+            <li class="gris fuente-lista">Material: {{publication.categoria}}</li>
+            <li class="gris fuente-lista">Estado de producto: {{publication.estadoproducto}}</li>
+            <li class="gris fuente-lista">Cantidad: {{publication.cantidad}}</li>
+            <li class="gris fuente-lista">Dirección: {{publication.direccion.direccion}}</li>
         </ul>
         <h3 class="gris mt-4">Observaciones:</h3>
         <ul>
-            <li class="gris fuente-lista">{{publication.observations}}</li>
+            <li class="gris fuente-lista">{{publication.descripcion}}</li>
         </ul>
     </div>
     <h3 class="negrita mt-4">Comentarios:</h3>
     <div class="contenedor-comentarios">
-        <div *ngFor="let comentario of comentarios">
+        <!-- <div *ngFor="let comentario of comentarios">
             <div class="comentario">
                 <img src="../../assets/{{comentario.img}}" alt="" width="100px" height="100px">
                 <div class="cuerpo">
@@ -54,6 +54,6 @@
                     <p>{{comentario.comment}}</p>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>
