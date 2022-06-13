@@ -19,6 +19,7 @@ export class PublicacionComponent implements OnInit {
   publication: Publish;
   aux : any;
   modalSwitch: boolean = false;
+  comentarios:Comment[];
 
   constructor(private _publication: PublicationService, private router:Router, 
               private activatedRoute:ActivatedRoute, private attributes:AttributesService,
@@ -44,6 +45,7 @@ export class PublicacionComponent implements OnInit {
       },
       url:new Array()
     }
+    this.comentarios = this._publication.obtenerComentarios();
     this._switchPujar.getPublicacionPujarSwitch().subscribe(valor => this.modalSwitch = valor)
 
   }
@@ -56,9 +58,11 @@ export class PublicacionComponent implements OnInit {
         this.publication.estadoproducto = await this.attributes.getestado(data.estadoproducto)
         this.publication.unidad = await this.attributes.getunidad(data.unidad)
         this.publication.categoria = await this.attributes.getcategoria(data.categoria)
-
-        this._publication.GETDIRECTION(this.publication.id).subscribe(data => {
+        await this._publication.GETDIRECTION(this.publication.id).subscribe(data => {
           this.publication.direccion = data
+        })
+        this._publication.GETMEDIA(this.publication.id).subscribe(data =>{
+          this.publication.url = data
         })
       }catch(err){
         console.log('error');
@@ -77,6 +81,8 @@ export class PublicacionComponent implements OnInit {
   }
 
   abrirModal(){
+    console.log("yep");
+    
     this._switchPujar.SetPublicacionPujarSwitch(true);
   }
 }

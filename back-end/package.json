@@ -12,7 +12,9 @@
   "dependencies": {
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.1",
+    "googleapis": "^101.0.0",
     "mongoose": "^6.3.5",
+    "nodemailer": "^6.7.5",
     "nodemon": "^2.0.16"
   },
   "devDependencies": {

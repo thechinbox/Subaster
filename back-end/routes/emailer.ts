@@ -31,21 +31,21 @@
 
 import {express} from '../index.js';
 
-const emailerC = express.Router();
+let emailerC = express.Router();
 
 //Modulo que permite el envio de correos a gmail
-const { google } = require('googleapis')
-const nodemailer = require("nodemailer");
+let { google } = require('googleapis')
+let nodemailer = require("nodemailer");
 
-const REFRESH_TOKEN = "1//04iaQkcJ6x-XYCgYIARAAGAQSNwF-L9IrW3cy3VXTsdwRZnfGlRoW7koN3YdWMUBezDiFah604D2UEs7EWwDz6uApwLK3NJrk2ro";
-const CLIENT_ID = "90357140452-qdmaul0i29hco6122uhqs7oielejdcmm.apps.googleusercontent.com";
-const CLIENT_SECRET = "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";
-const userMail = "testsubaster@gmail.com";
-const REDIRECT_URI ="https://developers.google.com/oauthplayground"; // NO CAMBIAR
-const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
+let REFRESH_TOKEN = "1//04iaQkcJ6x-XYCgYIARAAGAQSNwF-L9IrW3cy3VXTsdwRZnfGlRoW7koN3YdWMUBezDiFah604D2UEs7EWwDz6uApwLK3NJrk2ro";
+let CLIENT_ID = "90357140452-qdmaul0i29hco6122uhqs7oielejdcmm.apps.googleusercontent.com";
+let CLIENT_SECRET = "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";
+let userMail = "testsubaster@gmail.com";
+let REDIRECT_URI ="https://developers.google.com/oauthplayground"; // NO CAMBIAR
+let oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
 oAuth2Client.setCredentials({ refresh_token:REFRESH_TOKEN }); // NO CAMBIAR
 
-const htmlTemplate ='<div style="text-align: center;">'+
+let htmlTemplate ='<div style="text-align: center;">'+
                         '<h1>Subaster</h1>'+
                         '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>'+
                         '<h5>Te adjuntamos el recibo de tu compra:</h5>'+
@@ -54,19 +54,19 @@ const htmlTemplate ='<div style="text-align: center;">'+
                         '<h5>Valor: CLP$ 500.000</h5>'+
                     '</div>'
 
-const mail={
+let mail={
     from: "Subaster",
     to: "testsubaster@gmail.com",
     subject: "Subaster - Recibo de Compra",
     html: htmlTemplate
 }
 
-emailerC.get("/enviarCorreo", async (req:any, res:any) => {
+emailerC.post("/enviarCorreo", async (req:any, res:any) => {
     console.log("enviado correo...");
     
     try {
-        const accessToken = await oAuth2Client.getAccessToken();
-        const transporter = nodemailer.createTransport({
+        let accessToken = await oAuth2Client.getAccessToken();
+        let transporter = nodemailer.createTransport({
             service: "gmail",
             auth:{
                 type:"OAuth2",
@@ -77,10 +77,9 @@ emailerC.get("/enviarCorreo", async (req:any, res:any) => {
                 accessToken: accessToken
             }
         });
-
-        const result = await transporter.sendMail(mail);
+        let result = await transporter.sendMail(mail);
         console.log("Email enviado correctamente a : " + userMail);
-        res.status(200).send("enviado");
+        res.send(JSON.stringify({status:"ok"}));
     } catch (err){
         console.log(err);
         res.status(200).send("enviado");

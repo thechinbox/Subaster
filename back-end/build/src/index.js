@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.mongoose = exports.express = void 0;
 exports.express = require('express');
 exports.mongoose = require("mongoose");
-const app = exports.express();
+const app = (0, exports.express)();
 const correo = require('./routes/emailer');
 const usuarios = require("./routes/user");
 const publicaciones = require("./routes/publication");

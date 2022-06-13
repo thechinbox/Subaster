@@ -36,6 +36,9 @@ export class PublicationService {
   GETDIRECTION(id:any):Observable<any>{
     return this.http.get(`${environment.hostname}/getdireccion?id=`+id,this.HttpUploadOptions);
   }
+  GETMEDIA(id:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/getmedia?id=`+id,this.HttpUploadOptions);
+  }
 
   /**
   * @returns Arreglo de usuarios de ejemplo

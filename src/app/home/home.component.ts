@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
    this._publicationService.getPost().subscribe(data => {
       this.lista = data;
       for(let publicacion of this.lista){
-        this.browse.GETDIRECTION(publicacion.direccion.id).subscribe(data2 =>{
+        this.browse.GETDIRECTION(publicacion.id).subscribe(data2 =>{
           publicacion.direccion= data2;
           this.browse.GETMEDIA(publicacion.id).subscribe(data3 =>{
             publicacion.url= data3;

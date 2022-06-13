@@ -24,12 +24,14 @@ export class ModalSwitchService {
   }
 
   getPublicacionPujarSwitch(): Observable<any> {
+    console.log(this.publicacionPujarSwitch);
+    
     return this.publicacionPujarSwitch.asObservable();
   }
   SetPublicacionPujarSwitch(valor:boolean){
     this.publicacionPujarSwitch.next(valor)
   }
   confirmarPuja(): Observable<any>{
-    return this.http.get(`${environment.hostname}/enviarcorreo`,this.HttpUploadOptions);
+    return this.http.post(`${environment.hostname}/enviarcorreo`,this.HttpUploadOptions);
   }
 }
