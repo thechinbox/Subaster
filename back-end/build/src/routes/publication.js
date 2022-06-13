@@ -194,7 +194,7 @@ publishC.get("/getmedia", (req, res) => {
 });
 publishC.get("/getpublicacion", (req, res) => {
     publicationS
-        .find(req.query.id)
+        .findById(req.query.id)
         .then((data) => {
         res.send(JSON.stringify(data));
     })
