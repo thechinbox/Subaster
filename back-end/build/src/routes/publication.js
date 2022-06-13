@@ -162,7 +162,7 @@ publishC.get("/getpublicaciones", (req, res) => {
 });
 publishC.get("/getdireccion", (req, res) => {
     direccionS
-        .findOne({ _id: { $gte: req.query.id } }, (err, data) => {
+        .findOne({ idpublicacion: req.query.id }, (err, data) => {
         if (err) {
             console.log("Error encontrado al obtener iddireccion en publicacion");
             console.log(err);
@@ -193,12 +193,35 @@ publishC.get("/getmedia", (req, res) => {
     });
 });
 publishC.get("/getpublicacion", (req, res) => {
+    console.log(req.query.id);
     publicationS
         .findById(req.query.id)
-        .then((data) => {
-        res.send(JSON.stringify(data));
-    })
-        .catch((err) => {
+        .then((publicacion) => {
+        let p = {
+            id: publicacion._id,
+            nombre: publicacion.nombre,
+            descripcion: publicacion.descripcion,
+            categoria: publicacion.categoria,
+            unidad: publicacion.unidad,
+            estadopublicacion: publicacion.estadopublicacion,
+            estadoproducto: publicacion.estadoproducto,
+            fechapublicacion: publicacion.fechapublicacion,
+            precio: publicacion.precio,
+            cantidad: publicacion.cantidad,
+            direccion: {
+                id: publicacion.iddireccion,
+                region: " ",
+                comuna: " ",
+                direccionS: " ",
+                latitud: 0,
+                longitud: 0
+            },
+            url: new Array()
+        };
+        console.log(p);
+        res.send(JSON.stringify(p));
+       })
+       .catch((err) => {
         res.json(err);
     });
 });
