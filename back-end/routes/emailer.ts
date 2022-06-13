@@ -45,22 +45,23 @@ const REDIRECT_URI ="https://developers.google.com/oauthplayground"; // NO CAMBI
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
 oAuth2Client.setCredentials({ refresh_token:REFRESH_TOKEN }); // NO CAMBIAR
 
+const htmlTemplate ='<div style="text-align: center;">'+
+                        '<h1>Subaster</h1>'+
+                        '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>'+
+                        '<h5>Te adjuntamos el recibo de tu compra:</h5>'+
+                        '<h5>Código: 91839832213421412</h5>'+
+                        '<h5>Artículo: TUBOS PVC LOTE 500</h5>'+
+                        '<h5>Valor: CLP$ 500.000</h5>'+
+                    '</div>'
+
 const mail={
-    from: "Subaster Recibo",
+    from: "Subaster",
     to: "testsubaster@gmail.com",
-    subject: "Holaa ;)",
-    html: "<br>Mensaje de pruebaa ;)))</br>"
+    subject: "Subaster - Recibo de Compra",
+    html: htmlTemplate
 }
 
-emailerC.get("/enviarCorreo", (req:any,res:any)=>{
-    sendMail();
-})
-
-/**
- * 
- * @returns Comprobacion de la operacion.
- */
- async function sendMail() {
+emailerC.get("/enviarCorreo", async (req:any, res:any) => {
     console.log("enviado correo...");
     
     try {
@@ -79,13 +80,12 @@ emailerC.get("/enviarCorreo", (req:any,res:any)=>{
 
         const result = await transporter.sendMail(mail);
         console.log("Email enviado correctamente a : " + userMail);
-        return result;
+        res.status(200).send("enviado");
     } catch (err){
         console.log(err);
+        res.status(200).send("enviado");
     }
-    //sendMail().then(result => res.status(200).send("enviado")).catch((error) => console.log(error.message));
-    console.log("enviado");
-}
+})
 
 //sendMail();
 module.exports = emailerC;

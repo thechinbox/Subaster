@@ -51,46 +51,44 @@ const userMail = "testsubaster@gmail.com";
 const REDIRECT_URI = "https://developers.google.com/oauthplayground"; // NO CAMBIAR
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN }); // NO CAMBIAR
+const htmlTemplate = '<div style="text-align: center;">' +
+    '<h1>Subaster</h1>' +
+    '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>' +
+    '<h5>Te adjuntamos el recibo de tu compra:</h5>' +
+    '<h5>Código: 91839832213421412</h5>' +
+    '<h5>Artículo: TUBOS PVC LOTE 500</h5>' +
+    '<h5>Valor: CLP$ 500.000</h5>' +
+    '</div>';
 const mail = {
-    from: "Subaster Recibo",
+    from: "Subaster",
     to: "testsubaster@gmail.com",
-    subject: "Holaa ;)",
-    html: "<br>Mensaje de pruebaa ;)))</br>"
+    subject: "Subaster - Recibo de Compra",
+    html: htmlTemplate
 };
-emailerC.get("/enviarCorreo", (req, res) => {
-    sendMail();
-});
-/**
- *
- * @returns Comprobacion de la operacion.
- */
-function sendMail() {
-    return __awaiter(this, void 0, void 0, function* () {
-        console.log("enviado correo...");
-        try {
-            const accessToken = yield oAuth2Client.getAccessToken();
-            const transporter = nodemailer.createTransport({
-                service: "gmail",
-                auth: {
-                    type: "OAuth2",
-                    user: userMail,
-                    clientId: CLIENT_ID,
-                    clientSecret: CLIENT_SECRET,
-                    refreshToken: REFRESH_TOKEN,
-                    accessToken: accessToken
-                }
-            });
-            const result = yield transporter.sendMail(mail);
-            console.log("Email enviado correctamente a : " + userMail);
-            return result;
-        }
-        catch (err) {
-            console.log(err);
-        }
-        //sendMail().then(result => res.status(200).send("enviado")).catch((error) => console.log(error.message));
-        console.log("enviado");
-    });
-}
+emailerC.get("/enviarCorreo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("enviado correo...");
+    try {
+        const accessToken = yield oAuth2Client.getAccessToken();
+        const transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                type: "OAuth2",
+                user: userMail,
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: REFRESH_TOKEN,
+                accessToken: accessToken
+            }
+        });
+        const result = yield transporter.sendMail(mail);
+        console.log("Email enviado correctamente a : " + userMail);
+        res.status(200).send("enviado");
+    }
+    catch (err) {
+        console.log(err);
+        res.status(200).send("enviado");
+    }
+}));
 //sendMail();
 module.exports = emailerC;
 //exports.sendMail = () => this.sendMail()

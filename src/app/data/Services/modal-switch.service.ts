@@ -30,6 +30,6 @@ export class ModalSwitchService {
     this.publicacionPujarSwitch.next(valor)
   }
   confirmarPuja(): Observable<any>{
-    return this.http.get(`${environment.hostname}/enviarCorreo`,this.HttpUploadOptions);
+    return this.http.get(`${environment.hostname}/enviarcorreo`,this.HttpUploadOptions);
   }
 }

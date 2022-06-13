@@ -36,6 +36,6 @@ export class ModalComponent implements OnInit {
     input?.setAttribute('disabled', '');
     alert("Enviaremos un correo de confirmación a su cuenta");
     this._switchModal.SetPublicacionPujarSwitch(false);
-    this._switchModal.confirmarPuja();
+    this._switchModal.confirmarPuja().subscribe((data) => {console.log(data)});
   }
 }
