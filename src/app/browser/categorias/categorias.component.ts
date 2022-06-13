@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 import { Categoria } from 'back-end/Interfaces/categoria';
 
 @Component({
@@ -11,12 +12,12 @@ export class CategoriasComponent implements OnInit, AfterViewInit {
   @Input() categorias:any;
   @Output() checkChecked:EventEmitter<any> = new EventEmitter();
 
-  constructor() {
+  constructor(private router:Router) {
     this.seleccionadas = []
    }
 
   ngOnInit(): void {
-    
+
   }
 
   ngAfterViewInit(): void {
@@ -26,6 +27,7 @@ export class CategoriasComponent implements OnInit, AfterViewInit {
       console.log(change);
       change.checked = true;
     }
+    
   }
 
   check(item:Categoria){

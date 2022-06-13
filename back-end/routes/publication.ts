@@ -165,16 +165,19 @@ publishC.get("/getdireccion", (req:any,res:any) =>{
         if(err){
             console.log("Error encontrado al obtener iddireccion en publicacion");
             console.log(err);
+            res.send(JSON.stringify(err))
         }
-        let direccion:Direccion = {
-            id:data._id,
-            region:data.region,
-            comuna:data.comuna,
-            direccion:data.direccion,
-            latitud:data.latitud,
-            longitud:data.longitud
+        else{
+            let direccion:Direccion = {
+                id:data._id,
+                region:data.region,
+                comuna:data.comuna,
+                direccion:data.direccion,
+                latitud:data.latitud,
+                longitud:data.longitud
+            }
+            res.send(direccion)
         }
-        res.send(direccion)
     })
 })
 

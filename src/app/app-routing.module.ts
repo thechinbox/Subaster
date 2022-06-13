@@ -8,6 +8,7 @@ import { RegistroComponent } from './registro/registro.component';
 import { PublicacionComponent } from './publicacion/publicacion.component';
 import { BrowserComponent } from './browser/browser.component';
 import { ProfileComponent } from './profile/profile.component';
+import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path:'login', component:LoginComponent},
   {path:'registro', component:RegistroComponent},
   {path:'browser', component:BrowserComponent},
-  {path:'profile', component:ProfileComponent}
+  {path:'profile', component:ProfileComponent},
+  {path:'carrito', component:ShoppingcartComponent}
 ];
 
 @NgModule({

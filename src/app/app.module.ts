@@ -29,6 +29,7 @@ import { BrowseService } from './data/Services/browse.service';
 import { ChileinfoService } from './data/Services/chileinfo.service';
 import { CategoriasComponent } from './browser/categorias/categorias.component';
 import { ModalComponent } from './publicacion/modal/modal.component';
+import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { ModalComponent } from './publicacion/modal/modal.component';
     BrowserComponent,
     ProfileComponent,
     CategoriasComponent,
-    ModalComponent
+    ModalComponent,
+    ShoppingcartComponent
   ],
   imports: [
     BrowserModule,

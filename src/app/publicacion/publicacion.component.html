@@ -1,8 +1,11 @@
-<div id="modal" *ngIf="modalSwitch == true">
-    <app-publicacion-modal></app-publicacion-modal>
-</div> 
+
 
 <div class="container my-5">
+    <div class="row ">
+        <div class="col-12" id="modal" *ngIf="modalSwitch == true">
+            <app-publicacion-modal></app-publicacion-modal>
+        </div> 
+    </div>
     <div class="row px-3">
         <div class="col-md-6">
             <div class="contenedor-imgs" >
@@ -31,7 +34,7 @@
                 </h3>
             </div>
             <div class="d-flex justify-content-center my-3 ">
-                <button class="btn btn-lg " (click)="abrirModal()" type="button" id="botonPujar">Comprar</button>
+                <button class="btn btn-lg " (click)="comprar()" type="button" id="botonPujar">Comprar</button>
             </div>
             
         </div>
@@ -44,7 +47,9 @@
                 <li class="gris fuente-lista">Material: {{publication.categoria}}</li>
                 <li class="gris fuente-lista">Estado de producto: {{publication.estadoproducto}}</li>
                 <li class="gris fuente-lista">Cantidad: {{publication.cantidad}}</li>
-                <li class="gris fuente-lista">Dirección: {{publication.direccion.direccion}}</li>
+                <li class="gris fuente-lista">
+                    Dirección: {{publication.direccion.direccion}},{{publication.direccion.comuna}},{{publication.direccion.region}}
+                </li>
             </ul>
         </div>
         <div class="col-12">

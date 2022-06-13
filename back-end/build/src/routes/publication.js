@@ -166,16 +166,19 @@ publishC.get("/getdireccion", (req, res) => {
         if (err) {
             console.log("Error encontrado al obtener iddireccion en publicacion");
             console.log(err);
+            res.send(JSON.stringify(err));
         }
-        let direccion = {
-            id: data._id,
-            region: data.region,
-            comuna: data.comuna,
-            direccion: data.direccion,
-            latitud: data.latitud,
-            longitud: data.longitud
-        };
-        res.send(direccion);
+        else {
+            let direccion = {
+                id: data._id,
+                region: data.region,
+                comuna: data.comuna,
+                direccion: data.direccion,
+                latitud: data.latitud,
+                longitud: data.longitud
+            };
+            res.send(direccion);
+        }
     });
 });
 publishC.get("/getmedia", (req, res) => {

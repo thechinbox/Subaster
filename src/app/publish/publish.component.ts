@@ -13,6 +13,7 @@ import { PublicationService } from '../data/Services/publication.service';
 import { StorageService } from '../data/Services/storage.service';
 import {MediaContent} from '../data/Interfaces/media-content'
 import { Router } from '@angular/router';
+import { GoogleMap } from '@angular/google-maps';
 
 @Component({
   selector: 'app-publish',
@@ -23,7 +24,6 @@ import { Router } from '@angular/router';
 export class PublishComponent implements OnInit, AfterViewInit {
   region ="";
   comuna ="";
-  
   media:any [] = [];
   //Listas y Dropdowns
   lista_Cat:Array<Categoria>;

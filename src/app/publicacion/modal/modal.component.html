@@ -1,11 +1,11 @@
-<div class="contenedor">
+<!--<div class="contenedor">
     <div class="titulo">
         <h2>¿Desea realizar una puja?</h2>
     </div>
     <form novalidate class="cuerpo" [formGroup]="montoControl">
         <label for="montoTxt" class="labelMonto">Escriba un monto </label>
         <div class="contenedor-monto">
-            <input type="number" formControlName="monto" id="montoInput" [(ngModel)]="montoValor">
+            <input type="number" formControlName="monto" id="montoInput" placeholder="400000">
             <div class="error" *ngIf="montoControl.controls['monto'].errors && (montoControl.controls['monto'].dirty || montoControl.controls['monto'].touched)">
                 <p *ngIf="montoControl.controls['monto'].hasError('required')">Campo requerido</p>
                 <p *ngIf="montoControl.controls['monto'].hasError('pattern')">*Solo se admiten valores numéricos sin signo</p>
@@ -16,4 +16,25 @@
             <button id="cerrarBtn" (click)="cerrarModal()">Salir</button>
         </div>
     </form>
+</div>-->
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 d-flex">
+            <button class="btn justify-content-left" (click)="cerrarModal()" type="button">
+                <span class="material-symbols-outlined">
+                    cancel
+                </span>
+            </button>
+        </div>
+        <div class="col-12">
+            <h1>Se ha agregado el producto al carrito de compras</h1>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-lg" routerLink="/carrito">Ir al carrito</button>
+        </div>
+        <div class="col-6">
+            <button type="button" class="btn btn-lg" (click)="cerrarModal()">Seguir navegando</button>
+        </div>
+    </div>
 </div>

@@ -11,10 +11,8 @@ import { Validators } from '@angular/forms';
 export class ModalComponent implements OnInit {
 
   montoControl: FormGroup;
-  montoValor: number;
 
   constructor(private _switchModal: ModalSwitchService) {
-    this.montoValor = 0;
     this.montoControl = new FormGroup({
       monto : new FormControl('', [
         Validators.required,

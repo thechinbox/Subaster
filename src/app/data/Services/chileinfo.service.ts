@@ -48,6 +48,7 @@ export class ChileinfoService {
   getregiones(){
     return this.regiones;
   }
+  
   getcomunas(region:any):Array<Comuna>{
     let comunas = new Array();
     for(let i in this.regiones){
@@ -56,5 +57,27 @@ export class ChileinfoService {
       }
     }
     return comunas;
+  }
+
+  getregion(id:any){
+    for(let region of this.regiones){
+      if(region.id == id){
+        return region.region
+      }
+    }
+    return "not found"
+  }
+
+  getcomuna(idregion:any, idcomuna:any){
+    for(let region of this.regiones){
+      if(region.id == idregion){
+        for(let comuna of region.comunas){
+          if(comuna.id == idcomuna){
+            return comuna.comuna
+          }
+        }
+      }
+    }
+    return "not found"
   }
 }

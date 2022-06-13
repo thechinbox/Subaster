@@ -61,3 +61,22 @@ p {
     color: white;
     font-size: x-large;
 }
+
+.container{
+    background: #e8e8e8;
+    box-shadow: 3px 3px 15px 14px rgba(0, 0, 0, 0.29);
+    width: 50%;
+    padding: 40px;
+    text-align: center;
+    position: fixed;
+    align-content: center;
+}
+
+.material-symbols-outlined{
+    color: red;
+}
+
+.btn-lg{
+    border-radius: 100px;
+    background-color: #7ec57e93;
+}

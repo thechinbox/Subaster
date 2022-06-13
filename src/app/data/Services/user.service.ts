@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Publish } from '../Interfaces/publish';
 import { User } from '../Interfaces/user';
 
 @Injectable({
@@ -20,7 +21,18 @@ export class UserService {
   };
 
   user:User;
+  compras:Array<String>
+  
   constructor(private http:HttpClient) {
+    this.compras = new Array()
+    try{
+      let aux :any = sessionStorage.getItem("products")
+      for(let id of JSON.parse(aux).ids){
+        this.compras.push(id)
+      }
+    }catch(error){
+      console.log(error);
+    }
     this.user = {
       id: "",
       nombre:"",
@@ -54,6 +66,17 @@ export class UserService {
 
   setUsuario(user:User){
     this.user = user;
+    sessionStorage.setItem("id", user.id)
+  }
+  
+  async addProduct(id:any){
+    if(!this.compras.includes(id)){
+      this.compras.push(id)
+      console.log(this.compras);
+      
+      sessionStorage.removeItem("products")
+      sessionStorage.setItem("products", JSON.stringify({ids:this.compras}))
+    }
   }
 
   obtenerUsuario():User {

@@ -8,6 +8,8 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { AttributesService } from '../data/Services/attributes.service';
 import { ModalSwitchService } from '../data/Services/modal-switch.service';
+import { ChileinfoService } from '../data/Services/chileinfo.service';
+import { UserService } from '../data/Services/user.service';
 
 @Component({
   selector: 'app-publicacion',
@@ -23,7 +25,8 @@ export class PublicacionComponent implements OnInit {
 
   constructor(private _publication: PublicationService, private router:Router, 
               private activatedRoute:ActivatedRoute, private attributes:AttributesService,
-              private _switchPujar: ModalSwitchService) {
+              private _switchPujar: ModalSwitchService, private chileinfo:ChileinfoService,
+              private usuario:UserService) {
     this.publication = {
       id: '',
       nombre:'',
@@ -54,16 +57,20 @@ export class PublicacionComponent implements OnInit {
     this._publication.GETPUBLICATION(this.activatedRoute.snapshot.paramMap.get("id")).subscribe(async (data) => {
       try{
         this.publication = await data;
-        console.log(this.publication);
         this.publication.estadoproducto = await this.attributes.getestado(data.estadoproducto)
         this.publication.unidad = await this.attributes.getunidad(data.unidad)
         this.publication.categoria = await this.attributes.getcategoria(data.categoria)
         await this._publication.GETDIRECTION(this.publication.id).subscribe(data => {
           this.publication.direccion = data
+          let region = this.chileinfo.getregion(this.publication.direccion.region)   
+          let comuna = this.chileinfo.getcomuna(this.publication.direccion.region,this.publication.direccion.comuna)
+          this.publication.direccion.region = region    
+          this.publication.direccion.comuna = comuna
         })
         this._publication.GETMEDIA(this.publication.id).subscribe(data =>{
           this.publication.url = data
         })
+        
       }catch(err){
         console.log('error');
 
@@ -80,9 +87,9 @@ export class PublicacionComponent implements OnInit {
     return new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(numero);
   }
 
-  abrirModal(){
-    console.log("yep");
-    
-    this._switchPujar.SetPublicacionPujarSwitch(true);
+  comprar(){
+    this.usuario.addProduct(this.publication.id).then(() =>{
+      this._switchPujar.SetPublicacionPujarSwitch(true);
+    })
   }
 }

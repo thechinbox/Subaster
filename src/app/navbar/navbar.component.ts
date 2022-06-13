@@ -26,5 +26,7 @@ export class NavbarComponent implements OnInit {
     await this.browse.setFilter([categoria.id])
     this.router.navigateByUrl('/browser?categoria='+this.atributos.getcategoria(categoria.id))
   }
-
+  clicked(){
+    this.isCollapsed3 = true;
+  }
 }
