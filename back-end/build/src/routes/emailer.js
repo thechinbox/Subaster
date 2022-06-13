@@ -1,3 +1,4 @@
+"use strict";
 /*
     Pasos a seguir si se desea cambiar la cuenta de origen:
     1.- Entrar a console.developers.google.com/apis/    (tener cuidado de no entrar a cloud.google.com)
@@ -28,39 +29,50 @@
         
     Los datos obtenidos desde el ultimo paso, son los que deberán cambiar en las variables de más abajo.
 */
-
-//Ejecutable con => node src/js/test.js
-
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const index_js_1 = require("../index.js");
+const emailerC = index_js_1.express.Router();
 //Modulo que permite el envio de correos a gmail
-const { google } = require('googleapis')
+const { google } = require('googleapis');
 const nodemailer = require("nodemailer");
-
 const REFRESH_TOKEN = "1//04iaQkcJ6x-XYCgYIARAAGAQSNwF-L9IrW3cy3VXTsdwRZnfGlRoW7koN3YdWMUBezDiFah604D2UEs7EWwDz6uApwLK3NJrk2ro";
 const CLIENT_ID = "90357140452-qdmaul0i29hco6122uhqs7oielejdcmm.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
 const userMail = "testsubaster@gmail.com";
-const REDIRECT_URI ="https://developers.google.com/oauthplayground"; // NO CAMBIAR
+const REDIRECT_URI = "https://developers.google.com/oauthplayground"; // NO CAMBIAR
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
-oAuth2Client.setCredentials({ refresh_token:REFRESH_TOKEN }); // NO CAMBIAR
-
-const mail={
-    from: "Subaster Recibo",
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN }); // NO CAMBIAR
+const htmlTemplate = '<div style="text-align: center;">' +
+    '<h1>Subaster</h1>' +
+    '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>' +
+    '<h5>Te adjuntamos el recibo de tu compra:</h5>' +
+    '<h5>Código: 91839832213421412</h5>' +
+    '<h5>Artículo: TUBOS PVC LOTE 500</h5>' +
+    '<h5>Valor: CLP$ 500.000</h5>' +
+    '</div>';
+const mail = {
+    from: "Subaster",
     to: "testsubaster@gmail.com",
-    subject: "Holaa ;)",
-    html: "<br>Mensaje de pruebaa ;)))</br>"
-}
-
-/**
- * 
- * @returns Comprobacion de la operacion.
- */
-async function sendMail() {
+    subject: "Subaster - Recibo de Compra",
+    html: htmlTemplate
+};
+emailerC.get("/enviarCorreo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("enviado correo...");
     try {
-        const accessToken = await oAuth2Client.getAccessToken();
+        const accessToken = yield oAuth2Client.getAccessToken();
         const transporter = nodemailer.createTransport({
             service: "gmail",
-            auth:{
-                type:"OAuth2",
+            auth: {
+                type: "OAuth2",
                 user: userMail,
                 clientId: CLIENT_ID,
                 clientSecret: CLIENT_SECRET,
@@ -68,18 +80,16 @@ async function sendMail() {
                 accessToken: accessToken
             }
         });
-
-        const result = await transporter.sendMail(mail);
+        const result = yield transporter.sendMail(mail);
         console.log("Email enviado correctamente a : " + userMail);
-        return result;
-    } catch (err){
-        console.log(err);
+        res.status(200).send("enviado");
     }
-    //sendMail().then(result => res.status(200).send("enviado")).catch((error) => console.log(error.message));
-}
-
-sendMail();
-//module.exports = router;
-
+    catch (err) {
+        console.log(err);
+        res.status(200).send("enviado");
+    }
+}));
+//sendMail();
+module.exports = emailerC;
 //exports.sendMail = () => this.sendMail()
 //sendMail().catch(console.error);

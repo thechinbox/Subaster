@@ -1,3 +1,7 @@
+<div *ngIf="modalSwitch == true">
+    <app-publicacion-modal></app-publicacion-modal>
+</div> 
+
 <div class="container-xxl my-5">
     <div class="contenedor-header">
         <div class="contenedor-imgs">
@@ -23,7 +27,7 @@
             </div>
             <div class="negro" class="negrita" id="contenedor-pujar">
                 <p id="txt-cierra">Cierra en 13 días</p>
-                <button class="btn btn-lg my-3" type="button" id="botonPujar">Pujar</button>
+                <button class="btn btn-lg my-3" type="button" id="botonPujar" (click)="abrirModal()">Pujar</button>
             </div>
         </div>
     </div>
