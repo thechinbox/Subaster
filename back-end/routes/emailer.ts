@@ -86,6 +86,8 @@ emailerC.post("/enviarCorreo", async (req:any, res:any) => {
     }
 })
 
+
+
 //sendMail();
 module.exports = emailerC;
 

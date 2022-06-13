@@ -10,7 +10,8 @@ let direccionS= require("../models/direccionUsuarioS")
 let bcrypt = require("bcrypt");
 
 
-//crear usuario
+//Registro y Login 
+
 usuariosC.post("/signup", async (req:any,res:any)=>{
     await verify
     .find({correo:req.body.correo})
@@ -111,6 +112,41 @@ usuariosC.get("/login", (req:any, res:any) =>{
     
 })
 
+usuariosC.get("/loginid", (req:any, res:any) =>{
+    console.log(req.query.id);
+    
+    userS
+    .findById(req.query.id)
+    .then(async (data:any)=> { 
+        if(data){
+            let user:User = {
+                id: data._id,
+                nombre:data.nombre,
+                apellidos:data.apellidos,
+                correo:data.correo,
+                celular:data.celular,
+                contrasena:data.contrasena,
+                direccion: {
+                    id:"",
+                    region:" ",
+                    comuna:" ",
+                    direccion:"",
+                    latitud:0,
+                    longitud:0
+                },
+                fechacreacion:data.fechacreacion
+            }
+            res.send(user)
+        }else{
+            res.send(JSON.stringify({status:"no encontrado"}))
+        }
+    })
+    .catch((err:any) =>{
+        res.send(JSON.stringify({status:"error al encontrar"}))     
+    })
+    
+})
+
 usuariosC.get("/direccionUsuario",(req:any, res:any) =>{
     direccionS
     .findOne({idusuario:req.query.id}, (err:any, data:any) =>{
@@ -129,4 +165,5 @@ usuariosC.get("/direccionUsuario",(req:any, res:any) =>{
         res.send(direccion);    
     })
 })
+
 module.exports = usuariosC;

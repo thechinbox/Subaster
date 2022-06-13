@@ -15,7 +15,7 @@ let verify = require("../models/userS");
 let userS = require("../models/userS");
 let direccionS = require("../models/direccionUsuarioS");
 let bcrypt = require("bcrypt");
-//crear usuario
+//Registro y Login 
 usuariosC.post("/signup", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     yield verify
         .find({ correo: req.body.correo })
@@ -113,6 +113,39 @@ usuariosC.get("/login", (req, res) => {
     }))
         .catch((err) => {
         res.send(JSON.stringify({ status: "invalid" }));
+    });
+});
+usuariosC.get("/loginid", (req, res) => {
+    console.log(req.query.id);
+    userS
+        .findById(req.query.id)
+        .then((data) => __awaiter(void 0, void 0, void 0, function* () {
+        if (data) {
+            let user = {
+                id: data._id,
+                nombre: data.nombre,
+                apellidos: data.apellidos,
+                correo: data.correo,
+                celular: data.celular,
+                contrasena: data.contrasena,
+                direccion: {
+                    id: "",
+                    region: " ",
+                    comuna: " ",
+                    direccion: "",
+                    latitud: 0,
+                    longitud: 0
+                },
+                fechacreacion: data.fechacreacion
+            };
+            res.send(user);
+        }
+        else {
+            res.send(JSON.stringify({ status: "no encontrado" }));
+        }
+    }))
+        .catch((err) => {
+        res.send(JSON.stringify({ status: "error al encontrar" }));
     });
 });
 usuariosC.get("/direccionUsuario", (req, res) => {

@@ -10,6 +10,7 @@ const estadosp = require("./routes/estadosproductos")
 const estados = require("./routes/estadospublicacion")
 const regiones = require("./routes/region")
 const comunas = require("./routes/comuna")
+const compra = require("./routes/compra")
 const cors=require('cors');
 
 const configuracion={
@@ -31,6 +32,7 @@ app.use('/',estados)
 app.use('/',regiones)
 app.use('/',comunas)
 app.use('/',correo)
+app.use('/',compra)
 
 
 app.listen(configuracion, () => {

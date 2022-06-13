@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Publish } from '../data/Interfaces/publish';
 import { AttributesService } from '../data/Services/attributes.service';
 import { ChileinfoService } from '../data/Services/chileinfo.service';
@@ -13,22 +14,27 @@ import { UserService } from '../data/Services/user.service';
 export class ShoppingcartComponent implements OnInit {
 
   preview:Array<Publish>
-  compras:Array<Publish>
+  total:any;
+  comprar = false;
+  cargando = false;
+  subido = false;
+  info=true;
   constructor(private user:UserService, private _publication:PublicationService, 
-      private attributes:AttributesService, private chileinfo:ChileinfoService) {
+      private attributes:AttributesService, private chileinfo:ChileinfoService,
+      private router:Router) {
+      this.total = 0
     this.preview = new Array();
-    this.compras = new Array();
+    console.log(sessionStorage.getItem("id"));
+    
     try{
       let aux:any = sessionStorage.getItem("products")
-      console.log(JSON.parse(aux));
-      
       for(let id of JSON.parse(aux).ids ){
-        console.log(id);
         this._publication.GETPUBLICATION(id).subscribe(async (data) => {
           let publication = await data;
             publication.estadoproducto = await this.attributes.getestado(data.estadoproducto)
             publication.unidad = await this.attributes.getunidad(data.unidad)
             publication.categoria = await this.attributes.getcategoria(data.categoria)
+            this.total = this.total + publication.precio;
             await this._publication.GETDIRECTION(publication.id).subscribe(data => {
               publication.direccion = data
               let region = this.chileinfo.getregion(publication.direccion.region)   
@@ -41,6 +47,7 @@ export class ShoppingcartComponent implements OnInit {
               publication.url = data
             })
             this.preview.push(publication)
+            this.comprar = true
         })
       }
     }catch(err){
@@ -48,9 +55,46 @@ export class ShoppingcartComponent implements OnInit {
     }
    }
 
-  ngOnInit(): void {
-    console.log(this.preview);
-    
+  ngOnInit(): void {    
   }
 
+  eliminarCarrito(id:any){
+    for(let i in this.preview){
+      if(this.preview[i].id == id){
+        this.total = this.total - (this.preview[i].precio as number)
+        delete this.preview[i]
+        this.preview = this.preview.filter(function (el) {
+          return el != null;
+        });
+      }
+    }
+    if(this.preview.length == 0){
+      this.comprar = false;
+    }
+    let aux = Array<String>();
+    for(let pub of this.preview){
+      aux.push(pub.id)
+    }
+    console.log(aux);
+    sessionStorage.removeItem("products")
+    sessionStorage.setItem("products", JSON.stringify({ids:aux}))
+  }
+
+  finalizarCompra(){
+    this.cargando = true;
+    if(sessionStorage.getItem("id") != null && sessionStorage.getItem("id") != undefined ){
+      this.user.BUY(this.preview).subscribe(data => {
+        this.cargando = false;
+        this.subido = true;
+        setTimeout(() => {
+          sessionStorage.removeItem("products")
+          sessionStorage.setItem("products", JSON.stringify({ids:new Array()}))
+          this.subido = false;
+          this.router.navigateByUrl("/home")
+        }, 5000); 
+      })
+    }else{
+
+    }
+  }
 }
