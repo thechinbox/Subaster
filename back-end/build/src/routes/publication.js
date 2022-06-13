@@ -220,8 +220,8 @@ publishC.get("/getpublicacion", (req, res) => {
         };
         console.log(p);
         res.send(JSON.stringify(p));
-    })
-        .catch((err) => {
+       })
+       .catch((err) => {
         res.json(err);
     });
 });

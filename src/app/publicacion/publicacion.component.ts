@@ -7,6 +7,7 @@ import { Publish } from '../data/Interfaces/publish';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { AttributesService } from '../data/Services/attributes.service';
+import { ModalSwitchService } from '../data/Services/modal-switch.service';
 
 @Component({
   selector: 'app-publicacion',
@@ -17,10 +18,11 @@ export class PublicacionComponent implements OnInit {
   //seteados por defecto
   publication: Publish;
   aux : any;
+  modalSwitch: boolean = false;
 
-
-
-  constructor(private _publication: PublicationService, private router:Router, private activatedRoute:ActivatedRoute, private attributes:AttributesService) {
+  constructor(private _publication: PublicationService, private router:Router, 
+              private activatedRoute:ActivatedRoute, private attributes:AttributesService,
+              private _switchPujar: ModalSwitchService) {
     this.publication = {
       id: '',
       nombre:'',
@@ -42,6 +44,8 @@ export class PublicacionComponent implements OnInit {
       },
       url:new Array()
     }
+    this._switchPujar.getPublicacionPujarSwitch().subscribe(valor => this.modalSwitch = valor)
+
   }
 
   ngOnInit(): void {
@@ -70,5 +74,9 @@ export class PublicacionComponent implements OnInit {
   insertarPuntos(valor:string): string{
     var numero = +valor;
     return new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(numero);
+  }
+
+  abrirModal(){
+    this._switchPujar.SetPublicacionPujarSwitch(true);
   }
 }

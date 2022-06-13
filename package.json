@@ -28,14 +28,20 @@
     "@types/gapi.client.drive": "^3.0.13",
     "angular-responsive-carousel": "^2.1.2",
     "bootstrap": "^4.5.0",
+    "crypto-browserify": "^3.12.0",
     "firebase": "^9.8.2",
     "googleapis": "^101.0.0",
     "mdb-angular-ui-kit": "^2.1.0",
+    "node-polyfill-webpack-plugin": "^1.1.4",
     "nodemailer": "^6.7.5",
     "nodemailer-sendgrid": "^1.0.3",
+    "os-browserify": "^0.3.0",
     "popper.js": "^1.16.1",
+    "process": "^0.11.10",
     "rxjs": "~6.6.0",
     "save": "^2.5.0",
+    "stream": "0.0.2",
+    "stream-browserify": "^3.0.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
   },
@@ -51,7 +57,11 @@
     "karma-coverage": "~2.0.3",
     "karma-jasmine": "~4.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
-    "typescript": "~4.3.5"
+    "typescript": "~4.3.5",
+    "webpack-cli": "^4.9.2"
+  },
+  "browser": {
+    "crypto": false
   },
   "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.2.7.",
   "main": "karma.conf.js",

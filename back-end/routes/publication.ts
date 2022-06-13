@@ -218,11 +218,9 @@ publishC.get("/getpublicacion", (req:any,res:any) => {
             longitud:0
         },
         url:new Array()
-    }
-      console.log(p);
-
-        res.send(JSON.stringify(p));
-    })
+      }
+      res.send(JSON.stringify(p));
+      })
     .catch((err:any) => {
         res.json(err);
     })

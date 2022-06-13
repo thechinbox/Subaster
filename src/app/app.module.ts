@@ -28,6 +28,7 @@ import { AttributesService } from './data/Services/attributes.service';
 import { BrowseService } from './data/Services/browse.service';
 import { ChileinfoService } from './data/Services/chileinfo.service';
 import { CategoriasComponent } from './browser/categorias/categorias.component';
+import { ModalComponent } from './publicacion/modal/modal.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { CategoriasComponent } from './browser/categorias/categorias.component';
     PublicacionComponent,
     BrowserComponent,
     ProfileComponent,
-    CategoriasComponent
+    CategoriasComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,

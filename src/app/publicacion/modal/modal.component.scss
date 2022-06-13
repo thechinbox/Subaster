@@ -1,0 +1,63 @@
+p {
+    color: red;
+}
+
+.contenedor {
+    background: #e8e8e8;
+    box-shadow: 3px 3px 15px 14px rgba(0, 0, 0, 0.29);
+    width: 70%;
+    margin-top: -208px;
+    margin-left: 15%;
+    padding: 40px;
+    text-align: center;
+    position: fixed;
+}
+
+.cuerpo {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenedor-monto {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
+.labelMonto {
+    font-size: larger;
+}
+
+#montoInput {
+    max-width: 200px;
+    border-radius: 10px;
+    padding: 5px;
+    padding-left: 15px;
+}
+
+.botones {
+    margin-top: 50px;
+}
+
+#confirmarBtn {
+    padding: 14px;
+    padding-inline: 30px;
+    border-radius: 21px;
+    background-color: #00bb00;
+    color: white;
+    font-size: x-large;
+}
+
+#cerrarBtn {
+    margin-left: 40px;
+    padding: 14px;
+    padding-inline: 30px;
+    border-radius: 21px;
+    background-color: orangered;
+    color: white;
+    font-size: x-large;
+}

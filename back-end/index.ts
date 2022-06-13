@@ -1,6 +1,7 @@
 export const express= require('express')
 export const mongoose = require("mongoose")
 const app = express();
+const correo = require('./routes/emailer')
 const usuarios = require("./routes/user")
 const publicaciones = require("./routes/publication")
 const categorias = require("./routes/categorias")
@@ -29,6 +30,7 @@ app.use('/',estadosp)
 app.use('/',estados)
 app.use('/',regiones)
 app.use('/',comunas)
+app.use('/',correo)
 
 
 app.listen(configuracion, () => {

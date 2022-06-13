@@ -3,6 +3,14 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "crypto": [
+        "node_modules/crypto-js"
+      ],
+      "os-browserify": [
+        "node_modules/os-browserify-js"
+      ]
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
