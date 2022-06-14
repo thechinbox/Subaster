@@ -21,15 +21,11 @@ let userMail = "testsubaster@gmail.com";
 let REDIRECT_URI = "https://developers.google.com/oauthplayground"; // NO CAMBIAR
 let oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN }); // NO CAMBIAR
-let htmlTemplate = '<div style="text-align: center;">' +
-    '<h1>Subaster</h1>' +
-    '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>' +
-    '<h5>Te adjuntamos el recibo de tu compra:</h5>';
 let mail = {
     from: "Subaster",
     to: "testsubaster@gmail.com",
     subject: "Subaster - Recibo de Compra",
-    html: htmlTemplate
+    html: ""
 };
 const compraC = index_js_1.express.Router();
 let compraS = require("../models/compraS");
@@ -37,15 +33,9 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     let status = new Array();
     let user = req.body.user;
     let publicacion = req.body.productos;
-    for (let p of publicacion) {
-        yield saveBuy(user.id, p.id).then((data) => {
-            status.push(data);
-            htmlTemplate = htmlTemplate + '<h5>Código: ' + p.id + '</h5>';
-            htmlTemplate = htmlTemplate + '<h5>Artículo: ' + p.nombre + '</h5>';
-            htmlTemplate = htmlTemplate + '<h5>Valor: CLP$' + p.precio + '</h5>';
-        });
-    }
-    htmlTemplate = htmlTemplate + '</div>';
+    yield saveBuy(user.id, publicacion).then((data) => {
+        mail.html = data;
+    });
     try {
         let accessToken = yield oAuth2Client.getAccessToken();
         let transporter = nodemailer.createTransport({
@@ -59,7 +49,7 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
                 accessToken: accessToken
             }
         });
-        let result = yield transporter.sendMail(mail);
+        yield transporter.sendMail(mail);
         console.log("Email enviado correctamente a : " + userMail);
         res.send(JSON.stringify({ status: "ok" }));
     }
@@ -68,24 +58,37 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(200).send("enviado");
     }
 }));
-function saveBuy(idusuario, idpublicacion) {
+function saveBuy(idusuario, publicaciones) {
     return __awaiter(this, void 0, void 0, function* () {
-        let status = "ok";
-        let compra = new compraS({
-            idusuario: idusuario,
-            idpublicacion: idpublicacion,
-            fechaventa: new Date()
-        });
-        compra
-            .save((data, err) => __awaiter(this, void 0, void 0, function* () {
-            if (data) {
-                console.log(data);
-            }
-            else {
-                console.log(err);
-            }
-        }));
-        return status;
+        let total = 0;
+        let html = '<div style="text-align: center;">' +
+            '<h1>Subaster</h1>' +
+            '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>' +
+            '<h5>Te adjuntamos el recibo de tu compra:</h5>';
+        for (let p of publicaciones) {
+            html = html + '<h5>Código: ' + p.id + '</h5>';
+            html = html + '<h5>Artículo: ' + p.nombre + '</h5>';
+            html = html + '<h5>Valor: CLP$' + p.precio + '</h5>';
+            total = total + p.precio;
+            let compra = new compraS({
+                idusuario: idusuario,
+                idpublicacion: p.id,
+                fechaventa: new Date()
+            });
+            compra
+                .save((data, err) => __awaiter(this, void 0, void 0, function* () {
+                if (data) {
+                    console.log(data);
+                }
+                else {
+                    console.log(err);
+                }
+            }));
+        }
+        html = html + '<h5>Total: CLP$' + total + '</h5>';
+        html = html + '</div>';
+        console.log(html);
+        return html;
     });
 }
 module.exports = compraC;

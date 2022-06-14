@@ -16,17 +16,12 @@ let REDIRECT_URI ="https://developers.google.com/oauthplayground"; // NO CAMBIAR
 let oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
 oAuth2Client.setCredentials({ refresh_token:REFRESH_TOKEN }); // NO CAMBIAR
 
-let htmlTemplate ='<div style="text-align: center;">'+
-                        '<h1>Subaster</h1>'+
-                        '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>'+
-                        '<h5>Te adjuntamos el recibo de tu compra:</h5>'
-
 
 let mail={
     from: "Subaster",
     to: "testsubaster@gmail.com",
     subject: "Subaster - Recibo de Compra",
-    html: htmlTemplate
+    html: ""
 }
 
 const compraC = express.Router();
@@ -37,16 +32,9 @@ compraC.post('/buy', async (req:any,res:any) => {
     let status = new Array()
     let user:User = req.body.user
     let publicacion:Array<Publish> = req.body.productos
-    for(let p of publicacion){
-        await saveBuy(user.id, p.id).then((data:any) =>{
-            status.push(data)
-            htmlTemplate = htmlTemplate + '<h5>Código: ' + p.id + '</h5>'
-            htmlTemplate = htmlTemplate + '<h5>Artículo: '+ p.nombre +'</h5>'
-            htmlTemplate = htmlTemplate + '<h5>Valor: CLP$' + p.precio + '</h5>'
-
-        })
-    }
-    htmlTemplate = htmlTemplate + '</div>'  
+    await saveBuy(user.id, publicacion).then((data:any) =>{
+        mail.html = data;
+    })
     try {
         let accessToken = await oAuth2Client.getAccessToken();
         let transporter = nodemailer.createTransport({
@@ -60,7 +48,7 @@ compraC.post('/buy', async (req:any,res:any) => {
                 accessToken: accessToken
             }
         });
-        let result = await transporter.sendMail(mail);
+        await transporter.sendMail(mail);
         console.log("Email enviado correctamente a : " + userMail);
         res.send(JSON.stringify({status:"ok"}));
     } catch (err){
@@ -70,25 +58,38 @@ compraC.post('/buy', async (req:any,res:any) => {
     
 })
 
-async function saveBuy(idusuario:any, idpublicacion:any){
-    let status = "ok"
-    let compra = new compraS({
-        idusuario:idusuario,
-        idpublicacion:idpublicacion,
-        fechaventa:new Date()
-    })
-    compra
-    .save(async (data:any, err:any) =>{
-        if(data){
-            console.log(data);
-        }
-        else{
-            console.log(err);
-            
-        }
-    })
-    return status
+async function saveBuy(idusuario:any, publicaciones:Array<Publish>){
+    let total = 0;
+    let html ='<div style="text-align: center;">'+
+                        '<h1>Subaster</h1>'+
+                        '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>'+
+                        '<h5>Te adjuntamos el recibo de tu compra:</h5>'
+    for(let p of publicaciones){
+        html = html + '<h5>Código: ' + p.id + '</h5>'
+        html = html + '<h5>Artículo: '+ p.nombre +'</h5>'
+        html = html + '<h5>Valor: CLP$' + p.precio + '</h5>'
+        total = total + (p.precio as number)
+        let compra = new compraS({
+            idusuario:idusuario,
+            idpublicacion:p.id,
+            fechaventa:new Date()
+        })
+        compra
+        .save(async (data:any, err:any) =>{
+            if(data){
+                console.log(data);
+            }
+            else{
+                console.log(err);
+                
+            }
+        })
+    }    
+    html = html + '<h5>Total: CLP$' + total + '</h5>'
+    html = html + '</div>' 
+    console.log(html);
     
+    return html
 }
 
 module.exports = compraC;

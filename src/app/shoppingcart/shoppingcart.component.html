@@ -5,6 +5,9 @@
     <div *ngIf="subido" class="row">
         <h3>Compra Exitosa</h3>
     </div>
+    <div *ngIf="login" class="row ">
+        <h3 class="d-flex justify-content-center red">Para continuar la compra es necesario que inicie sesion</h3>
+    </div>
     <div *ngIf="info" class="row">
         <div class="col-md-8">
             <h1 class="mb-5">Carrito de Compras</h1>
@@ -50,7 +53,7 @@
                     </div>
                 </div>
                 <div class="row  my-5">
-                    <div class="d-flex">
+                    <div *ngIf="total >0 "class="d-flex">
                         <p class="me-5">Total a Pagar: </p>
                         <p class="bold green">CLP$ </p>
                         <p class="bold green">{{total}}</p>

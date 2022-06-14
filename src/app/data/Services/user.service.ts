@@ -92,6 +92,9 @@ export class UserService {
     return this.fireIsLoggedIn;
   }
 
+  resetProducts(){
+    this.compras = new Array()
+  }
   getUser(){
     return this.user;
   }

@@ -144,30 +144,11 @@ export class RegistroComponent implements OnInit {
   }
 
   async waitUpload(){
+    let status:any
     let form:any = document.getElementById("formulario")
     form.style.display = 'none';
     this.send = true;
     this.cargando = true;
-    await this.onSubmit().then(data =>{
-      if(data != null){
-        this.cargando = false;
-        this.subido = true;
-        setTimeout(() => {
-          this.router.navigateByUrl("/login")
-        }, 1000);
-      }else{
-        this.cargando = false;
-        this.err = true;
-        form.style.display = 'block'
-        this.registrocontrol.reset();
-        setTimeout(() => {
-          this.err = false;
-        }, 5000);
-      }
-    })
-  }
-
-  async onSubmit() {
     let values = this.registrocontrol.value
     for(let i in this.regiones){
       if(this.regiones[i].region == values.region){
@@ -207,12 +188,25 @@ export class RegistroComponent implements OnInit {
       "fechacreacion":hoy,
       "id":"",
     }
-    this.userS.SIGNUP(newUser).subscribe(datos =>{
-      if(datos.status == "invalid"){
-        return null
+    await this.userS.SIGNUP(newUser).subscribe(data =>{
+      if(data.status == undefined){
+        this.cargando = false;
+        this.subido = true;
+        setTimeout(() => {
+          this.router.navigateByUrl("/login")
+        }, 1000);
+      }else{
+        this.cargando = false;
+        this.err = true;
+        form.style.display = 'block'
+        this.registrocontrol.reset();
+        setTimeout(() => {
+          this.err = false;
+        }, 5000);
       }
-      return datos;
     })
+    
   }
+
  
 }
