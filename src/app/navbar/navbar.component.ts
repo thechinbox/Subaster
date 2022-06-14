@@ -23,7 +23,7 @@ export class NavbarComponent implements OnInit {
   }
 
   async filtrar(categoria:Categoria){
-    this.router.navigateByUrl('/browser?categoria='+categoria.id).then(()=>{
+    this.router.navigateByUrl('/browser?categoria='+categoria.id).then(() =>{
       window.location.reload();
     })
   }

@@ -7,7 +7,7 @@ import { Categoria } from 'back-end/Interfaces/categoria';
   templateUrl: './categorias.component.html',
   styleUrls: ['./categorias.component.scss']
 })
-export class CategoriasComponent implements OnInit, AfterViewInit {
+export class CategoriasComponent implements OnInit {
   @Input() seleccionadas:Array<string>;
   @Input() categorias:any;
   @Output() checkChecked:EventEmitter<any> = new EventEmitter();
@@ -18,16 +18,6 @@ export class CategoriasComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-  }
-
-  ngAfterViewInit(): void {
-    for(let select of this.seleccionadas){
-      console.log(select);
-      let change:any = document.getElementById(select)
-      console.log(change);
-      change.checked = true;
-    }
-    
   }
 
   check(item:Categoria){

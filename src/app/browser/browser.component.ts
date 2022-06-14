@@ -22,6 +22,12 @@ export class BrowserComponent implements OnInit {
   currentRoute: string;
   seleccionadas:Array<string>;
   constructor( private attrb : AttributesService , private router: Router ,private browse:BrowseService) {
+    let ids = router.url.split("=")[1]
+    if(ids.includes("%20")){
+      this.browse.setFilter(ids.split("%20"))
+    }else{
+      this.browse.setFilter([ids])
+    }
     this.currentRoute= "";
     this.categorias = this.attrb.getcategorias()
     this.publicaciones = [];
@@ -43,17 +49,9 @@ export class BrowserComponent implements OnInit {
         })
       }    
     })
-    this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationEnd) {
-        if(event.url.includes("/browser") && event.urlAfterRedirects.includes("/browser")){
-            this.seleccionadas = this.browse.getSeleccionadas();
-            this.updatePulications()
-          }
-        }
-    });
   }
 
-  async updatePulications(){
+  updatePulications(){
     this.browse.GETPUBLICATIONS().subscribe(data =>{
       this.publicaciones = data;
       for(let publicacion of this.publicaciones){
@@ -71,7 +69,7 @@ export class BrowserComponent implements OnInit {
     })
   }
 
-  async checkChecked(e:any){
+  checkChecked(e:any){
     let deleted = false;
     for(let i in this.seleccionadas){
       if(this.seleccionadas[i] == e){
@@ -86,13 +84,32 @@ export class BrowserComponent implements OnInit {
     if(!deleted){
       this.seleccionadas.push(e)
       this.browse.setFilter(this.seleccionadas).then(()=>{
+        let url = ""
+        for (let index = 0; index < this.seleccionadas.length; index++) {
+          if(index == 0){
+            url = this.seleccionadas[index];
+          }else{
+            url = url + "+" + this.seleccionadas[index];
+          }
+        }
+        this.router.navigateByUrl("/browser?categoria="+url)
         this.updatePulications()
       })
     }else{
+      let url = ""
+      for (let index = 0; index < this.seleccionadas.length; index++) {
+        if(index == 0){
+          url = this.seleccionadas[index];
+        }else{
+          url = url + "+" + this.seleccionadas[index];
+        }
+      }
+      this.router.navigateByUrl("/browser?categoria="+url) 
       this.browse.setFilter(this.seleccionadas).then(()=>{
         this.updatePulications()
       })
     }
+    
   }
 
   setId(id:any){

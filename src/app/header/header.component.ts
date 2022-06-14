@@ -27,6 +27,16 @@ export class HeaderComponent implements OnInit {
     })
   }
 
+  logout(){
+    if(sessionStorage.getItem("id")){
+      sessionStorage.removeItem("id")
+    }else{
+      localStorage.removeItem("id")
+    }
+    this.router.navigateByUrl("/home").then(()=>{
+      window.location.reload();
+    })
+  }
 
   mouseleave(){
     setTimeout(() => {

@@ -41,7 +41,7 @@
                     <div *ngIf="flag == 1" (mouseover)="isCollapsed2 = false" (mouseleave)="mouseleave2()" [ngbCollapse]="isCollapsed" class="dropdown-menu" aria-labelledby="dropdowncategoria">
                         <button
                         class="dropdown-item"
-                        [routerLink]="'registro'" 
+                        (click)="logout()"
                         >Cerrar Sesion</button>
                     </div>
                 </div>
