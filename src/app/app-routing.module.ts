@@ -9,14 +9,18 @@ import { PublicacionComponent } from './publicacion/publicacion.component';
 import { BrowserComponent } from './browser/browser.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
+import { PermisosGuard } from './guards/permisos.guard';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
-  {path:'home', component:HomeComponent},
+  {
+    path:'home',
+    component:HomeComponent,
+  },
   {path:'publicar', component:PublishComponent},
   {path:'publicacion/:id', component:PublicacionComponent},
   {path:'nosotros', component:UsComponent},
-  {path:'login', component:LoginComponent},
+  {path:'login', component:LoginComponent, canActivate : [PermisosGuard]},
   {path:'registro', component:RegistroComponent},
   {path:'browser', component:BrowserComponent},
   {path:'profile', component:ProfileComponent},
