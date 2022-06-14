@@ -4,11 +4,16 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Publish } from '../Interfaces/publish';
 import { User } from '../Interfaces/user';
+import { Output,EventEmitter } from '@angular/core';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
+  @Output() fireIsLoggedIn: EventEmitter<any> = new EventEmitter()
+
   HttpUploadOptions = {
     headers: new HttpHeaders(
       {
@@ -22,7 +27,7 @@ export class UserService {
 
   user:User;
   compras:Array<String>
-  
+
   constructor(private http:HttpClient) {
     this.compras = new Array()
     try{
@@ -34,12 +39,12 @@ export class UserService {
       console.log(error);
     }
     try{
-      this.LOGINID(sessionStorage.getItem("id")).subscribe(data =>{       
+      this.LOGINID(sessionStorage.getItem("id")).subscribe(data =>{
         this.user = data
       })
     }catch(err){
       console.log(err);
-      
+
     }
     this.user = {
       id: "",
@@ -80,16 +85,22 @@ export class UserService {
   setUsuario(user:User){
     this.user = user;
     sessionStorage.setItem("id", user.id)
+    this.fireIsLoggedIn.emit(sessionStorage.getItem("id"))
   }
+
+  getEmiter(){
+    return this.fireIsLoggedIn;
+  }
+
   getUser(){
     return this.user;
   }
-  
+
   async addProduct(id:any){
     if(!this.compras.includes(id)){
       this.compras.push(id)
       console.log(this.compras);
-      
+
       sessionStorage.removeItem("products")
       sessionStorage.setItem("products", JSON.stringify({ids:this.compras}))
     }

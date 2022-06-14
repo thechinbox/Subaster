@@ -17,16 +17,25 @@
         </div>
         <div class="col-12 col-md-5">
             <div class="row w-75" id="iconos">
-                <div  class="dropdown col-6 mb-4"> 
-                    <button class="dropdown-toggle" (mouseover)="isCollapsed = false" 
-                    (mouseleave)="mouseleave()" routerLink="/login" id="logindiv" class="d-flex ">
+                <div  class="dropdown col-6 mb-4">
+                    <button class="dropdown-toggle" (mouseover)="isCollapsed = false"
+                    (mouseleave)="mouseleave()"  *ngIf="flag == 0" routerLink="/login" id="logindiv" class="d-flex ">
                         <span id="user" class="material-symbols-outlined">
                             person
                         </span>
-                        <p id="login" >Iniciar Sesion</p>
+                        <p id="login">Iniciar Sesion</p>
                     </button>
+                    <button *ngIf="flag == 1" routerLink="/profile" id="logindiv" class="d-flex ">
+                        <span id="user" class="material-symbols-outlined">
+                            person
+                        </span>
+                        <p id="login" >Bienvenido!</p>
+                      </button>
                     <div (mouseover)="isCollapsed2 = false" (mouseleave)="mouseleave2()" [ngbCollapse]="isCollapsed" class="dropdown-menu" aria-labelledby="dropdowncategoria">
-                        <button class="dropdown-item" [routerLink]="'registro'">Registrarse</button>
+                        <button
+                        class="dropdown-item"
+                        [routerLink]="'registro'" *ngIf="flag == 0"
+                        >Registrarse</button>
                     </div>
                 </div>
                 <div class="col-3 mb-2">
