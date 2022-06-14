@@ -16,6 +16,9 @@ export class HeaderComponent implements OnInit {
 
   constructor(private _userService:UserService, private router:Router) {
     this.flag= 0;
+    if(sessionStorage.getItem("id") || localStorage.getItem("id")){
+      this.flag = 1;
+    }
    }
 
   ngOnInit(): void {

@@ -23,8 +23,9 @@ export class NavbarComponent implements OnInit {
   }
 
   async filtrar(categoria:Categoria){
-    await this.browse.setFilter([categoria.id])
-    this.router.navigateByUrl('/browser?categoria='+this.atributos.getcategoria(categoria.id))
+    this.router.navigateByUrl('/browser?categoria='+categoria.id).then(()=>{
+      window.location.reload();
+    })
   }
   clicked(){
     this.isCollapsed3 = true;

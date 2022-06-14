@@ -18,24 +18,31 @@
         <div class="col-12 col-md-5">
             <div class="row w-75" id="iconos">
                 <div  class="dropdown col-6 mb-4">
-                    <button class="dropdown-toggle" (mouseover)="isCollapsed = false"
-                    (mouseleave)="mouseleave()"  *ngIf="flag == 0" routerLink="/login" id="logindiv" class="d-flex ">
+                    <button class="d-flex dropdown-toggle" (mouseover)="isCollapsed = false"
+                    (mouseleave)="mouseleave()"  *ngIf="flag == 0" routerLink="/login" id="logindiv" >
                         <span id="user" class="material-symbols-outlined">
                             person
                         </span>
                         <p id="login">Iniciar Sesion</p>
                     </button>
-                    <button *ngIf="flag == 1" routerLink="/profile" id="logindiv" class="d-flex ">
+                    <button class="d-flex dropdown-toggle" (mouseover)="isCollapsed = false"
+                    (mouseleave)="mouseleave()"  *ngIf="flag == 1" routerLink="/profile" id="logindiv">
                         <span id="user" class="material-symbols-outlined">
                             person
                         </span>
-                        <p id="login" >Bienvenido!</p>
-                      </button>
-                    <div (mouseover)="isCollapsed2 = false" (mouseleave)="mouseleave2()" [ngbCollapse]="isCollapsed" class="dropdown-menu" aria-labelledby="dropdowncategoria">
+                        <p id="login">Bienvenido</p>
+                    </button>
+                    <div *ngIf="flag == 0" (mouseover)="isCollapsed2 = false" (mouseleave)="mouseleave2()" [ngbCollapse]="isCollapsed" class="dropdown-menu" aria-labelledby="dropdowncategoria">
                         <button
                         class="dropdown-item"
-                        [routerLink]="'registro'" *ngIf="flag == 0"
+                        [routerLink]="'registro'" 
                         >Registrarse</button>
+                    </div>
+                    <div *ngIf="flag == 1" (mouseover)="isCollapsed2 = false" (mouseleave)="mouseleave2()" [ngbCollapse]="isCollapsed" class="dropdown-menu" aria-labelledby="dropdowncategoria">
+                        <button
+                        class="dropdown-item"
+                        [routerLink]="'registro'" 
+                        >Cerrar Sesion</button>
                     </div>
                 </div>
                 <div class="col-3 mb-2">
