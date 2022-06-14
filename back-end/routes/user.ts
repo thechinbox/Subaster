@@ -44,8 +44,6 @@ async function addUser(req:any,res:any) {
     user
     .save()
     .then(async (data2:any)=>{
-        console.log(data2);
-        
         let d:any = await saveDirection(data2._id,req.body.direccion)
         res.send(JSON.stringify(data2))
     })
@@ -76,8 +74,7 @@ usuariosC.get("/login", (req:any, res:any) =>{
     let email = req.query.correo;
     userS
     .findOne({correo: email})
-    .then(async (data:any)=> {
-        console.log(data);   
+    .then(async (data:any)=> { 
         if(data){
             let validPassword = await bcrypt.compare(req.query.contrasena, data.contrasena);
             if(validPassword){ 
@@ -114,7 +111,6 @@ usuariosC.get("/login", (req:any, res:any) =>{
 
 usuariosC.get("/loginid", (req:any, res:any) =>{
     console.log(req.query.id);
-    
     userS
     .findById(req.query.id)
     .then(async (data:any)=> { 

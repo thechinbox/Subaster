@@ -48,7 +48,6 @@ function addUser(req, res) {
         user
             .save()
             .then((data2) => __awaiter(this, void 0, void 0, function* () {
-            console.log(data2);
             let d = yield saveDirection(data2._id, req.body.direccion);
             res.send(JSON.stringify(data2));
         }))
@@ -80,7 +79,6 @@ usuariosC.get("/login", (req, res) => {
     userS
         .findOne({ correo: email })
         .then((data) => __awaiter(void 0, void 0, void 0, function* () {
-        console.log(data);
         if (data) {
             let validPassword = yield bcrypt.compare(req.query.contrasena, data.contrasena);
             if (validPassword) {

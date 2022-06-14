@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { timeStamp } from 'console';
 import { Publish } from '../data/Interfaces/publish';
 import { AttributesService } from '../data/Services/attributes.service';
 import { ChileinfoService } from '../data/Services/chileinfo.service';
@@ -19,15 +20,16 @@ export class ShoppingcartComponent implements OnInit {
   cargando = false;
   subido = false;
   info=true;
+  login=false
   constructor(private user:UserService, private _publication:PublicationService, 
       private attributes:AttributesService, private chileinfo:ChileinfoService,
       private router:Router) {
       this.total = 0
     this.preview = new Array();
-    console.log(sessionStorage.getItem("id"));
-    
+    console.log(sessionStorage.getItem("id"));   
     try{
       let aux:any = sessionStorage.getItem("products")
+      console.log(JSON.parse(aux).ids);
       for(let id of JSON.parse(aux).ids ){
         this._publication.GETPUBLICATION(id).subscribe(async (data) => {
           let publication = await data;
@@ -81,20 +83,26 @@ export class ShoppingcartComponent implements OnInit {
   }
 
   finalizarCompra(){
-    this.cargando = true;
     if(sessionStorage.getItem("id") != null && sessionStorage.getItem("id") != undefined ){
-      this.user.BUY(this.preview).subscribe(data => {
+      this.cargando = true;
+      this.info = false;
+        this.user.BUY(this.preview).subscribe(data => {
         this.cargando = false;
         this.subido = true;
         setTimeout(() => {
           sessionStorage.removeItem("products")
           sessionStorage.setItem("products", JSON.stringify({ids:new Array()}))
+          this.user.resetProducts()
           this.subido = false;
           this.router.navigateByUrl("/home")
         }, 5000); 
       })
     }else{
-
+      this.login = true;
+      setTimeout(() => {
+        this.login = false;
+        this.router.navigateByUrl("/login")
+      }, 5000); 
     }
   }
 }

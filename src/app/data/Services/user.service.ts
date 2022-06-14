@@ -81,6 +81,10 @@ export class UserService {
     this.user = user;
     sessionStorage.setItem("id", user.id)
   }
+
+  resetProducts(){
+    this.compras = new Array()
+  }
   getUser(){
     return this.user;
   }

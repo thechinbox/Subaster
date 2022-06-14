@@ -5,6 +5,9 @@
     <div *ngIf="subido" class="row">
         <h3>Compra Exitosa</h3>
     </div>
+    <div *ngIf="login" class="row ">
+        <h3 class="d-flex justify-content-center red">Para continuar la compra es necesario que inicie sesion</h3>
+    </div>
     <div *ngIf="info" class="row">
         <div class="col-md-8">
             <h1 class="mb-5">Carrito de Compras</h1>
