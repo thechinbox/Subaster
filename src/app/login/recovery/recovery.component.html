@@ -1,0 +1,28 @@
+<div class="container mt-5">
+    <div class="row d-flex justify-content-center ">
+        <div *ngIf="correoinvalido" class="col-12 d-flex justify-content-center my-5">
+            <h3 class="error">Correo Inexistente en Nuestra Base de Datos</h3>
+        </div>
+    </div>
+    <form class="row d-flex justify-content-center" (ngSubmit)="enviarRecovery()" [formGroup]="recoverycontrol" novalidate>
+        <div class="col-12 mb-5">
+            <h2 class="d-flex justify-content-center">RECUPERACIÓN DE CONTRASEÑA</h2>
+        </div>
+        <div class="form-group col-md-6 mx-md-2 mb-5" style="text-align-last: center;">
+            <label class="d-flex justify-content-center" for="exampleInputEmail1">CORREO ELECTRÓNICO:</label>
+            <input type="email" class="form-control form-control-lg" id="correo" placeholder="correoejemplo@empresa.cl" formControlName="email">
+            <div class="error" *ngIf="recoverycontrol.controls['email'].errors && (recoverycontrol.controls['email'].dirty || recoverycontrol.controls['email'].touched)">
+                <p *ngIf="recoverycontrol.controls['email'].hasError('required')">*Campo requerido</p>
+                <p *ngIf="recoverycontrol.controls['email'].hasError('email')">*El correo no tiene el formato requerido</p>
+            </div>
+            <button type="submit" class="btn btn-lg my-3" [disabled]="recoverycontrol.invalid">Confirmar</button>
+        </div>
+        <div class="col-12 mb-4">
+            <a class="d-flex justify-content-center" href="/login">Volver al Inicio de Sesión</a>
+        </div>
+        <div class="container col-12 justify-content-center mb-5" style="text-align-last: center;">
+            <p>¿No estás registrado?</p>
+            <button class="btn btn-lg" routerLink="/registro">Registrarse</button>
+        </div>
+    </form>
+</div>
