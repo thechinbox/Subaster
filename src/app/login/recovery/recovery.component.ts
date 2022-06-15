@@ -42,9 +42,10 @@ export class RecoveryComponent implements OnInit {
                               '<h4 style="margin-top: 20px">no compartir tu contraseña con nadie, si crees que alguien</h4>' +
                               '<h4 style="margin-top: 20px">está usando tu cuenta sin tu consentimiento, contacta a</h4>' +
                               '<h4 style="margin-top: 20px">Subaster. Saludos !</h4>' +
-                              '<h5>Contraseña: ' + dataNew.contrasena + '</h5>' +
+                              '<h5>Contraseña: INSERTARCONTRASENANUEVA </h5>' +
                           '</div>';
         //console.log(data);
+       
         this.userService.EMAILRECOVERY(dataNew.correo, htmlEmail).subscribe((data) => {
           //console.log(data);
           if (data.status == "ok") {

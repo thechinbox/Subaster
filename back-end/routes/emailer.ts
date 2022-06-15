@@ -36,6 +36,8 @@ let emailerC = express.Router();
 //Modulo que permite el envio de correos a gmail
 let { google } = require('googleapis')
 let nodemailer = require("nodemailer");
+let userS = require("../models/userS")
+let bcrypt = require("bcrypt");
 
 let REFRESH_TOKEN = "1//04iaQkcJ6x-XYCgYIARAAGAQSNwF-L9IrW3cy3VXTsdwRZnfGlRoW7koN3YdWMUBezDiFah604D2UEs7EWwDz6uApwLK3NJrk2ro";
 let CLIENT_ID = "90357140452-qdmaul0i29hco6122uhqs7oielejdcmm.apps.googleusercontent.com";
@@ -46,38 +48,54 @@ let oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
 oAuth2Client.setCredentials({ refresh_token:REFRESH_TOKEN }); // NO CAMBIAR
 
 emailerC.post("/enviarcorreo", async (req:any, res:any) => {
-    const correo = req.body.to;
-    const htmlEmail = req.body.emailTemplate;
+    let correo = req.body.to;
+    let htmlEmail = req.body.emailTemplate;
 
     console.log("[EMAILER] : Enviando correo a " + correo);
-
+    console.log(htmlEmail.includes("INSERTARCONTRASENANUEVA"));
+    
+    if( htmlEmail.includes("INSERTARCONTRASENANUEVA")){
+        let result           = '';
+        let characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let charactersLength = characters.length;
+        for ( var i = 0; i < 10; i++ ) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        htmlEmail = htmlEmail.replace("INSERTARCONTRASENANUEVA", result)
+        let salt = await bcrypt.genSalt(10);
+        result = await bcrypt.hash(result, salt);
+        userS
+        .findOneAndUpdate({"correo": correo}, {$set: {"contrasena": result} }, async(err:any, data:any) =>{
+            try {
+                let accessToken = await oAuth2Client.getAccessToken();
+                let transporter = nodemailer.createTransport({
+                    service: "gmail",
+                    auth: {
+                        type: "OAuth2",
+                        user: userMail,
+                        clientId: CLIENT_ID,
+                        clientSecret: CLIENT_SECRET,
+                        refreshToken: REFRESH_TOKEN,
+                        accessToken: accessToken
+                    }
+                });
+                await transporter.sendMail(mail);
+                console.log("[EMAILER] : Email enviado correctamente a " + userMail);
+                res.send(JSON.stringify({ status: "ok" }));
+            }
+            catch (err) {
+                console.log(err);
+                res.send(JSON.stringify({ status: "invalid" }));
+            }
+        })
+    }
     let mail = {
         from: "Subaster",
         to: correo,
-        subject: "Recuperación de contraseña",
+        subject: "Subaster",
         html: htmlEmail
     };
-    try {
-        let accessToken = await oAuth2Client.getAccessToken();
-        let transporter = nodemailer.createTransport({
-            service: "gmail",
-            auth: {
-                type: "OAuth2",
-                user: userMail,
-                clientId: CLIENT_ID,
-                clientSecret: CLIENT_SECRET,
-                refreshToken: REFRESH_TOKEN,
-                accessToken: accessToken
-            }
-        });
-        await transporter.sendMail(mail);
-        console.log("[EMAILER] : Email enviado correctamente a " + userMail);
-        res.send(JSON.stringify({ status: "ok" }));
-    }
-    catch (err) {
-        console.log(err);
-        res.send(JSON.stringify({ status: "invalid" }));
-    }
+    
 });
 
 module.exports = emailerC;
