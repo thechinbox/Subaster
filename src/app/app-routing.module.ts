@@ -10,6 +10,7 @@ import { BrowserComponent } from './browser/browser.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
 import { PermisosGuard } from './guards/permisos.guard';
+import { RecoveryComponent } from './login/recovery/recovery.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path:'publicacion/:id', component:PublicacionComponent},
   {path:'nosotros', component:UsComponent},
   {path:'login', component:LoginComponent, canActivate : [PermisosGuard]},
+  {path:'recovery', component:RecoveryComponent},
   {path:'registro', component:RegistroComponent},
   {path:'browser', component:BrowserComponent},
   {path:'profile', component:ProfileComponent},

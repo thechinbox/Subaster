@@ -30,6 +30,7 @@ import { ChileinfoService } from './data/Services/chileinfo.service';
 import { CategoriasComponent } from './browser/categorias/categorias.component';
 import { ModalComponent } from './publicacion/modal/modal.component';
 import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
+import { RecoveryComponent } from './login/recovery/recovery.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
     ProfileComponent,
     CategoriasComponent,
     ModalComponent,
-    ShoppingcartComponent
+    ShoppingcartComponent,
+    RecoveryComponent
   ],
   imports: [
     BrowserModule,
