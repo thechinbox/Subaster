@@ -31,7 +31,7 @@ export class ModalSwitchService {
   SetPublicacionPujarSwitch(valor:boolean){
     this.publicacionPujarSwitch.next(valor)
   }
-  confirmarPuja(toEmail:string): Observable<any>{
-    return this.http.post(`${environment.hostname}/enviarcorreoPuja`, JSON.stringify({to: toEmail}),this.HttpUploadOptions);
+  ENVIARBOLETA(toEmail:string, htmlTemplate:string): Observable<any>{
+    return this.http.post(`${environment.hostname}/enviarcorreo`,JSON.stringify({to: toEmail, emailTemplate: htmlTemplate}), this.HttpUploadOptions);
   }
 }
