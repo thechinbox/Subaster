@@ -92,8 +92,8 @@ export class UserService {
   VERIFYEMAIL(correo:string):Observable<any>{
     return this.http.get(`${environment.hostname}/recover?correo=`+correo, this.HttpUploadOptions)
   }
-  EMAILRECOVERY(usuario:any): Observable<any>{
-    return this.http.post(`${environment.hostname}/enviarcorreoRec`,usuario, this.HttpUploadOptions);
+  EMAILRECOVERY(toEmail:string, emailHTML:string): Observable<any>{
+    return this.http.post(`${environment.hostname}/enviarcorreo`,JSON.stringify({to: toEmail, emailTemplate: emailHTML}), this.HttpUploadOptions);
   }
 
   setUsuario(user:User){
