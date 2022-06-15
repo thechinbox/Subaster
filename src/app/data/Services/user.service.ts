@@ -59,7 +59,10 @@ export class UserService {
     if(sessionStorage.getItem("id") != null && sessionStorage.getItem("id") != undefined){
       this.LOGINID(sessionStorage.getItem("id")).subscribe(data =>{
         this.user = data
-        this.fireIsLoggedIn.emit(sessionStorage.getItem("id"))
+        this.GETDIRECCION(sessionStorage.getItem("id")).subscribe(data =>{
+          this.user.direccion = data
+          this.fireIsLoggedIn.emit(sessionStorage.getItem("id"))
+        })
       })
     }
   }

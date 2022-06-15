@@ -127,14 +127,8 @@
                             <p *ngIf="publicacionForm.controls['direccion'].hasError('maxlength')">*La direccion no puede pasar los 50 caracteres.</p>
                         </div>
                     </div>
-                    <div >
-                        <google-map id="map"
-                                    [zoom]="20"
-                                    [center]="{lat: lat, lng: lng}" >
-                            <map-marker [position]="{lat: lat, lng: lng}"
-                                        [title]="'Lugar'">
-                            </map-marker>
-                        </google-map>
+                    <div id="google" style="min-height:400px;">
+
                     </div>
                 </div>
             </div>

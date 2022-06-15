@@ -33,7 +33,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
   nombre = "usuario";
   lat:number;
   lng:number;
-
+  map:any
   regiones:Array<Region>;
 
   //Formulario
@@ -103,6 +103,10 @@ export class PublishComponent implements OnInit, AfterViewInit {
     subiendo.style.display = "none";
     select.disabled = true;
     direccion.disabled = true;
+    this.map = new google.maps.Map(document.getElementById('google') as HTMLElement, {
+      center: {lat: this.lat, lng: this.lng},
+      zoom: 15
+    });
   }
 
   initMap(){
@@ -148,6 +152,14 @@ export class PublishComponent implements OnInit, AfterViewInit {
           let resultados:any = results;
           this.lat = resultados[0].geometry.location.lat();
           this.lng = resultados[0].geometry.location.lng();
+          this.map = new google.maps.Map(document.getElementById('google') as HTMLElement, {
+            center: {lat: this.lat, lng: this.lng},
+            zoom: 18
+          });
+          let marker = new google.maps.Marker({
+            position: {lat: this.lat, lng: this.lng},
+            map: this.map,
+          });
         }
       })
     }

@@ -11,6 +11,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
 import { PermisosGuard } from './guards/permisos.guard';
 import { RecoveryComponent } from './login/recovery/recovery.component';
+import { MapComponent } from './map/map.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -26,7 +27,8 @@ const routes: Routes = [
   {path:'registro', component:RegistroComponent},
   {path:'browser', component:BrowserComponent},
   {path:'profile', component:ProfileComponent},
-  {path:'carrito', component:ShoppingcartComponent}
+  {path:'carrito', component:ShoppingcartComponent},
+  {path:'mapa', component:MapComponent}
 ];
 
 @NgModule({
