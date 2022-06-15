@@ -14,6 +14,7 @@ const publishC = index_js_1.express.Router();
 let publicationS = require("../models/publicationS");
 let direccionS = require("../models/direccionS");
 let contentS = require("../models/contentS");
+let estadoS = require("../models/estadospublicacionS");
 //Publicar Producto
 publishC.post("/publish", (req, res) => {
     let infopublicacion = req.body;
@@ -82,83 +83,93 @@ function updatePublication(idpublicacion, iddireccion, res) {
     });
 }
 publishC.get("/getpublicacionesid", (req, res) => {
-    let publicaciones = new Array();
-    let idsQuery = new Array();
-    for (let id of req.query.categoria.split(",")) {
-        if (id != "") {
-            idsQuery.push(id);
-        }
-    }
-    console.log(idsQuery);
-    publicationS
-        .find({ categoria: idsQuery })
+    estadoS
+        .findOne({ estadopublicacion: "activa" })
         .then((data) => {
-        for (let publicacion of data) {
-            let p = {
-                id: publicacion._id,
-                nombre: publicacion.nombre,
-                descripcion: publicacion.descripcion,
-                categoria: publicacion.categoria,
-                unidad: publicacion.unidad,
-                estadopublicacion: publicacion.estadopublicacion,
-                estadoproducto: publicacion.estadoproducto,
-                fechapublicacion: publicacion.fechapublicacion,
-                precio: publicacion.precio,
-                cantidad: publicacion.cantidad,
-                direccion: {
-                    id: publicacion.iddireccion,
-                    region: " ",
-                    comuna: " ",
-                    direccionS: " ",
-                    latitud: 0,
-                    longitud: 0
-                },
-                url: new Array()
-            };
-            publicaciones.push(p);
+        let publicaciones = new Array();
+        let idsQuery = new Array();
+        for (let id of req.query.categoria.split(",")) {
+            if (id != "") {
+                idsQuery.push(id);
+            }
         }
-        res.send(JSON.stringify(publicaciones));
+        console.log(idsQuery);
+        publicationS
+            .find({ categoria: idsQuery, estadopublicacion: data._id })
+            .then((data) => {
+            for (let publicacion of data) {
+                let p = {
+                    id: publicacion._id,
+                    nombre: publicacion.nombre,
+                    descripcion: publicacion.descripcion,
+                    categoria: publicacion.categoria,
+                    unidad: publicacion.unidad,
+                    estadopublicacion: publicacion.estadopublicacion,
+                    estadoproducto: publicacion.estadoproducto,
+                    fechapublicacion: publicacion.fechapublicacion,
+                    precio: publicacion.precio,
+                    cantidad: publicacion.cantidad,
+                    direccion: {
+                        id: publicacion.iddireccion,
+                        region: " ",
+                        comuna: " ",
+                        direccionS: " ",
+                        latitud: 0,
+                        longitud: 0
+                    },
+                    url: new Array()
+                };
+                publicaciones.push(p);
+            }
+            res.send(JSON.stringify(publicaciones));
+        })
+            .catch((err) => {
+            console.log("Error encontrado");
+            res.json(err);
+        });
     })
-        .catch((err) => {
-        console.log("Error encontrado");
-        res.json(err);
-    });
+        .catch((err) => res.json({ message: err }));
 });
 publishC.get("/getpublicaciones", (req, res) => {
-    let publicaciones = new Array();
-    publicationS
-        .find()
+    estadoS
+        .findOne({ estadopublicacion: "activa" })
         .then((data) => {
-        for (let publicacion of data) {
-            let p = {
-                id: publicacion._id,
-                nombre: publicacion.nombre,
-                descripcion: publicacion.descripcion,
-                categoria: publicacion.categoria,
-                unidad: publicacion.unidad,
-                estadopublicacion: publicacion.estadopublicacion,
-                estadoproducto: publicacion.estadoproducto,
-                fechapublicacion: publicacion.fechapublicacion,
-                precio: publicacion.precio,
-                cantidad: publicacion.cantidad,
-                direccion: {
-                    id: publicacion.iddireccion,
-                    region: " ",
-                    comuna: " ",
-                    direccionS: " ",
-                    latitud: 0,
-                    longitud: 0
-                },
-                url: new Array()
-            };
-            publicaciones.push(p);
-        }
-        res.send(JSON.stringify(publicaciones));
+        let publicaciones = new Array();
+        publicationS
+            .find({ estadopublicacion: data._id })
+            .then((data) => {
+            for (let publicacion of data) {
+                let p = {
+                    id: publicacion._id,
+                    nombre: publicacion.nombre,
+                    descripcion: publicacion.descripcion,
+                    categoria: publicacion.categoria,
+                    unidad: publicacion.unidad,
+                    estadopublicacion: publicacion.estadopublicacion,
+                    estadoproducto: publicacion.estadoproducto,
+                    fechapublicacion: publicacion.fechapublicacion,
+                    precio: publicacion.precio,
+                    cantidad: publicacion.cantidad,
+                    direccion: {
+                        id: publicacion.iddireccion,
+                        region: " ",
+                        comuna: " ",
+                        direccionS: " ",
+                        latitud: 0,
+                        longitud: 0
+                    },
+                    url: new Array()
+                };
+                publicaciones.push(p);
+            }
+            res.send(JSON.stringify(publicaciones));
+        })
+            .catch((err) => {
+            console.log("Error encontrado");
+            res.json(err);
+        });
     })
-        .catch((err) => {
-        console.log("Error encontrado");
-        res.json(err);
-    });
+        .catch((err) => res.json({ message: err }));
 });
 publishC.get("/getdireccion", (req, res) => {
     direccionS

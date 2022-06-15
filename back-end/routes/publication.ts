@@ -10,6 +10,7 @@ const publishC = express.Router();
 let publicationS = require("../models/publicationS");
 let direccionS = require("../models/direccionS")
 let contentS = require("../models/contentS")
+let estadoS = require("../models/estadospublicacionS")
 //Publicar Producto
 publishC.post("/publish", (req:any,res:any)=>{
     let infopublicacion:Publish = req.body
@@ -79,84 +80,96 @@ async function updatePublication(idpublicacion:any, iddireccion:any, res:any){;
 }
 
 publishC.get("/getpublicacionesid", (req:any, res:any) => {
-    let publicaciones = new Array()
-    let idsQuery = new Array();
-    for(let id of req.query.categoria.split(",")){
-        if(id != ""){
-            idsQuery.push(id)
-        }
-    }
-    console.log(idsQuery)
-    publicationS
-    .find({categoria: idsQuery})
+    estadoS
+    .findOne({estadopublicacion:"activa"})
     .then((data:any) => {
-        for(let publicacion of data){
-            let p = {
-                id: publicacion._id,
-                nombre:publicacion.nombre,
-                descripcion:publicacion.descripcion,
-                categoria:publicacion.categoria,
-                unidad:publicacion.unidad,
-                estadopublicacion:publicacion.estadopublicacion,
-                estadoproducto:publicacion.estadoproducto,
-                fechapublicacion:publicacion.fechapublicacion,
-                precio:publicacion.precio,
-                cantidad:publicacion.cantidad,
-                direccion:{
-                    id:publicacion.iddireccion,
-                    region:" ",
-                    comuna:" ",
-                    direccionS:" ",
-                    latitud:0,
-                    longitud:0
-                },
-                url:new Array()
+        let publicaciones = new Array()
+        let idsQuery = new Array();
+        for(let id of req.query.categoria.split(",")){
+            if(id != ""){
+                idsQuery.push(id)
             }
-            publicaciones.push(p)
         }
-        res.send(JSON.stringify(publicaciones));
+        console.log(idsQuery)
+        publicationS
+        .find({categoria: idsQuery, estadopublicacion:data._id})
+        .then((data:any) => {
+            for(let publicacion of data){
+                let p = {
+                    id: publicacion._id,
+                    nombre:publicacion.nombre,
+                    descripcion:publicacion.descripcion,
+                    categoria:publicacion.categoria,
+                    unidad:publicacion.unidad,
+                    estadopublicacion:publicacion.estadopublicacion,
+                    estadoproducto:publicacion.estadoproducto,
+                    fechapublicacion:publicacion.fechapublicacion,
+                    precio:publicacion.precio,
+                    cantidad:publicacion.cantidad,
+                    direccion:{
+                        id:publicacion.iddireccion,
+                        region:" ",
+                        comuna:" ",
+                        direccionS:" ",
+                        latitud:0,
+                        longitud:0
+                    },
+                    url:new Array()
+                }
+                publicaciones.push(p)
+            }
+            res.send(JSON.stringify(publicaciones));
+        })
+        .catch((err:any) => {
+            console.log("Error encontrado");
+            res.json(err)
+        })
     })
-    .catch((err:any) => {
-        console.log("Error encontrado");
-        res.json(err)
-    })
+    .catch((err:any) => res.json({message:err}))
+    
 })
 
 publishC.get("/getpublicaciones", (req:any, res:any) => {
-    let publicaciones = new Array()
-    publicationS
-    .find()
+    estadoS
+    .findOne({estadopublicacion:"activa"})
     .then((data:any) => {
-        for(let publicacion of data){
-            let p = {
-                id: publicacion._id,
-                nombre:publicacion.nombre,
-                descripcion:publicacion.descripcion,
-                categoria:publicacion.categoria,
-                unidad:publicacion.unidad,
-                estadopublicacion:publicacion.estadopublicacion,
-                estadoproducto:publicacion.estadoproducto,
-                fechapublicacion:publicacion.fechapublicacion,
-                precio:publicacion.precio,
-                cantidad:publicacion.cantidad,
-                direccion:{
-                    id:publicacion.iddireccion,
-                    region:" ",
-                    comuna:" ",
-                    direccionS:" ",
-                    latitud:0,
-                    longitud:0
-                },
-                url:new Array()
+        let publicaciones = new Array()
+        publicationS
+        .find({estadopublicacion:data._id})
+        .then((data:any) => {
+            for(let publicacion of data){
+                let p = {
+                    id: publicacion._id,
+                    nombre:publicacion.nombre,
+                    descripcion:publicacion.descripcion,
+                    categoria:publicacion.categoria,
+                    unidad:publicacion.unidad,
+                    estadopublicacion:publicacion.estadopublicacion,
+                    estadoproducto:publicacion.estadoproducto,
+                    fechapublicacion:publicacion.fechapublicacion,
+                    precio:publicacion.precio,
+                    cantidad:publicacion.cantidad,
+                    direccion:{
+                        id:publicacion.iddireccion,
+                        region:" ",
+                        comuna:" ",
+                        direccionS:" ",
+                        latitud:0,
+                        longitud:0
+                    },
+                    url:new Array()
+                }
+                publicaciones.push(p)
             }
-            publicaciones.push(p)
-        }
-        res.send(JSON.stringify(publicaciones));
+                res.send(JSON.stringify(publicaciones));
+            })
+            .catch((err:any) => {
+                console.log("Error encontrado");
+                res.json(err)
+            })
     })
-    .catch((err:any) => {
-        console.log("Error encontrado");
-        res.json(err)
-    })
+    .catch((err:any) => res.json({message:err}))
+    
 })
 
 publishC.get("/getdireccion", (req:any,res:any) =>{

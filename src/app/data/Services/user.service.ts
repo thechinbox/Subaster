@@ -78,8 +78,10 @@ export class UserService {
     return this.http.get(`${environment.hostname}/direccionUsuario?id=`+id,this.HttpUploadOptions)
   }
   BUY(productos:any, cantidadC:any):Observable<any>{
-    let estado:any = this.attributes.getinactivepubid()
-    return this.http.post(`${environment.hostname}/buy`,JSON.stringify({user:this.user,productos:productos, inactivo:estado, cantidad:cantidadC}),this.HttpUploadOptions)
+    let inactivo:any = this.attributes.getinactivepubid()
+    let activo:any = this.attributes.getactivepub()
+    return this.http.post(`${environment.hostname}/buy`,JSON.stringify({
+      user:this.user,productos:productos, inactivo:inactivo,activo:activo, cantidad:cantidadC}),this.HttpUploadOptions)
   }
   VERIFYEMAIL(correo:string):Observable<any>{
     return this.http.get(`${environment.hostname}/recover?correo=`+correo, this.HttpUploadOptions)

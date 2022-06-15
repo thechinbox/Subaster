@@ -35,8 +35,10 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     let user = req.body.user;
     let publicacion = req.body.productos;
     let idinactive = req.body.inactivo;
+    let idactive = req.body.activo;
     let cantidad = req.body.cantidad;
-    yield saveBuy(user.id, publicacion, cantidad, idinactive).then((data) => {
+    console.log(idactive);
+    yield saveBuy(user.id, publicacion, idinactive, idactive).then((data) => {
         mail.html = data;
     });
     for (let p of publicacion) {
@@ -65,7 +67,7 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(200).send("enviado");
     }
 }));
-function saveBuy(idusuario, publicaciones, cantidad, inactivo) {
+function saveBuy(idusuario, publicaciones, inactivo, idactivo) {
     return __awaiter(this, void 0, void 0, function* () {
         let total = 0;
         let html = '<div style="text-align: center;">' +
@@ -77,15 +79,15 @@ function saveBuy(idusuario, publicaciones, cantidad, inactivo) {
             html = html + '<h5>Artículo: ' + p.nombre + '</h5>';
             html = html + '<h5>Valor: CLP$' + p.precio + '</h5>';
             total = total + p.precio;
-            yield stockS.
-                findOneAndUpdate({ "idpublicacion": ObjectID(p.id) }, { $set: { "idestado": ObjectID(inactivo) } }, (err, data) => __awaiter(this, void 0, void 0, function* () {
+            stockS.
+                findOneAndUpdate({ "idpublicacion": ObjectID(p.id), "idestado": ObjectID(idactivo) }, { $set: { "idestado": ObjectID(inactivo) } }, (err, data) => __awaiter(this, void 0, void 0, function* () {
                 let compra = new compraS({
                     idstock: data._id,
                     idusuario: idusuario,
                     idpublicacion: p.id,
                     fechaventa: new Date()
                 });
-                yield compra
+                compra
                     .save((err, data) => __awaiter(this, void 0, void 0, function* () {
                     if (data) {
                         console.log("venta fija update");
@@ -94,7 +96,7 @@ function saveBuy(idusuario, publicaciones, cantidad, inactivo) {
                         console.log(err);
                     }
                 }));
-            })).clone();
+            }));
         }
         html = html + '<h5>Total: CLP$' + total + '</h5>';
         html = html + '</div>';

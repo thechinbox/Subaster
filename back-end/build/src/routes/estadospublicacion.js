@@ -7,7 +7,7 @@ let estadospublicacionS = require("../models/estadospublicacionS");
 estadospublicacionC.get("/getestadospublicacion", (req, res) => {
     let estados = new Array();
     estadospublicacionS
-        .find({ idregion: req.query.idregion })
+        .find()
         .then((data) => {
         for (let i in data) {
             estados.push(data[i]);

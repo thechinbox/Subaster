@@ -33,9 +33,11 @@ compraC.post('/buy', async (req:any,res:any) => {
     let user:User = req.body.user
     let publicacion:Array<Publish> = req.body.productos
     let idinactive = req.body.inactivo
+    let idactive = req.body.activo
     let cantidad = req.body.cantidad
+    console.log(idactive);
     
-    await saveBuy(user.id, publicacion, cantidad, idinactive).then((data:any) =>{
+    await saveBuy(user.id, publicacion, idinactive, idactive).then((data:any) =>{
         mail.html = data;
     })
     for(let p of publicacion){
@@ -65,7 +67,7 @@ compraC.post('/buy', async (req:any,res:any) => {
     
 })
 
-async function saveBuy(idusuario:any, publicaciones:Array<Publish>, cantidad:any, inactivo:any){
+async function saveBuy(idusuario:any, publicaciones:Array<Publish>, inactivo:any,idactivo:any){
     let total = 0;
     let html ='<div style="text-align: center;">'+
                         '<h1>Subaster</h1>'+
@@ -76,15 +78,15 @@ async function saveBuy(idusuario:any, publicaciones:Array<Publish>, cantidad:any
         html = html + '<h5>Artículo: '+ p.nombre +'</h5>'
         html = html + '<h5>Valor: CLP$' + p.precio + '</h5>'
         total = total + (p.precio as number)
-        await stockS.
-        findOneAndUpdate({"idpublicacion": ObjectID(p.id)}, {$set: {"idestado": ObjectID(inactivo)}}, async (err:any, data:any ) =>{   
+        stockS.
+        findOneAndUpdate({"idpublicacion": ObjectID(p.id), "idestado":ObjectID(idactivo)}, {$set: {"idestado": ObjectID(inactivo)}}, async (err:any, data:any ) =>{   
             let compra = new compraS({
                 idstock: data._id ,
                 idusuario:idusuario,
                 idpublicacion:p.id,
                 fechaventa:new Date()
             })
-            await compra
+            compra
             .save(async (err:any, data:any) =>{
                 if(data){
                     console.log("venta fija update");
@@ -93,7 +95,7 @@ async function saveBuy(idusuario:any, publicaciones:Array<Publish>, cantidad:any
                     console.log(err);   
                 }
             })
-        }).clone()
+        })
     }    
     html = html + '<h5>Total: CLP$' + total + '</h5>'
     html = html + '</div>'     
