@@ -17,7 +17,7 @@
         </div>
         <div class="col-12 d-lg-flex justify-content-center col-lg-5">
             <div class="row mb-1" id="iconos">
-                <div  class="dropdown col mb-4">
+                <div  class="dropdown col">
                     <button class="d-flex dropdown-toggle" (mouseover)="isCollapsed = false"
                     (mouseleave)="mouseleave()"  *ngIf="flag == 0" routerLink="/login" id="logindiv" >
                         <span id="user" class="material-symbols-outlined">
@@ -45,14 +45,14 @@
                         >Cerrar Sesion</button>
                     </div>
                 </div>
-                <div class="col mb-2">
+                <div class="col ">
                     <button [routerLink]="'carrito'">
                         <span id="carrito" class="material-symbols-outlined">
                             shopping_cart
                         </span>
                     </button>
                 </div>
-                <div class="col mb-2">
+                <div class="col ">
                     <button [routerLink]="'mapa'">
                         <span id="map" class="material-symbols-outlined">
                             pin_drop
