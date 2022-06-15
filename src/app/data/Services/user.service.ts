@@ -64,7 +64,10 @@ export class UserService {
           this.fireIsLoggedIn.emit(sessionStorage.getItem("id"))
         })
       })
+    }else{
+      
     }
+    
   }
 
   SIGNUP(user:User):Observable<any>{

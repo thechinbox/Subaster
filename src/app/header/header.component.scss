@@ -21,6 +21,7 @@
 #logindiv{
     border: 1px solid black;
     border-radius: 10px;
+    height: fit-content;
 }
 #iconos{
     @media (min-width:768px) {
@@ -28,7 +29,6 @@
         position: relative;
         justify-content: center;
         top: 20%;
-        margin-left: 20%;
     }
     
 }

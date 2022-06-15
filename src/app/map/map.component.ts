@@ -10,26 +10,38 @@ import { UserService } from '../data/Services/user.service';
 export class MapComponent implements OnInit {
 
   usuario:User;
-  lat:any;
-  lng:any
   map:any
   constructor(private _user:UserService) {
-    this.lat = 0;
-    this.lng = 0;
     this.usuario = this._user.getUser();
-    
   }
 
   ngOnInit(): void {
-    this._user.getEmiter().subscribe( data => {
+    if(sessionStorage.getItem("id") != null){
       this.usuario = this._user.getUser()
       console.log(this.usuario);
       this.map = new google.maps.Map(document.getElementById('google') as HTMLElement, {
         center: {lat: this.usuario.direccion.latitud, lng: this.usuario.direccion.longitud},
         zoom: 15
       });
-
-    })
+      let marker = new google.maps.Marker({
+        position: {lat: this.usuario.direccion.latitud, lng: this.usuario.direccion.longitud},
+        map: this.map,
+        title: "Tu Direccion"
+      });
+      this._user.getEmiter().subscribe( data => {
+        this.usuario = this._user.getUser()
+        console.log(this.usuario);
+        this.map = new google.maps.Map(document.getElementById('google') as HTMLElement, {
+          center: {lat: this.usuario.direccion.latitud, lng: this.usuario.direccion.longitud},
+          zoom: 15,
+        });
+        let marker = new google.maps.Marker({
+          position: {lat: this.usuario.direccion.latitud, lng: this.usuario.direccion.longitud},
+          map: this.map,
+          title: "Tu Direccion"
+        });
+      })
+    }
     
   }
 

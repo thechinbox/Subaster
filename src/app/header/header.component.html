@@ -1,12 +1,12 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12 col-md-3">
+    <div class="row" style="width: 100%;">
+        <div class="col-12 col-lg-3">
             <div id="logo">
                 <a routerLink="/home"><img src="../../assets/LOGOTIPO SUBASTER.jpeg"></a>
             </div>
         </div>
-        <div class="col-12 col-md-4" >
-            <form class="d-flex medio" id="search-bar" >
+        <div class="col-12 col-lg-4" >
+            <form class="d-flex justify-content-center medio" id="search-bar" >
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
                 <button id="btn-lupa" class="btn">
                     <span id="lupa" class="material-symbols-outlined">
@@ -15,9 +15,9 @@
                 </button>
             </form>
         </div>
-        <div class="col-12 col-md-5">
-            <div class="row w-75" id="iconos">
-                <div  class="dropdown col-6 mb-4">
+        <div class="col-12 d-lg-flex justify-content-center col-lg-5">
+            <div class="row mb-1" id="iconos">
+                <div  class="dropdown col mb-4">
                     <button class="d-flex dropdown-toggle" (mouseover)="isCollapsed = false"
                     (mouseleave)="mouseleave()"  *ngIf="flag == 0" routerLink="/login" id="logindiv" >
                         <span id="user" class="material-symbols-outlined">
@@ -45,14 +45,14 @@
                         >Cerrar Sesion</button>
                     </div>
                 </div>
-                <div class="col-3 mb-2">
+                <div class="col mb-2">
                     <button [routerLink]="'carrito'">
                         <span id="carrito" class="material-symbols-outlined">
                             shopping_cart
                         </span>
                     </button>
                 </div>
-                <div class="col-3 mb-2">
+                <div class="col mb-2">
                     <button [routerLink]="'mapa'">
                         <span id="map" class="material-symbols-outlined">
                             pin_drop
