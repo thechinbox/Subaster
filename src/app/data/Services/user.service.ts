@@ -62,8 +62,6 @@ export class UserService {
         this.fireIsLoggedIn.emit(sessionStorage.getItem("id"))
       })
     }
-      
-    
   }
 
   SIGNUP(user:User):Observable<any>{
@@ -82,6 +80,12 @@ export class UserService {
   BUY(productos:any, cantidadC:any):Observable<any>{
     let estado:any = this.attributes.getinactivepubid()
     return this.http.post(`${environment.hostname}/buy`,JSON.stringify({user:this.user,productos:productos, inactivo:estado, cantidad:cantidadC}),this.HttpUploadOptions)
+  }
+  VERIFYEMAIL(correo:string):Observable<any>{
+    return this.http.get(`${environment.hostname}/recover?correo=`+correo, this.HttpUploadOptions)
+  }
+  EMAILRECOVERY(usuario:any): Observable<any>{
+    return this.http.post(`${environment.hostname}/enviarcorreoRec`,usuario, this.HttpUploadOptions);
   }
 
   setUsuario(user:User){

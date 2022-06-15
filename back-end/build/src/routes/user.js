@@ -164,4 +164,20 @@ usuariosC.get("/direccionUsuario", (req, res) => {
         res.send(direccion);
     });
 });
+usuariosC.get("/recover", (req, res) => {
+    const email = req.query.correo;
+    userS.find({ correo: email })
+        .then((data) => __awaiter(void 0, void 0, void 0, function* () {
+        if (data) {
+            //console.log(data);
+            res.send(data);
+        }
+        if (data.lenght == 0) {
+            res.send(JSON.stringify({ status: "invalid" }));
+        }
+    }))
+        .catch((err) => {
+        res.send(JSON.stringify({ status: "invalid" }));
+    });
+});
 module.exports = usuariosC;

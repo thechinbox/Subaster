@@ -12,6 +12,7 @@ import { UserService } from '../../data/Services/user.service';
 export class RecoveryComponent implements OnInit {
   correoinvalido = false;
   recoverycontrol : FormGroup;
+  pass: any = "-";
 
   constructor(private userService:UserService, private router:Router) {
     this.recoverycontrol = new FormGroup({
@@ -23,14 +24,26 @@ export class RecoveryComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    
-  }
-
-  enviarRecovery() {
 
   }
 
-  buscarUser(id:string){
-
+  enviarRecovery(){
+    const values = this.recoverycontrol.value;
+    this.userService.VERIFYEMAIL(values.email).subscribe((data) => {
+      if (data.status == "invalid") {
+        this.correoinvalido = true;
+      } else {
+        let dataNew = data[0];
+        //console.log(data);
+        this.userService.EMAILRECOVERY(dataNew).subscribe((data) => {
+          //console.log(data);
+          if (data.status == "ok") {
+            alert("Revisa tu correo electrónico con tu contraseña !")
+          } else {
+            alert("Ha ocurrido un error al enviar el correo...")
+          }
+        });
+      }
+    })
   }
 }

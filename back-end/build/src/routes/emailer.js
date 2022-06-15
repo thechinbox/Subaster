@@ -51,22 +51,23 @@ let userMail = "testsubaster@gmail.com";
 let REDIRECT_URI = "https://developers.google.com/oauthplayground"; // NO CAMBIAR
 let oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN }); // NO CAMBIAR
-let htmlTemplate = '<div style="text-align: center;">' +
-    '<h1>Subaster</h1>' +
-    '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>' +
-    '<h5>Te adjuntamos el recibo de tu compra:</h5>' +
-    '<h5>Código: 91839832213421412</h5>' +
-    '<h5>Artículo: TUBOS PVC LOTE 500</h5>' +
-    '<h5>Valor: CLP$ 500.000</h5>' +
-    '</div>';
-let mail = {
-    from: "Subaster",
-    to: "testsubaster@gmail.com",
-    subject: "Subaster - Recibo de Compra",
-    html: htmlTemplate
-};
-emailerC.post("/enviarCorreo", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("enviado correo...");
+emailerC.post("/enviarcorreoRec", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("[EMAILER] : Enviando correo a " + req.body.correo);
+    let htmlEmail = '<div style="text-align: center;">' +
+        '<h1>Subaster</h1>' +
+        '<h4 style="margin-top: 20px">¡Hola! Hemos visto que has perdido tu contraseña</h4>' +
+        '<h4 style="margin-top: 20px">A continuación te adjuntamos tu contraseña, recuerda</h4>' +
+        '<h4 style="margin-top: 20px">no compartir tu contraseña con nadie, si crees que alguien</h4>' +
+        '<h4 style="margin-top: 20px">está usando tu cuenta sin tu consentimiento, contacta a</h4>' +
+        '<h4 style="margin-top: 20px">Subaster. Saludos !</h4>' +
+        '<h5>Contraseña: ' + req.body.contrasena + '</h5>' +
+        '</div>';
+    let mail = {
+        from: "Subaster",
+        to: req.body.correo,
+        subject: "Recuperación de contraseña",
+        html: htmlEmail
+    };
     try {
         let accessToken = yield oAuth2Client.getAccessToken();
         let transporter = nodemailer.createTransport({
@@ -80,13 +81,51 @@ emailerC.post("/enviarCorreo", (req, res) => __awaiter(void 0, void 0, void 0, f
                 accessToken: accessToken
             }
         });
-        let result = yield transporter.sendMail(mail);
-        console.log("Email enviado correctamente a : " + userMail);
+        yield transporter.sendMail(mail);
+        console.log("[EMAILER] : Email enviado correctamente a " + userMail);
         res.send(JSON.stringify({ status: "ok" }));
     }
     catch (err) {
         console.log(err);
-        res.status(200).send("enviado");
+        res.send(JSON.stringify({ status: "invalid" }));
+    }
+}));
+emailerC.post("/enviarcorreoPuja", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log("[EMAILER] : Enviando correo a " + req.body.to);
+    let htmlEmail = '<div style="text-align: center;">' +
+        '<h1>Subaster</h1>' +
+        '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>' +
+        '<h5>Te adjuntamos el recibo de tu compra:</h5>' +
+        '<h5>Código: 91839832213421412</h5>' +
+        '<h5>Artículo: TUBOS PVC LOTE 500</h5>' +
+        '<h5>Valor: CLP$ 500.000</h5>' +
+        '</div>';
+    let mail = {
+        from: "Subaster",
+        to: req.body.to,
+        subject: "Recibo",
+        html: htmlEmail
+    };
+    try {
+        let accessToken = yield oAuth2Client.getAccessToken();
+        let transporter = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                type: "OAuth2",
+                user: userMail,
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: REFRESH_TOKEN,
+                accessToken: accessToken
+            }
+        });
+        yield transporter.sendMail(mail);
+        console.log("[EMAILER] : Email enviado correctamente a " + userMail);
+        res.send(JSON.stringify({ status: "ok" }));
+    }
+    catch (err) {
+        console.log(err);
+        res.send(JSON.stringify({ status: "invalid" }));
     }
 }));
 //sendMail();

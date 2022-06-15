@@ -162,4 +162,21 @@ usuariosC.get("/direccionUsuario",(req:any, res:any) =>{
     })
 })
 
+usuariosC.get("/recover", (req:any, res:any) => {
+    const email = req.query.correo;
+
+    userS.find({correo: email})
+    .then(async (data:any)=> {
+        if(data){
+            //console.log(data);
+            res.send(data)
+        } if (data.lenght == 0) {
+            res.send(JSON.stringify({status:"invalid"}))
+        }
+    })
+    .catch((err:any) =>{
+        res.send(JSON.stringify({status:"invalid"}))
+    })     
+})
+
 module.exports = usuariosC;
