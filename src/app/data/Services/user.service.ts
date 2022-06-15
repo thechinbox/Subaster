@@ -29,23 +29,6 @@ export class UserService {
   compras:Array<String>
 
   constructor(private http:HttpClient) {
-    this.compras = new Array()
-    try{
-      let aux :any = sessionStorage.getItem("products")
-      for(let id of JSON.parse(aux).ids){
-        this.compras.push(id)
-      }
-    }catch(error){
-      console.log(error);
-    }
-    try{
-      this.LOGINID(sessionStorage.getItem("id")).subscribe(data =>{
-        this.user = data
-      })
-    }catch(err){
-      console.log(err);
-
-    }
     this.user = {
       id: "",
       nombre:"",
@@ -62,7 +45,24 @@ export class UserService {
           longitud:0
       },
       fechacreacion: new Date()
+    }
+    this.compras = new Array()
+    try{
+      let aux :any = sessionStorage.getItem("products")
+      for(let id of JSON.parse(aux).ids){
+        this.compras.push(id)
       }
+    }catch(error){
+      console.log(error);
+    }
+    if(sessionStorage.getItem("id") != null && sessionStorage.getItem("id") != undefined){
+      this.LOGINID(sessionStorage.getItem("id")).subscribe(data =>{
+        this.user = data
+        this.fireIsLoggedIn.emit(sessionStorage.getItem("id"))
+      })
+    }
+      
+    
   }
 
   SIGNUP(user:User):Observable<any>{

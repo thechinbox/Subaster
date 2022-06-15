@@ -30,7 +30,7 @@
                         <span id="user" class="material-symbols-outlined">
                             person
                         </span>
-                        <p id="login">Bienvenido</p>
+                        <p id="login">Bienvenido {{user.nombre}}</p>
                     </button>
                     <div *ngIf="flag == 0" (mouseover)="isCollapsed2 = false" (mouseleave)="mouseleave2()" [ngbCollapse]="isCollapsed" class="dropdown-menu" aria-labelledby="dropdowncategoria">
                         <button

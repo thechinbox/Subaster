@@ -12,9 +12,9 @@
         <br>
         <div class="row">
           <div class="col-6 mt-2" *ngFor="let item of publicaciones">
-            <div class="card carta-clickeable" (click)="setId(item.id)" style="border: black 1px solid;" >
-              <div class="d-flex justify-content-center ">
-                <img src="{{item.url[0]}}" routerLink="/publicacion" style="width: 50%;" class="card-img-top" alt="...">
+            <div class="card carta-clickeable" (click)="setId(item.id)" style="border: black 1px solid; height: 100%;" >
+              <div class="d-flex justify-content-center">
+                <img src="{{item.url[0]}}" routerLink="/publicacion" style="width: 50%; " class="card-img-top" alt="...">
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{item.nombre}}</h5>
