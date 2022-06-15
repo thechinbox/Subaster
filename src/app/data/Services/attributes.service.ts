@@ -121,4 +121,13 @@ export class AttributesService {
     }
     return idactive
   }
+  getinactivepubid(){
+    let idinactive = "";
+    for(let estado of this.estadospublicacion){
+      if(estado.estadopublicacion == "inactiva"){
+        idinactive = estado.id
+      }
+    }
+    return idinactive
+  }
 }

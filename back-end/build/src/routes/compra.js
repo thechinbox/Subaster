@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = require("../index.js");
-let emailerC = index_js_1.express.Router();
 //Modulo que permite el envio de correos a gmail
 let { google } = require('googleapis');
 let nodemailer = require("nodemailer");
@@ -29,13 +28,21 @@ let mail = {
 };
 const compraC = index_js_1.express.Router();
 let compraS = require("../models/compraS");
+let stockS = require("../models/stockS");
+let publicationS = require("../models/publicationS");
+let ObjectID = require('mongodb').ObjectID;
 compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    let status = new Array();
     let user = req.body.user;
     let publicacion = req.body.productos;
-    yield saveBuy(user.id, publicacion).then((data) => {
+    let idinactive = req.body.inactivo;
+    let cantidad = req.body.cantidad;
+    yield saveBuy(user.id, publicacion, cantidad, idinactive).then((data) => {
         mail.html = data;
     });
+    for (let p of publicacion) {
+        console.log("Actualizando cantidad de las publicaciones");
+        yield updateQuantity(p.id, (p.cantidad - cantidad));
+    }
     try {
         let accessToken = yield oAuth2Client.getAccessToken();
         let transporter = nodemailer.createTransport({
@@ -58,7 +65,7 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(200).send("enviado");
     }
 }));
-function saveBuy(idusuario, publicaciones) {
+function saveBuy(idusuario, publicaciones, cantidad, inactivo) {
     return __awaiter(this, void 0, void 0, function* () {
         let total = 0;
         let html = '<div style="text-align: center;">' +
@@ -70,25 +77,41 @@ function saveBuy(idusuario, publicaciones) {
             html = html + '<h5>Artículo: ' + p.nombre + '</h5>';
             html = html + '<h5>Valor: CLP$' + p.precio + '</h5>';
             total = total + p.precio;
-            let compra = new compraS({
-                idusuario: idusuario,
-                idpublicacion: p.id,
-                fechaventa: new Date()
-            });
-            compra
-                .save((data, err) => __awaiter(this, void 0, void 0, function* () {
-                if (data) {
-                    console.log(data);
-                }
-                else {
-                    console.log(err);
-                }
-            }));
+            yield stockS.
+                findOneAndUpdate({ "idpublicacion": ObjectID(p.id) }, { $set: { "idestado": ObjectID(inactivo) } }, (err, data) => __awaiter(this, void 0, void 0, function* () {
+                let compra = new compraS({
+                    idstock: data._id,
+                    idusuario: idusuario,
+                    idpublicacion: p.id,
+                    fechaventa: new Date()
+                });
+                yield compra
+                    .save((err, data) => __awaiter(this, void 0, void 0, function* () {
+                    if (data) {
+                        console.log("venta fija update");
+                    }
+                    else {
+                        console.log(err);
+                    }
+                }));
+            })).clone();
         }
         html = html + '<h5>Total: CLP$' + total + '</h5>';
         html = html + '</div>';
-        console.log(html);
         return html;
+    });
+}
+function updateQuantity(idpublicacion, cantidadA) {
+    return __awaiter(this, void 0, void 0, function* () {
+        publicationS
+            .findOneAndUpdate({ _id: idpublicacion }, { $set: { cantidad: cantidadA } }, (err, data) => {
+            if (err) {
+                console.log("Error encontrado al añadir iddireccion en publicacion");
+                console.log(err);
+                return JSON.stringify({ status: "invalid" });
+            }
+            return JSON.stringify({ status: "ok" });
+        });
     });
 }
 module.exports = compraC;

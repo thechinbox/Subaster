@@ -5,6 +5,9 @@ const compraSchema = index_js_1.mongoose.Schema({
     idventa: {
         type: 'ObjectId'
     },
+    idstock: {
+        type: 'ObjectId'
+    },
     idpublicacion: {
         type: 'ObjectId'
     },

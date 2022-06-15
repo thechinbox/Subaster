@@ -86,7 +86,7 @@ export class ShoppingcartComponent implements OnInit {
     if(sessionStorage.getItem("id") != null && sessionStorage.getItem("id") != undefined ){
       this.cargando = true;
       this.info = false;
-        this.user.BUY(this.preview).subscribe(data => {
+        this.user.BUY(this.preview, 1).subscribe(data => {
         this.cargando = false;
         this.subido = true;
         setTimeout(() => {

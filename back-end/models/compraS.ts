@@ -4,6 +4,9 @@ const compraSchema = mongoose.Schema({
     idventa: {
         type: 'ObjectId'
     },
+    idstock:{
+        type: 'ObjectId'
+    },
     idpublicacion: {
         type: 'ObjectId'
     },

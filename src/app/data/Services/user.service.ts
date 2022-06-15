@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { Publish } from '../Interfaces/publish';
 import { User } from '../Interfaces/user';
 import { Output,EventEmitter } from '@angular/core';
+import { AttributesService } from './attributes.service';
 
 
 @Injectable({
@@ -28,7 +29,7 @@ export class UserService {
   user:User;
   compras:Array<String>
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient, private attributes:AttributesService) {
     this.user = {
       id: "",
       nombre:"",
@@ -78,8 +79,9 @@ export class UserService {
   GETDIRECCION(id:any):Observable<any>{
     return this.http.get(`${environment.hostname}/direccionUsuario?id=`+id,this.HttpUploadOptions)
   }
-  BUY(productos:any):Observable<any>{
-    return this.http.post(`${environment.hostname}/buy`,JSON.stringify({user:this.user,productos:productos}),this.HttpUploadOptions)
+  BUY(productos:any, cantidadC:any):Observable<any>{
+    let estado:any = this.attributes.getinactivepubid()
+    return this.http.post(`${environment.hostname}/buy`,JSON.stringify({user:this.user,productos:productos, inactivo:estado, cantidad:cantidadC}),this.HttpUploadOptions)
   }
 
   setUsuario(user:User){

@@ -2,7 +2,6 @@ import {express, mongoose} from '../index.js';
 import { Publish } from '../Interfaces/publish.js';
 import { User } from '../Interfaces/user.js';
 
-let emailerC = express.Router();
 
 //Modulo que permite el envio de correos a gmail
 let { google } = require('googleapis')
@@ -26,15 +25,23 @@ let mail={
 
 const compraC = express.Router();
 let compraS = require("../models/compraS");
-
+let stockS = require("../models/stockS")
+let publicationS = require("../models/publicationS");
+let ObjectID = require('mongodb').ObjectID;
 
 compraC.post('/buy', async (req:any,res:any) => {
-    let status = new Array()
     let user:User = req.body.user
     let publicacion:Array<Publish> = req.body.productos
-    await saveBuy(user.id, publicacion).then((data:any) =>{
+    let idinactive = req.body.inactivo
+    let cantidad = req.body.cantidad
+    
+    await saveBuy(user.id, publicacion, cantidad, idinactive).then((data:any) =>{
         mail.html = data;
     })
+    for(let p of publicacion){
+        console.log("Actualizando cantidad de las publicaciones");
+        await updateQuantity(p.id,(p.cantidad as number - cantidad));
+    }
     try {
         let accessToken = await oAuth2Client.getAccessToken();
         let transporter = nodemailer.createTransport({
@@ -58,7 +65,7 @@ compraC.post('/buy', async (req:any,res:any) => {
     
 })
 
-async function saveBuy(idusuario:any, publicaciones:Array<Publish>){
+async function saveBuy(idusuario:any, publicaciones:Array<Publish>, cantidad:any, inactivo:any){
     let total = 0;
     let html ='<div style="text-align: center;">'+
                         '<h1>Subaster</h1>'+
@@ -69,27 +76,40 @@ async function saveBuy(idusuario:any, publicaciones:Array<Publish>){
         html = html + '<h5>Artículo: '+ p.nombre +'</h5>'
         html = html + '<h5>Valor: CLP$' + p.precio + '</h5>'
         total = total + (p.precio as number)
-        let compra = new compraS({
-            idusuario:idusuario,
-            idpublicacion:p.id,
-            fechaventa:new Date()
-        })
-        compra
-        .save(async (data:any, err:any) =>{
-            if(data){
-                console.log(data);
-            }
-            else{
-                console.log(err);
-                
-            }
-        })
+        await stockS.
+        findOneAndUpdate({"idpublicacion": ObjectID(p.id)}, {$set: {"idestado": ObjectID(inactivo)}}, async (err:any, data:any ) =>{   
+            let compra = new compraS({
+                idstock: data._id ,
+                idusuario:idusuario,
+                idpublicacion:p.id,
+                fechaventa:new Date()
+            })
+            await compra
+            .save(async (err:any, data:any) =>{
+                if(data){
+                    console.log("venta fija update");
+                }
+                else{
+                    console.log(err);   
+                }
+            })
+        }).clone()
     }    
     html = html + '<h5>Total: CLP$' + total + '</h5>'
-    html = html + '</div>' 
-    console.log(html);
-    
+    html = html + '</div>'     
     return html
+}
+
+async function updateQuantity(idpublicacion:any, cantidadA:any) {
+    publicationS
+    .findOneAndUpdate({_id: idpublicacion}, {$set: {cantidad: cantidadA}}, (err:any, data:any) =>{
+        if(err){
+            console.log("Error encontrado al añadir iddireccion en publicacion");
+            console.log(err);
+            return JSON.stringify({status:"invalid"})
+        }
+       return JSON.stringify({status:"ok"})
+    })
 }
 
 module.exports = compraC;
