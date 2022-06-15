@@ -1,7 +1,10 @@
 <div class="container">
     <div class="row my-5">
         <div class="col-12 d-flex justify-content-center">
-            <div class="col-6 d-flex justify-content-end">
+            <div *ngIf="logged == false"  class="col-12 d-flex justify-content-center">
+                <button type="button" class="btn btn-lg" (click)="setMapCurrent()">Usar Posicion Actual</button>
+            </div>
+            <div *ngIf="logged == true" class="col-6 d-flex justify-content-end">
                 <button type="button" class="btn btn-lg" (click)="setMapCurrent()">Usar Posicion Actual</button>
             </div>
             <div *ngIf="logged == true" class="col-6">
