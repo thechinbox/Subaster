@@ -9,18 +9,20 @@ ul{
     border-color: red;
 }
 #navbar{
-    background-color: $verde-oscuro;
+    background-color: $verde-claro;
     min-height: 11vh;
 }
 .nav-item a{
     font-size: larger;
     color: $color-letra-navbar;
+    background-color: $verde-claro;
 }
 
 .nav-item a:hover{
     //font-size: x-large;
     color: rgb(0, 157, 26);
 }
+
 .container-fluid{
     display: flex;
     flex-wrap: wrap;

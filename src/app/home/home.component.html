@@ -2,14 +2,14 @@
     <div class="row">
         <div class="col-12">
             <carousel [height]="getheight()/2" class="sponosors" [cellsToShow]=2>
-                <div class="carousel-cell" style="margin-left: 80px">
+                <div class="carousel-cell">
                     <img src="../../assets/LOGO-CHRYSALIS-MENU.png">
                 </div>
                 <div class="carousel-cell">
-                    <img src="../../assets/LOGOTIPO-PUERTO-VENTANA.png">
+                      <img src="../../assets/corfo.png">
                 </div>
                 <div class="carousel-cell">
-                    <img src="../../assets/corfo.png">
+                    <img src="../../assets/LOGOTIPO-PUERTO-VENTANA.png">
                 </div>
             </carousel>
         </div>
@@ -65,9 +65,9 @@
                 <carousel [height]="getheight()" class="row carousel" [cellsToShow]=4>
                     <div class="carousel-cell" *ngFor="let product of lista">
                         <button class="card" (click)="setId(product.id)">
-                            <img class="card-img-top" src="{{product.url[0]}}" alt="Card image cap">
+                            <img class="card-img-top img-fluid" src="{{product.url[0]}}" alt="Card image cap">
                             <h5 class="card-title">{{product.nombre}}</h5>
-                            <div class="card-body">
+                            <div class="card-block">
                                 <div class="d-flex justify-content-center">
                                     <p >VALOR ACTUAL: </p>
                                     <p >CLP$</p>
@@ -81,7 +81,7 @@
             <div class="col-12" id="small">
                 <carousel [height]="getheight()" class="row carousel" [cellsToShow]=2>
                     <div class="carousel-cell" *ngFor="let product of lista" >
-                        <button class="card" (click)="setId(product.id)" > 
+                        <button class="card" (click)="setId(product.id)" >
                             <img class="card-img-top" src="{{product.url[0]}}" alt="Card image cap">
                             <h5 class="card-title">{{product.nombre}}</h5>
                             <div class="card-body">
