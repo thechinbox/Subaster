@@ -9,6 +9,7 @@ import { Observable, Subject } from 'rxjs';
 export class ModalSwitchService {
 
   publicacionPujarSwitch = new Subject<any>(); //Objecto que emite un booleano
+  imagenSwitch = new Subject<any>();
   HttpUploadOptions = {
     headers: new HttpHeaders(
       {
@@ -24,12 +25,16 @@ export class ModalSwitchService {
   }
 
   getPublicacionPujarSwitch(): Observable<any> {
-    console.log(this.publicacionPujarSwitch);
-    
     return this.publicacionPujarSwitch.asObservable();
   }
   SetPublicacionPujarSwitch(valor:boolean){
     this.publicacionPujarSwitch.next(valor)
+  }
+  getImagenSwitch(): Observable<any> {
+    return this.imagenSwitch.asObservable();
+  }
+  SetVerImagen(valor:boolean){
+    this.imagenSwitch.next(valor)
   }
   ENVIARBOLETA(toEmail:string, htmlTemplate:string): Observable<any>{
     return this.http.post(`${environment.hostname}/enviarcorreo`,JSON.stringify({to: toEmail, emailTemplate: htmlTemplate}), this.HttpUploadOptions);

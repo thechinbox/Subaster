@@ -22,7 +22,8 @@ export class PublicacionComponent implements OnInit {
   aux : any;
   modalSwitch: boolean = false;
   comentarios:Comment[];
-
+  imagenSwitch: boolean = false;
+  url:any
   constructor(private _publication: PublicationService, private router:Router, 
               private activatedRoute:ActivatedRoute, private attributes:AttributesService,
               private _switchPujar: ModalSwitchService, private chileinfo:ChileinfoService,
@@ -50,7 +51,13 @@ export class PublicacionComponent implements OnInit {
     }
     this.comentarios = this._publication.obtenerComentarios();
     this._switchPujar.getPublicacionPujarSwitch().subscribe(valor => this.modalSwitch = valor)
-
+    this._switchPujar.getImagenSwitch().subscribe(valor => {
+      if(!valor){
+        let d :any = document.getElementById("pre-blur")
+        d.classList.remove("blur")
+      }
+      this.imagenSwitch = valor
+    })
   }
 
   ngOnInit(): void {
@@ -86,10 +93,21 @@ export class PublicacionComponent implements OnInit {
     var numero = +valor;
     return new Intl.NumberFormat('es-CL', {currency: 'CLP', style: 'currency'}).format(numero);
   }
-
+   
+  verImagen(url:any){
+    let d:any = document.getElementById("pre-blur")
+    d.classList.add("blur")
+    this.url = url
+    this._switchPujar.SetVerImagen(true)
+  }
   comprar(){
     this.usuario.addProduct(this.publication.id).then(() =>{
       this._switchPujar.SetPublicacionPujarSwitch(true);
     })
+  }
+
+  unblur(){
+    let d:any = document.getElementById("pre-blur")
+    d.classList.add("unblur")
   }
 }

@@ -182,7 +182,7 @@ export class PublishComponent implements OnInit, AfterViewInit {
     let archivos = event.target.files
     for(let i=0; i<archivos.length; i++){
       let reader = new FileReader();
-      reader.readAsDataURL(archivos[0]);
+      reader.readAsDataURL(archivos[i]);
       reader.onloadend = () =>{
         this.media.push(reader.result);        
       }

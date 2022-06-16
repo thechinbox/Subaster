@@ -9,6 +9,14 @@
 .material-symbols-outlined{
     color: rgb(2, 69, 2);
 }
+.col{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: end;
+    position: relative;
+    align-items: flex-start;
+}
+
 #user,#carrito,#map{
     font-size: 40px;
 }
@@ -18,19 +26,26 @@
     position: relative;
     top: 10px;
 }
-#logindiv{
+#logindiv, #welcomediv{
     border: 1px solid black;
     border-radius: 10px;
     height: fit-content;
 }
+.dropdown-menu{
+    height: fit-content;
+    position: relative;
+    left: -7px;
+    top: 0px;
+}
+    
 #iconos{
     @media (min-width:768px) {
         display: flex;
+        flex-wrap: wrap;
         position: relative;
         justify-content: center;
         top: 20%;
-    }
-    
+    }  
 }
 #lupa{
     font-size: 50px;

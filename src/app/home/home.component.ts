@@ -47,4 +47,5 @@ export class HomeComponent implements OnInit {
   getheight(){
     return screen.height/2;
   }
+
 }

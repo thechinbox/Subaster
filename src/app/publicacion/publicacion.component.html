@@ -1,20 +1,21 @@
-
-
-<div class="container my-5">
+<div id="modal" *ngIf="imagenSwitch == true">
+    <app-verimagen [url]="url"></app-verimagen>
+</div>
+<div id="pre-blur" class="container my-5">
     <div class="row ">
-        <div class="col-12" id="modal" *ngIf="modalSwitch == true">
+        <div class="col-12" id="modal"  *ngIf="modalSwitch == true">
             <app-publicacion-modal></app-publicacion-modal>
         </div> 
     </div>
-    <div class="row px-3">
+    <div  class="row px-3">
         <div class="col-md-6">
             <div class="contenedor-imgs" >
                 <div *ngFor="let url of publication.url; let i = index" [attr.data-index]="i" >
                     <div *ngIf="i == 0 " class="contenedor-img-prin">
-                        <img src="{{url}}" alt="Imagen Publicación"  class="img-principal">
+                        <img (click)="verImagen(url)" src="{{url}}" alt="Imagen Publicación" class="img-principal imagenContainer">
                     </div>
                     <div *ngIf="i != 0 " class="contenedor-img-sec">
-                        <img src="{{url}}" alt="Imagen Publicación" class="img-secundaria">
+                        <img (click)="verImagen(url)" src="{{url}}" alt="Imagen Publicación" class="img-secundaria imagenContainer">
                     </div>
                 </div>
             </div>
