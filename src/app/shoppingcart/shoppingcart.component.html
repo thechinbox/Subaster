@@ -46,32 +46,37 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-4 my-md-5">
-            <h3>Resumen de Compra</h3>
-            <div class="productos p-1 contenedor-blanco">
-                <div class="row my-5" *ngFor="let product of preview">
-                    <div class="col-12">
-                        <p>{{product.nombre}}</p>
+        <ng-container *ngIf="this.preview.length > 0">
+            <div class="col-md-4 my-md-5">
+                <h3>Resumen de Compra</h3>
+                <div class="contenedor-blanco productos">
+                    <div class="mt-5">
+                        <div class="row" *ngFor="let product of preview">
+                            <div class="contenedor-detalle">
+                                <div class="col-12">
+                                    <p>{{product.nombre}}</p>
+                                </div>
+                                <div class="col-12 d-flex" style="margin-top: -15px;">
+                                    <p class="me-5">Precio: </p>
+                                    <p class="bold green">CLP$ {{product.precio}}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-12 d-flex">
-                        <p class="me-5">Precio: </p>
-                        <p class="bold green">CLP$ </p>
-                        <p class="bold green">{{product.precio}}</p>
+                    <div class="row my-5 mx-2">
+                        <div *ngIf="total >0 "class="d-flex">
+                            <p class="me-5">Total a Pagar: </p>
+                            <p class="bold green">CLP$ </p>
+                            <p class="bold green">{{total}}</p>
+                        </div>
                     </div>
                 </div>
-                <div class="row  my-5">
-                    <div *ngIf="total >0 "class="d-flex">
-                        <p class="me-5">Total a Pagar: </p>
-                        <p class="bold green">CLP$ </p>
-                        <p class="bold green">{{total}}</p>
+                <div class="row">
+                    <div class="col-12 d-flex justify-content-center my-5">
+                        <button class="btn btn-lg" type="button" (click)="finalizarCompra()" [disabled]="!comprar">Finalizar Compra</button>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12 d-flex justify-content-center my-5">
-                    <button class="btn btn-lg" type="button" (click)="finalizarCompra()" [disabled]="!comprar">Finalizar Compra</button>
-                </div>
-            </div>
-        </div>
+        </ng-container>
     </div>
 </div>
