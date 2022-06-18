@@ -40,11 +40,10 @@
     
 #iconos{
     @media (min-width:768px) {
-        display: flex;
-        flex-wrap: wrap;
-        position: relative;
-        justify-content: center;
-        top: 20%;
+        display: grid;
+        grid-auto-rows: 4rem;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        margin-top: 15px;
     }  
 }
 #lupa{
