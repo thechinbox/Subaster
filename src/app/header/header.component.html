@@ -33,7 +33,7 @@
                         <p id="login">Bienvenido {{user.nombre}}</p>
                     </button>
                     <div id="menu-desplegable" (mouseover)="isCollapsed2 = false" (mouseleave)="mouseleave2()" [ngbCollapse]="isCollapsed" 
-                        class="dropdown-menu">
+                        class="dropdown-menu" style="position: absolute">
                         <button *ngIf="flag == 0" type="button" class=" btn btn-lg dropdown-item " [routerLink]="'registro'" >Registrarse</button>
                         <button *ngIf="flag == 1" class="dropdown-item" (click)="logout()">Cerrar Sesion</button>
                     </div>

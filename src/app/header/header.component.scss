@@ -74,4 +74,11 @@ img{
 
 .dropdown-menu{
     margin-top: 0;
+    position: absolute;
+    top: 38px;
+    left: 260px;
+    @media only screen and (max-width: 600px) {
+        top: 38px;
+        left: 210px;
+      }
 }
