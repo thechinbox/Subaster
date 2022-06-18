@@ -11,7 +11,14 @@
     <div *ngIf="info" class="row">
         <div class="col-md-8">
             <h1 class="mb-5">Carrito de Compras</h1>
-            <div class="row productos p-2">
+            <div class="row productos p-2 contenedor-blanco">
+                <ng-container *ngIf="this.preview.length == 0">
+                    <div style="text-align: center; padding-top: 20px">
+                        ¿Aún no has añadido nada a tu carrito?
+                        <a [routerLink]="['/home']">Haz click aqui !</a>
+                        <img src="../../assets/img_emptyCart.jpg" alt="Carrito vacio :(" height="300px">
+                    </div>
+                </ng-container>
                 <div *ngFor="let product of preview" class="col-12 my-1 d-flex tarjeta">
                     <div class="row">
                         <div class="col-12 d-flex justify-content-end">
@@ -41,8 +48,8 @@
         </div>
         <div class="col-md-4 my-md-5">
             <h3>Resumen de Compra</h3>
-            <div class="productos p-1">
-                <div class="row my-5" *ngFor="let product of preview" >
+            <div class="productos p-1 contenedor-blanco">
+                <div class="row my-5" *ngFor="let product of preview">
                     <div class="col-12">
                         <p>{{product.nombre}}</p>
                     </div>
