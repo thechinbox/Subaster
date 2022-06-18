@@ -18,7 +18,7 @@
     z-index: 1;
 }
 .card{
-    min-height: 100%;
+    min-height: 360px; //TAMAÑO MINIMO DE LA TARJETA
     min-width: fit-content;
     display: inline-block;
 }
@@ -33,4 +33,7 @@
     background-color: white;
     padding: 10px;
     padding-bottom: 20px;
+}
+.row .carrousel {
+    height: 360px;
 }

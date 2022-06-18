@@ -62,7 +62,7 @@
         </div>
         <div class="col-12">
             <div class="col-12" id="big">
-                <carousel [height]="getheight()" class="row carousel" [cellsToShow]=4>
+                <carousel [height]="getheight()/1.2" class="row carousel" [cellsToShow]=4>
                     <div class="carousel-cell" *ngFor="let product of lista">
                         <button class="card" (click)="setId(product.id)">
                             <img class="card-img-top img-fluid" src="{{product.url[0]}}" alt="Card image cap">
@@ -98,4 +98,3 @@
         </div>
     </div>
 </div>
-<app-footer></app-footer>

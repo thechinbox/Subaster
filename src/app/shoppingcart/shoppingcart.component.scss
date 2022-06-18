@@ -1,3 +1,6 @@
+img {
+    max-width: 400px;
+}
 .bold{
     font-weight:600;
 }
@@ -18,4 +21,11 @@
 .btn-lg{
     border-radius: 50px;
     background-color: rgba(91, 164, 91, 0.729);
+}
+.contenedor-blanco {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background-color: white;
+    padding: 10px;
+    padding-bottom: 20px;
 }
