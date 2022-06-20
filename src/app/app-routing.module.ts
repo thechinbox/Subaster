@@ -12,6 +12,7 @@ import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
 import { PermisosGuard } from './guards/permisos.guard';
 import { RecoveryComponent } from './login/recovery/recovery.component';
 import { MapComponent } from './map/map.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -28,7 +29,9 @@ const routes: Routes = [
   {path:'browser', component:BrowserComponent},
   {path:'profile', component:ProfileComponent},
   {path:'carrito', component:ShoppingcartComponent},
-  {path:'mapa', component:MapComponent}
+  {path:'mapa', component:MapComponent},
+  {path:'404', component:NotFoundComponent},
+  {path:'**', redirectTo: '404'}
 ];
 
 @NgModule({

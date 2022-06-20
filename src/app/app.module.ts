@@ -33,6 +33,7 @@ import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
 import { RecoveryComponent } from './login/recovery/recovery.component';
 import { MapComponent } from './map/map.component';
 import { VerimagenComponent } from './publicacion/verimagen/verimagen.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { VerimagenComponent } from './publicacion/verimagen/verimagen.component'
     ShoppingcartComponent,
     RecoveryComponent,
     MapComponent,
-    VerimagenComponent
+    VerimagenComponent,
+    NotFoundComponent
   ],
   imports: [
     BrowserModule,
