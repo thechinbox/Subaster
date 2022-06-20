@@ -12,14 +12,13 @@
             <div class="contenedor-imgs" >
                 <div *ngFor="let url of publication.url; let i = index" [attr.data-index]="i" >
                     <div *ngIf="i == 0 " class="contenedor-img-prin">
-                        <img (click)="verImagen(url)" src="{{url}}" alt="Imagen Publicación" class="img-principal imagenContainer">
+                        <img (click)="verImagen(url)" src="{{url}}" alt="Imagen Publicación" class="img-principal imagenContainer" style="max-height: 23rem;">
                     </div>
                     <div *ngIf="i != 0 " class="contenedor-img-sec">
                         <img (click)="verImagen(url)" src="{{url}}" alt="Imagen Publicación" class="img-secundaria imagenContainer">
                     </div>
                 </div>
             </div>
-            <p class="negro negrita">Publicado el {{publication.fechapublicacion | date: 'dd/MM/yyyy'}}</p>
         </div>
         <div class="col-md-6">
             <h1 id="txt-titulo" class="negro">{{publication.nombre}}</h1>
@@ -40,6 +39,7 @@
             
         </div>
         <div class="col-12">
+            <p class="negro negrita">Publicado el {{publication.fechapublicacion | date: 'dd/MM/yyyy'}}</p>
             <h3 class="gris mt-4">Descripción:</h3>
             <ul>
                 <!-- <li class="gris fuente-lista">Marca: {{publication.brand}}</li> -->
