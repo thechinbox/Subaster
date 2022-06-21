@@ -3,7 +3,6 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { User } from '../data/Interfaces/user';
 import { UserService } from '../data/Services/user.service';
 import { Validators } from '@angular/forms';
-import { LEADING_TRIVIA_CHARS } from '@angular/compiler/src/render3/view/template';
 
 @Component({
   selector: 'app-profile',
