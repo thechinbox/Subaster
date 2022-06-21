@@ -25,12 +25,7 @@ p {
     justify-content: center;
 }
 .img-principal{
-    @media (max-width: $breakpoint){
-        width: 100%
-    }
-    @media (min-width: $breakpoint){
-        width: 50%;
-    }
+    width: 100%;
 }
 .img-secundaria{
     @media (max-width: $breakpoint){
@@ -42,15 +37,16 @@ p {
 }
 .contenedor-imgs{
     display: flex;
-    flex-wrap: wrap;
+    grid-gap: 1rem;
+    grid-gap: 1rem;
     gap: 1rem;
-    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 50rem;
+    height: 20rem;
 }
 .contenedor-img-prin{
-    //esto es para que la imagen no crezca mucho
-    @media (max-width: $breakpoint){
-        width: 100%
-    }
+    width: 100%;
+    max-height: 22rem;
 }
 .contenedor-img-sec{
     display: flex;

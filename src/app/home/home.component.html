@@ -18,42 +18,41 @@
         <div class="col-12 my-3">
             <h2>Sugerencias de Hoy</h2>
         </div>
-        <div class="col-12" id="big">
-            <carousel [height]="getheight()" class="row carousel" [cellsToShow]=4>
-                <div class="carousel-cell" *ngFor="let product of lista">
-                    <div class="card" style="min-width: 100%">
-                        <img class="card-img-top" src="../../assets/ladrillos.jfif" alt="Card image cap">
-                        <div class="card-body">
-                            <h4>$50.000 CLP</h4>
-                            <h5 class="card-title">Venta de Ladrillos</h5>
-                            <p>Quillota, Valparaiso, Chile</p>
-                            <div class="d-flex">
-                                <div>Tiempo restante</div>
-                                <div class="ms-5">20:55</div>
+        <div class="col-12">
+            <div class="col-12" id="big">
+                <carousel [height]="getheight()/1.2" class="row carousel" [cellsToShow]=4>
+                    <div class="carousel-cell" *ngFor="let product of lista">
+                        <button class="card" (click)="setId(product.id)">
+                            <img class="card-img-top img-fluid" src="{{product.url[0]}}" alt="Card image cap">
+                            <h5 class="card-title">{{product.nombre}}</h5>
+                            <div class="card-block">
+                                <div class="d-flex justify-content-center">
+                                    <p >VALOR ACTUAL: </p>
+                                    <p >CLP$</p>
+                                    <p >{{product.precio}}</p>
+                                </div>
                             </div>
-                        </div>
+                        </button>
                     </div>
-                </div>
-            </carousel>
-        </div>
-        <div class="col-12" id="small">
-            <carousel [height]="getheight()" class="row carousel" [cellsToShow]=2>
-                <div class="carousel-cell" *ngFor="let product of lista">
-                    <div class="card" style="width:100%">
-                        <img class="card-img-top" stlye="max-width: 25%"src="../../assets/ladrillos.jfif" alt="Card image cap">
-                        <div class="card-body">
-                            <h4>$50.000 CLP</h4>
-                            <h5 class="card-title">Venta de Ladrillos</h5>
-                            <p>Quillota, Valparaiso, Chile</p>
-                            <div class="d-flex">
-                                <div>Cierra en 13 Dias</div>
-                                <div>Tiempo restante</div>
-                                <div class="ms-5">20:55</div>
+                </carousel>
+            </div>
+            <div class="col-12" id="small">
+                <carousel [height]="getheight()" class="row carousel" [cellsToShow]=2>
+                    <div class="carousel-cell" *ngFor="let product of lista" >
+                        <button class="card" (click)="setId(product.id)" >
+                            <img class="card-img-top" src="{{product.url[0]}}" alt="Card image cap">
+                            <h5 class="card-title">{{product.nombre}}</h5>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-center">
+                                    <p >VALOR ACTUAL: </p>
+                                    <p >CLP$</p>
+                                    <p >{{product.precio}}</p>
+                                </div>
                             </div>
-                        </div>
+                        </button>
                     </div>
-                </div>
-            </carousel>
+                </carousel>
+            </div>
         </div>
     </div>
     <div class="row mt-5 contenedor-blanco">
