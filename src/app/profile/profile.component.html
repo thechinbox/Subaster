@@ -1,12 +1,92 @@
-<div class="contenedor-todo">
-    <div class="contenedor-tarjeta">
-        <div class="contenedor-imagen">
-            <img src="" alt="{{usuario.nombre}}" width="300px" height="300px">
+  <div [formGroup]="profileInformation">
+    <div class="row mb-2">
+      <div class="col">
+        <div class="card-body py-2">
+          <div class="row align-items-center">
+            <div class="col md-6 p-0" >
+              <div class="row justify-content-center align-items-center">
+                <div class="col-auto p-0">
+                  <ng-container>
+                    <img src="../../assets/LOGOTIPO-PUERTO-VENTANA.png" width="300px" height="300px">
+                  </ng-container>
+                </div>
+                <div class="col-auto p-0 text-center" id="cameraSvg">
+                  <label for="file-upload" class="custom-file-upload">
+                    <img src="../../assets/camera.png" width="25px" height="25px">
+                  </label>
+                  <input type="file" id="file-upload" accept="image/png, image/jpg, image/jpeg">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 px-0 py-4">
+              <div class="row">
+                <div class="col-md-8 p-0 text-left">
+                  <label class="m-0 pb-1 form-label" for="name">Nombres</label>
+                  <input class="w-100 px-4 py-2 form-control" type="text" id="name" placeholder="Nombre" value="" formControlName="nombres">
+                </div>
+                <div class="error" *ngIf="profileInformation.controls['nombres'].errors && (profileInformation.controls['nombres'].dirty || profileInformation.controls['nombres'].touched)">
+                  <p *ngIf="profileInformation.controls['nombres'].hasError('required')">*Campo requerido</p>
+                  <p *ngIf="profileInformation.controls['nombres'].hasError('minlength')">*Debe contener mínimo 10 caracteres</p>
+                  <p *ngIf="profileInformation.controls['nombres'].hasError('maxLength')">*Debe contener Máximo 50 caracteres</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8 p-0 text-left">
+                  <label class="m-0 pb-1 py-2 form-label" for="name">Apellidos</label>
+                  <input class="w-100 px-4 py-2 form-control" type="text" id="name" placeholder="Apellidos" value="" formControlName="apellidos">
+                </div>
+                <div class="error" *ngIf="profileInformation.controls['apellidos'].errors && (profileInformation.controls['apellidos'].dirty || profileInformation.controls['apellidos'].touched)">
+                  <p *ngIf="profileInformation.controls['apellidos'].hasError('required')">*Campo requerido</p>
+                  <p *ngIf="profileInformation.controls['apellidos'].hasError('minlength')">*Debe contener mínimo 10 caracteres</p>
+                  <p *ngIf="profileInformation.controls['apellidos'].hasError('maxlength')">*Debe contener Máximo 50 caracteres</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8 p-0 text-left">
+                  <label class="m-0 pb-1 py-2  form-label" for="name">Correo Electrónico</label>
+                  <input class="w-100 px-4 py-2 form-control" type="text" id="name" placeholder="Correo" value="" formControlName="correo">
+                </div>
+                <div class="error" *ngIf="profileInformation.controls['correo'].errors && (profileInformation.controls['correo'].dirty || profileInformation.controls['correo'].touched)">
+                  <p *ngIf="profileInformation.controls['correo'].hasError('required')">*Campo requerido</p>
+                  <p *ngIf="profileInformation.controls['correo'].hasError('email')">*Ingresar un correo válido</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8 p-0 text-left">
+                  <label class="m-0 pb-1 py-2  form-label" for="name">Dirección</label>
+                  <input class="w-100 px-4 py-2 form-control" type="text" id="name" placeholder="Dirección" value="" formControlName="direccion">
+                </div>
+                <div class="error" *ngIf="profileInformation.controls['direccion'].errors && (profileInformation.controls['direccion'].dirty || profileInformation.controls['direccion'].touched)">
+                  <p *ngIf="profileInformation.controls['direccion'].hasError('required')">*Campo requerido</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-8 p-0 text-left">
+                  <label class="m-0 pb-1 py-2  form-label" for="name">Celular</label>
+                  <input class="w-100 px-4 py-2 form-control" type="text" id="name" placeholder="+569XXXXXXXX" value="" formControlName="celular">
+                </div>
+                <div class="error" *ngIf="profileInformation.controls['celular'].errors && (profileInformation.controls['celular'].dirty || profileInformation.controls['celular'].touched)">
+                  <p *ngIf="profileInformation.controls['celular'].hasError('required')">*Campo requerido</p>
+                  <p *ngIf="profileInformation.controls['celular'].hasError('minlength')">*Debe contener como mínimo 12 caracteres</p>
+                  <p *ngIf="profileInformation.controls['celular'].hasError('maxlength')">*Debe contener máximo 12 caracteres</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="contenedor-detalles">
-            <h1><strong>Usuario:    </strong>{{usuario.nombre}} {{usuario.apellidos}}</h1>
-            <h1><strong>Correo:     </strong>{{usuario.correo}}</h1>
-            <h1><strong>Contraseña: </strong>{{usuario.contrasena}}</h1>
-        </div>
+      </div>
     </div>
-</div>
+    <div class="contenedor-botones pb-4">
+      <button class="px-2 mx-2" id="enviarFormulario" type="submit">
+        <span id="texto-boton">Guardar</span>
+      </button>
+      <button class="px-2 mx-2" id="limpiarCampos" (click)="resetForm()" type="reset">
+        <span id="texto-boton">Limpiar Formulario</span>
+      </button>
+    </div>
+  </div>
