@@ -2,13 +2,13 @@
     <div class="row my-5">
         <div class="col-12 d-flex justify-content-center">
             <div *ngIf="logged == false"  class="col-12 d-flex justify-content-center">
-                <button type="button" class="btn btn-lg" (click)="setMapCurrent()">Usar Posicion Actual</button>
+                <button type="button" class="btn btn-lg" (click)="setMapCurrent()">Usar Posición Actual</button>
             </div>
             <div *ngIf="logged == true" class="col-6 d-flex justify-content-end">
-                <button type="button" class="btn btn-lg" (click)="setMapCurrent()">Usar Posicion Actual</button>
+                <button type="button" class="btn btn-lg" (click)="setMapCurrent()">Usar Posición Actual</button>
             </div>
             <div *ngIf="logged == true" class="col-6">
-                <button type="button"  class="btn btn-lg" (click)="setMapDir()">Usar Mi Direcion</button>
+                <button type="button"  class="btn btn-lg" (click)="setMapDir()">Usar Mi Dirección</button>
             </div>
         </div>
         <div class="col-12 my-5" style="height: 100vh;">

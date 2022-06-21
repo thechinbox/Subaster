@@ -68,6 +68,7 @@ export class MapComponent implements OnInit {
       } 
     }
   }
+  
   setMapCurrent(){
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
