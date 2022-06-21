@@ -112,8 +112,7 @@
                 </div>
                 <div class="error" *ngIf="profileInformation.controls['celular'].errors && (profileInformation.controls['celular'].dirty || profileInformation.controls['celular'].touched)">
                   <p *ngIf="profileInformation.controls['celular'].hasError('required')">*Campo requerido</p>
-                  <p *ngIf="profileInformation.controls['celular'].hasError('minlength')">*Debe contener como mínimo 12 caracteres</p>
-                  <p *ngIf="profileInformation.controls['celular'].hasError('maxlength')">*Debe contener máximo 12 caracteres</p>
+                  <p *ngIf="profileInformation.controls['celular'].hasError('pattern')">*El campo debe contener 9 caracteres numericos</p>
                 </div>
               </div>
             </div>

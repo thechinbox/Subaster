@@ -38,10 +38,8 @@ export class ProfileComponent implements OnInit {
       ]),
       celular : new FormControl('', [
         Validators.required,
-        Validators.pattern('^[0-9] + '),
-        Validators.minLength(8),
-        Validators.maxLength(12)
-      ]),
+        Validators.pattern("^[0-9]{9}")
+      ])
     })
   }
 
@@ -54,6 +52,14 @@ export class ProfileComponent implements OnInit {
     if(sessionStorage.getItem("id") != null){
       this._user.getEmiter().subscribe( data => {
         this.usuario = this._user.getUser()
+        for(let id of this.ids){
+          if(id == "direccion.direccion"){
+            this.profileInformation.controls["direccion"].setValue(this.usuario.direccion.direccion) 
+          }else{
+            this.profileInformation.controls[id].setValue(eval("this.usuario."+id)) 
+          }
+        }
+        console.log(this.profileInformation.controls);
       })
       for(let id of this.ids){
         let aux:any = document.getElementById(id);
@@ -65,7 +71,13 @@ export class ProfileComponent implements OnInit {
           for(let id of this.ids){
             let aux:any = document.getElementById(id);
             aux.value = eval("this.usuario."+id)
+            if(id == "direccion.direccion"){
+              this.profileInformation.controls["direccion"].setValue(this.usuario.direccion.direccion) 
+            }else{
+              this.profileInformation.controls[id].setValue(eval("this.usuario."+id)) 
+            }
           }
+          console.log(this.profileInformation.controls);
         }
       }, 500);
     }
