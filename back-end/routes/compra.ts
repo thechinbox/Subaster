@@ -36,13 +36,15 @@ compraC.post('/buy', async (req:any,res:any) => {
     let idactive = req.body.activo
     let cantidad = req.body.cantidad
     console.log(idactive);
-    
-    await saveBuy(user.id, publicacion, idinactive, idactive).then((data:any) =>{
-        mail.html = data;
-    })
-    for(let p of publicacion){
+
+    for(let i in publicacion){
+        for (let index = 0; index < cantidad[i]; index++) {
+            await saveBuy(user.id, publicacion, idinactive, idactive).then((data:any) =>{
+                mail.html = data;
+            })
+        }
         console.log("Actualizando cantidad de las publicaciones");
-        await updateQuantity(p.id,(p.cantidad as number - cantidad));
+        await updateQuantity(publicacion[i].id,(publicacion[i].cantidad as number - cantidad[i]));
     }
     try {
         let accessToken = await oAuth2Client.getAccessToken();

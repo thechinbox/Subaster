@@ -207,7 +207,7 @@ publishC.get("/getmedia", (req, res) => {
     });
 });
 publishC.get("/getpublicacion", (req, res) => {
-    console.log(req.query.id);
+    console.log(req.query.cantidad);
     publicationS
         .findById(req.query.id)
         .then((publicacion) => {

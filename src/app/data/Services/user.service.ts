@@ -50,6 +50,8 @@ export class UserService {
     this.compras = new Array()
     try{
       let aux :any = sessionStorage.getItem("products")
+      console.log(aux);
+      
       for(let id of JSON.parse(aux).ids){
         this.compras.push(id)
       }
@@ -83,11 +85,11 @@ export class UserService {
   GETDIRECCION(id:any):Observable<any>{
     return this.http.get(`${environment.hostname}/direccionUsuario?id=`+id,this.HttpUploadOptions)
   }
-  BUY(productos:any, cantidadC:any):Observable<any>{
+  BUY(productos:any, cantidadesC:any):Observable<any>{
     let inactivo:any = this.attributes.getinactivepubid()
     let activo:any = this.attributes.getactivepub()
     return this.http.post(`${environment.hostname}/buy`,JSON.stringify({
-      user:this.user,productos:productos, inactivo:inactivo,activo:activo, cantidad:cantidadC}),this.HttpUploadOptions)
+      user:this.user,productos:productos, inactivo:inactivo,activo:activo, cantidad:cantidadesC}),this.HttpUploadOptions)
   }
   VERIFYEMAIL(correo:string):Observable<any>{
     return this.http.get(`${environment.hostname}/recover?correo=`+correo, this.HttpUploadOptions)

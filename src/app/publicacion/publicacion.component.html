@@ -26,17 +26,27 @@
                 <h2 class="gris " id="txt-valor">VALOR ACTUAL: </h2>
                 <h2 class="azul" id="txt-moneda">CLP$</h2>
                 <h2 class="azul" id="valor">{{publication.precio}}</h2>
-            </div>
+            </div>  
             <div class="my-5">
                 <h3 class="d-flex justify-content-center" >Fecha Publicación</h3>
                 <h3 class="d-flex justify-content-center" >
                     {{publication.fechapublicacion | date: 'dd/MM/yyyy'}}
                 </h3>
             </div>
-            <div class="d-flex justify-content-center my-3 ">
-                <button class="btn btn-lg " (click)="comprar()" type="button" id="botonPujar">Comprar</button>
-            </div>
-            
+            <form [formGroup]="compraForm"> 
+                <div class="d-flex justify-content-center my-3 ">
+                    <label id="cantidadLabel">Cantidad </label>
+                    <input class="form-control" style="width:fit-content;" type="number" id="cantidadCompra" formControlName="cantidadCompra">   
+                </div>  
+                <div class="error" *ngIf="compraForm.controls['cantidadCompra'].errors && (compraForm.controls['cantidadCompra'].dirty || compraForm.controls['cantidadCompra'].touched)">
+                    <p class="d-flex justify-content-center rojo" *ngIf="compraForm.controls['cantidadCompra'].hasError('required')">*Campo requerido</p>
+                    <p class="d-flex justify-content-center rojo" *ngIf="compraForm.controls['cantidadCompra'].hasError('min')">*El minimo valor es 1</p>
+                    <p class="d-flex justify-content-center rojo" *ngIf="compraForm.controls['cantidadCompra'].hasError('max')">*El maximo valor es {{publication.cantidad}}</p>
+                </div>
+                <div class="d-flex justify-content-center my-3 ">
+                    <button class="btn btn-lg "[disabled]="compraForm.invalid" (click)="comprar()" type="button" id="botonPujar">Comprar</button>
+                </div>  
+            </form>
         </div>
         <div class="col-12">
             <p class="negro negrita">Publicado el {{publication.fechapublicacion | date: 'dd/MM/yyyy'}}</p>

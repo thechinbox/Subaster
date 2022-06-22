@@ -10,6 +10,7 @@ import { AttributesService } from '../data/Services/attributes.service';
 import { ModalSwitchService } from '../data/Services/modal-switch.service';
 import { ChileinfoService } from '../data/Services/chileinfo.service';
 import { UserService } from '../data/Services/user.service';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-publicacion',
@@ -24,10 +25,18 @@ export class PublicacionComponent implements OnInit {
   comentarios:Comment[];
   imagenSwitch: boolean = false;
   url:any
+  compraForm:FormGroup
+
   constructor(private _publication: PublicationService, private router:Router, 
               private activatedRoute:ActivatedRoute, private attributes:AttributesService,
               private _switchPujar: ModalSwitchService, private chileinfo:ChileinfoService,
               private usuario:UserService) {
+    this.compraForm = new FormGroup({
+      cantidadCompra: new FormControl('', [
+        Validators.required,
+        Validators.min(1)
+      ])
+    })
     this.publication = {
       id: '',
       nombre:'',
@@ -67,6 +76,7 @@ export class PublicacionComponent implements OnInit {
         this.publication.estadoproducto = await this.attributes.getestado(data.estadoproducto)
         this.publication.unidad = await this.attributes.getunidad(data.unidad)
         this.publication.categoria = await this.attributes.getcategoria(data.categoria)
+        this.compraForm.controls["cantidadCompra"].addValidators([Validators.max(this.publication.cantidad as number)])
         await this._publication.GETDIRECTION(this.publication.id).subscribe(data => {
           this.publication.direccion = data
           let region = this.chileinfo.getregion(this.publication.direccion.region)   
@@ -101,7 +111,7 @@ export class PublicacionComponent implements OnInit {
     this._switchPujar.SetVerImagen(true)
   }
   comprar(){
-    this.usuario.addProduct(this.publication.id).then(() =>{
+    this.usuario.addProduct(this.publication.id + "&cantidad=" + this.compraForm.controls["cantidadCompra"].value).then(() =>{
       this._switchPujar.SetPublicacionPujarSwitch(true);
     })
   }

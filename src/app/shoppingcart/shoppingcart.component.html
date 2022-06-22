@@ -51,7 +51,7 @@
                 <h3>Resumen de Compra</h3>
                 <div class="contenedor-blanco productos">
                     <div class="mt-5">
-                        <div class="row" *ngFor="let product of preview">
+                        <div class="row" *ngFor="let product of preview; let i = index" [attr.data-index]="i">
                             <div class="contenedor-detalle">
                                 <div class="col-12">
                                     <p>{{product.nombre}}</p>
@@ -59,6 +59,10 @@
                                 <div class="col-12 d-flex" style="margin-top: -15px;">
                                     <p class="me-5">Precio: </p>
                                     <p class="bold green">CLP$ {{product.precio}}</p>
+                                </div>
+                                <div class="col-12 d-flex" style="margin-top: -15px;">
+                                    <p class="me-5">Cantidad: </p>
+                                    <p class="bold">{{cantidades[i]}}</p>
                                 </div>
                             </div>
                         </div>

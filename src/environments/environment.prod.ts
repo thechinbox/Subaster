@@ -1,7 +1,7 @@
 
 export const environment = {
   production: true,
-  hostname:"http://137.184.139.154:8080/",
+  hostname:"http://127.0.0.1:8080",
   firebaseConfig : {
     apiKey: "AIzaSyB-1ZOWLmkBWFhplKvpy-mR3hoPnd0zGAE",
     authDomain: "subaster-4fb24.firebaseapp.com",

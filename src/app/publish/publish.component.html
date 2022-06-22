@@ -1,5 +1,5 @@
 <div class="container my-5">
-    <form class="row" id="formulario"[formGroup]="publicacionForm" (ngSubmit)="waitUpload()">
+    <form class="row" id="formulario" [formGroup]="publicacionForm" (ngSubmit)="waitUpload()">
         <div class="col-12 col-md-8">
             <input type="file" class="form-control-file" id="media" (change)="cargarImagen($event)" accept=".jpg,.jpeg,.png,.mp4, MKV" multiple  formControlName="media">
             <div class="error" *ngIf="publicacionForm.controls['media'].errors && (publicacionForm.controls['media'].dirty || publicacionForm.controls['media'].touched)">

@@ -3,6 +3,9 @@ $breakpoint: 900px;
 p {
     margin-bottom: 0;
 }
+.rojo{
+    color: red;
+}
 .negro{
     color: black;
 }
@@ -63,6 +66,10 @@ p {
 }
 .contenedor-titulos{
     text-align: center;
+}
+#cantidadLabel{
+    position: relative;
+    top: 5px;
 }
 h1#txt-titulo{
     text-transform: uppercase;

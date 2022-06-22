@@ -38,12 +38,14 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     let idactive = req.body.activo;
     let cantidad = req.body.cantidad;
     console.log(idactive);
-    yield saveBuy(user.id, publicacion, idinactive, idactive).then((data) => {
-        mail.html = data;
-    });
-    for (let p of publicacion) {
+    for (let i in publicacion) {
+        for (let index = 0; index < cantidad[i]; index++) {
+            yield saveBuy(user.id, publicacion, idinactive, idactive).then((data) => {
+                mail.html = data;
+            });
+        }
         console.log("Actualizando cantidad de las publicaciones");
-        yield updateQuantity(p.id, (p.cantidad - cantidad));
+        yield updateQuantity(publicacion[i].id, (publicacion[i].cantidad - cantidad[i]));
     }
     try {
         let accessToken = yield oAuth2Client.getAccessToken();
