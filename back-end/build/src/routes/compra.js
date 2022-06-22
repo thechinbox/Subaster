@@ -38,12 +38,10 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     let idactive = req.body.activo;
     let cantidad = req.body.cantidad;
     console.log(idactive);
+    yield saveBuy(user.id, publicacion, cantidad, idinactive, idactive).then((data) => {
+        mail.html = data;
+    });
     for (let i in publicacion) {
-        for (let index = 0; index < cantidad[i]; index++) {
-            yield saveBuy(user.id, publicacion, idinactive, idactive).then((data) => {
-                mail.html = data;
-            });
-        }
         console.log("Actualizando cantidad de las publicaciones");
         yield updateQuantity(publicacion[i].id, (publicacion[i].cantidad - cantidad[i]));
     }
@@ -69,36 +67,39 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(200).send("enviado");
     }
 }));
-function saveBuy(idusuario, publicaciones, inactivo, idactivo) {
+function saveBuy(idusuario, publicaciones, cantidades, inactivo, idactivo) {
     return __awaiter(this, void 0, void 0, function* () {
         let total = 0;
         let html = '<div style="text-align: center;">' +
             '<h1>Subaster</h1>' +
             '<h4 style="margin-top: 20px">¡Hola! Gracias por comprar con nosotros.</h4>' +
             '<h5>Te adjuntamos el recibo de tu compra:</h5>';
-        for (let p of publicaciones) {
-            html = html + '<h5>Código: ' + p.id + '</h5>';
-            html = html + '<h5>Artículo: ' + p.nombre + '</h5>';
-            html = html + '<h5>Valor: CLP$' + p.precio + '</h5>';
-            total = total + p.precio;
-            stockS.
-                findOneAndUpdate({ "idpublicacion": ObjectID(p.id), "idestado": ObjectID(idactivo) }, { $set: { "idestado": ObjectID(inactivo) } }, (err, data) => __awaiter(this, void 0, void 0, function* () {
-                let compra = new compraS({
-                    idstock: data._id,
-                    idusuario: idusuario,
-                    idpublicacion: p.id,
-                    fechaventa: new Date()
-                });
-                compra
-                    .save((err, data) => __awaiter(this, void 0, void 0, function* () {
-                    if (data) {
-                        console.log("venta fija update");
-                    }
-                    else {
-                        console.log(err);
-                    }
+        for (let i in publicaciones) {
+            html = html + '<h5>Código: ' + publicaciones[i].id + '</h5>';
+            html = html + '<h5>Artículo: ' + publicaciones[i].nombre + '</h5>';
+            html = html + '<h5>Valor: CLP$' + publicaciones[i].precio + '</h5>';
+            html = html + '<h5>Cantidad: ' + cantidades[i] + '</h5>';
+            total = total + publicaciones[i].precio * cantidades[i];
+            for (let index = 0; index < cantidades[i]; index++) {
+                stockS.
+                    findOneAndUpdate({ "idpublicacion": ObjectID(publicaciones[i].id), "idestado": ObjectID(idactivo) }, { $set: { "idestado": ObjectID(inactivo) } }, (err, data) => __awaiter(this, void 0, void 0, function* () {
+                    let compra = new compraS({
+                        idstock: data._id,
+                        idusuario: idusuario,
+                        idpublicacion: publicaciones[i].id,
+                        fechaventa: new Date()
+                    });
+                    compra
+                        .save((err, data) => __awaiter(this, void 0, void 0, function* () {
+                        if (data) {
+                            console.log("venta fija update");
+                        }
+                        else {
+                            console.log(err);
+                        }
+                    }));
                 }));
-            }));
+            }
         }
         html = html + '<h5>Total: CLP$' + total + '</h5>';
         html = html + '</div>';
