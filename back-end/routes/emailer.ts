@@ -15,6 +15,9 @@
         13.- Rellenar los campos hasta URI de Direccionamientos Autorizados
         14.- En añadir URI se debe añadir el siguiente enlace https://developers.google.com/oauthplayground y dar a Crear
         15.- Guardar datos de la pestaña emergente (idCliente y Secreto)
+
+        #### ESTA PARTE TAMBIÉN SIRVE PARA ACTUALIZAR TOKENS ####
+
         16.- Dirigirse al sitio OAuthPlayGround
             17.- A la derecha hay un boton tuerca, clickear para abrir configuraciones
             18.- Clickear en usar mis propias OAuth Credencials
@@ -39,7 +42,7 @@ let nodemailer = require("nodemailer");
 let userS = require("../models/userS")
 let bcrypt = require("bcrypt");
 
-let REFRESH_TOKEN = "1//04iaQkcJ6x-XYCgYIARAAGAQSNwF-L9IrW3cy3VXTsdwRZnfGlRoW7koN3YdWMUBezDiFah604D2UEs7EWwDz6uApwLK3NJrk2ro";
+let REFRESH_TOKEN = "1//04fo-JzThyJ1gCgYIARAAGAQSNwF-L9Irq0RQvnMCBj2rUMiDIp51vmxDTTdKmr8P8A_XTIgdXG0mpK8wjr56bq0X41838A8WfOY";
 let CLIENT_ID = "90357140452-qdmaul0i29hco6122uhqs7oielejdcmm.apps.googleusercontent.com";
 let CLIENT_SECRET = "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";
 let userMail = "testsubaster@gmail.com";
