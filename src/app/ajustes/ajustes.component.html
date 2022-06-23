@@ -1,0 +1,15 @@
+<div class="container-fluid m-2">
+    <div class="row">
+        <div class="col-md-3">
+            <app-menu-lateral id="menu-lateral" (selected)="selected($event)"></app-menu-lateral>
+        </div>
+        <div class="col-md-9 col-12">
+            <div *ngIf="select == 0">
+                <app-edit-profile ></app-edit-profile>  
+            </div>
+            <div *ngIf="select == 1">
+                <app-change-password></app-change-password>
+            </div>  
+        </div>
+    </div>
+</div>

@@ -1,0 +1,21 @@
+.menu-lateral{
+    position:relative;
+    min-height: 100%;
+    min-width: 100%;
+}
+.opcion{
+    border: 1px dotted black;
+}
+.opciones{
+    border: 1px solid black;
+    min-height: 100%;
+}
+
+.toggle:hover{
+    cursor: pointer;
+}
+button.truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }

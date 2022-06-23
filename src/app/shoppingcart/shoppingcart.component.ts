@@ -66,14 +66,20 @@ export class ShoppingcartComponent implements OnInit {
 
   }
   changeQ(id:any, event:any){
-    console.log(event.target.value);
-    for(let i in this.preview){
-      if(this.preview[i].id == id){
-        //this.total = this.total - ((this.preview[i].precio as number) * event.target.value)
-        console.log(this.preview[i]);
-        
-      }
+    let aux = Array<String>();
+    for(let j in this.preview){
+      if(this.preview[j].id == id){
+        this.total = this.total - ((this.preview[j].precio as number) * this.cantidades[j])
+        this.total = this.total + ((this.preview[j].precio as number) * event.target.value)
+        this.cantidades[j] = event.target.value
+        aux.push(this.preview[j].id+"&cantidad="+event.target.value)
+      }else{
+        aux.push(this.preview[j].id+"&cantidad="+this.cantidades[j])
+      }     
     }
+    sessionStorage.removeItem("products")
+    sessionStorage.setItem("products", JSON.stringify({ids:aux}))
+    this.user.refreshProducts()
   }
 
   eliminarCarrito(id:any){
@@ -105,6 +111,7 @@ export class ShoppingcartComponent implements OnInit {
     console.log(aux);
     sessionStorage.removeItem("products")
     sessionStorage.setItem("products", JSON.stringify({ids:aux}))
+    this.user.refreshProducts()
   }
 
   finalizarCompra(){

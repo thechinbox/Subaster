@@ -107,7 +107,13 @@ export class UserService {
   getEmiter(){
     return this.fireIsLoggedIn;
   }
-
+  refreshProducts(){
+    this.compras = new Array();
+    let aux :any = sessionStorage.getItem("products")
+    for(let id of JSON.parse(aux).ids){
+      this.compras.push(id)
+    }
+  }
   resetProducts(){
     this.compras = new Array()
   }

@@ -47,12 +47,12 @@
             </div>
         </div>
         <ng-container *ngIf="this.preview.length > 0">
-            <form class="col-md-4 my-md-5">
+            <div class="col-md-4 my-md-5">
                 <h3>Resumen de Compra</h3>
                 <div class="contenedor-blanco productos">
                     <div class="mt-5">
-                        <div class="row" *ngFor="let product of preview; let i = index" [attr.data-index]="i">
-                            <div class="contenedor-detalle">
+                        <div class="row " *ngFor="let product of preview; let i = index" [attr.data-index]="i">
+                            <div class=" p-0">
                                 <div class="col-12">
                                     <p>{{product.nombre}}</p>
                                 </div>
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                     <div class="row my-5 mx-2">
-                        <div *ngIf="total >0 "class="d-flex">
+                        <div *ngIf="total >0 "class="d-flex justify-content-center">
                             <p class="me-5">Total a Pagar: </p>
                             <p class="bold green">CLP$ </p>
                             <p class="bold green">{{total}}</p>
@@ -80,7 +80,7 @@
                         <button class="btn btn-lg" type="button" (click)="finalizarCompra()" [disabled]="!comprar">Finalizar Compra</button>
                     </div>
                 </div>
-            </form>
+            </div>
         </ng-container>
     </div>
 </div>

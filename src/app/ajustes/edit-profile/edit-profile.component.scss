@@ -1,0 +1,57 @@
+#cameraSvg {
+    right: 25px;
+  }
+  
+  input[type="file"]{
+    display: none;
+  }
+  
+  .custom-file-upload{
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 70px;
+    border-color: rgba(0, 0, 0, 0.801);
+    border-style: solid;
+  }
+  
+  .error{
+    color: red;
+  }
+  
+  .contenedor-botones{
+    display: flex;
+    justify-content: center;
+  }
+  
+  #enviarFormulario{
+    background-color: rgba(0, 128, 0, 0.568);
+    border-radius: 25px;
+    border-color:grey;
+    span {
+      color: white;
+    }
+  }
+  #enviarFormulario:disabled{
+    background-color: rgba(56, 117, 56, 0.568);
+    border-radius: 25px;
+    border-color:rgba(128, 128, 128, 0.479);
+    span {
+      color: white;
+    }
+  }
+  
+  #limpiarCampos{
+    background-color: rgba(0, 128, 0, 0.568);
+    border-radius: 25px;
+    border-color:grey;
+    span {
+      color: white;
+    }
+  }
+  .edit{
+    border: none;
+    background: none ;
+  }
+  
+  

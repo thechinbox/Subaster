@@ -1,0 +1,117 @@
+<div class="container p-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="../../assets/LOGOTIPO-PUERTO-VENTANA.png" width="100%">
+        </div>
+        <div class="col-md-8">
+            <form class="row" [formGroup]="profileInformation">
+                <div class="col-12 p-0">
+                    <label class="m-0 pb-1 form-label" for="name">Nombres</label>
+                    <div class="d-flex  ">
+                      <input class="w-100 px-4 py-2 form-control" type="text" id="nombre" placeholder="Nombre" value="{{usuario.nombre}}" formControlName="nombre">
+                      <button (click)="editar('nombre')" *ngIf="editando.includes('nombre') == false" class="edit"><span class="material-symbols-outlined edit_button">
+                        edit
+                      </span></button>
+                      <button (click)="removeEdit('nombre')" *ngIf="editando.includes('nombre') == true" class="edit"><span class="material-symbols-outlined edit_button">
+                        cancel
+                      </span></button>
+                    </div>
+                    <div class="d-flex justify-content-center error" *ngIf="profileInformation.controls['nombre'].errors && (profileInformation.controls['nombre'].dirty || profileInformation.controls['nombre'].touched)">
+                        <p *ngIf="profileInformation.controls['nombre'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="profileInformation.controls['nombre'].hasError('minlength')">*Debe contener mínimo 10 caracteres</p>
+                        <p *ngIf="profileInformation.controls['nombre'].hasError('maxLength')">*Debe contener Máximo 50 caracteres</p>
+                    </div>
+                </div>
+                <div class="col-12 p-0 text-left">
+                    <label class="m-0 pb-1 py-2 form-label" for="name">Apellidos</label>
+                    <div class="d-flex ">
+                      <input class="w-100 px-4 py-2 form-control" type="text" id="apellidos" placeholder="Apellidos" value="{{usuario.apellidos}}" formControlName="apellidos">
+                      <button (click)="editar('apellidos')" *ngIf="editando.includes('apellidos') == false" class="edit"><span class="material-symbols-outlined edit_button">
+                        edit
+                      </span></button>
+                      <button (click)="removeEdit('apellidos')" *ngIf="editando.includes('apellidos') == true" class="edit"><span class="material-symbols-outlined edit_button">
+                        cancel
+                      </span></button>
+                    </div>
+                    <div class="d-flex justify-content-center error" *ngIf="profileInformation.controls['apellidos'].errors && (profileInformation.controls['apellidos'].dirty || profileInformation.controls['apellidos'].touched)">
+                        <p *ngIf="profileInformation.controls['apellidos'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="profileInformation.controls['apellidos'].hasError('minlength')">*Debe contener mínimo 10 caracteres</p>
+                        <p *ngIf="profileInformation.controls['apellidos'].hasError('maxlength')">*Debe contener Máximo 50 caracteres</p>
+                    </div>
+                </div>
+
+                <div class="col-12 p-0 text-left">
+                    <label class="m-0 pb-1 py-2  form-label" for="name">Correo Electrónico</label>
+                    <div class="d-flex ">
+                      <input class="w-100 px-4 py-2 form-control" type="text" id="correo" placeholder="Correo" value="{{usuario.correo}}" formControlName="correo">
+                      <button (click)="editar('correo')" *ngIf="editando.includes('correo') == false" class="edit"><span class="material-symbols-outlined edit_button">
+                        edit
+                      </span></button>
+                      <button (click)="removeEdit('correo')" *ngIf="editando.includes('correo') == true" class="edit"><span class="material-symbols-outlined edit_button">
+                        cancel
+                      </span></button>
+                    </div>
+                    <div class="d-flex justify-content-center error" *ngIf="profileInformation.controls['correo'].errors && (profileInformation.controls['correo'].dirty || profileInformation.controls['correo'].touched)">
+                        <p *ngIf="profileInformation.controls['correo'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="profileInformation.controls['correo'].hasError('email')">*Ingresar un correo válido</p>
+                    </div>
+                </div> 
+                <div  *ngIf="editando.includes('direccion.direccion') == true"  class="col-12 p-0 text-left">
+                  <label>Region</label>
+                    <select (change)="buscar_ciudad($event)" class="form-select " name="region" id="region" >
+                        <option  id="{{r.id}}" *ngFor="let r of regiones" value="{{r.region}}"> {{r.region}}</option>
+                    </select>
+                    <!--<div class="error" *ngIf="publicacionForm.controls['region'].errors && (publicacionForm.controls['region'].dirty || publicacionForm.controls['region'].touched)">
+                        <p *ngIf="publicacionForm.controls['region'].hasError('required')">*Campo requerido</p>
+                    </div>-->
+                </div>
+                <div  *ngIf="editando.includes('direccion.direccion') == true"  class="col-12 p-0 text-left">
+                  <label>Comuna</label>
+                    <select class="form-select" name="comuna" id="comuna" >
+                    </select>
+                    <!--<div class="error" *ngIf="publicacionForm.controls['comuna'].errors && (publicacionForm.controls['comuna'].dirty || publicacionForm.controls['comuna'].touched)">
+                        <p *ngIf="publicacionForm.controls['comuna'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="publicacionForm.controls['comuna'].hasError('nullValidator')">*Campo requerido</p>
+                    </div>-->
+                </div>
+                <div class="col-md-12 p-0 text-left">
+                    <label class="m-0 pb-1 py-2  form-label" for="name">Dirección</label>
+                    <div class="d-flex ">
+                      <input class="w-100 px-4 py-2 form-control" type="text" id="direccion.direccion" placeholder="Dirección" value="{{usuario.direccion.direccion}}" formControlName="direccion">
+                      <button (click)="editar('direccion.direccion')" *ngIf="editando.includes('direccion.direccion') == false" class="edit"><span class="material-symbols-outlined edit_button">
+                        edit
+                      </span></button>
+                      <button (click)="removeEdit('direccion.direccion')" *ngIf="editando.includes('direccion.direccion') == true" class="edit"><span class="material-symbols-outlined edit_button">
+                        cancel
+                      </span></button>
+                    </div>
+                    <div class="d-flex justify-content-center error" *ngIf="profileInformation.controls['direccion'].errors && (profileInformation.controls['direccion'].dirty || profileInformation.controls['direccion'].touched)">
+                        <p *ngIf="profileInformation.controls['direccion'].hasError('required')">*Campo requerido</p>
+                    </div>
+                </div> 
+
+                <div class="col-md-12 p-0 text-left">
+                    <label class="m-0 pb-1 py-2  form-label" for="name">Celular</label>
+                    <div class="d-flex">
+                      <input class="w-100 px-4 py-2 form-control" type="text" id="celular" placeholder="+569XXXXXXXX" value="{{usuario.celular}}" formControlName="celular">
+                      <button (click)="editar('celular')" *ngIf="editando.includes('celular') == false" class="edit"><span class="material-symbols-outlined edit_button">
+                        edit
+                      </span></button>
+                      <button (click)="removeEdit('celular')" *ngIf="editando.includes('celular') == true" class="edit"><span class="material-symbols-outlined edit_button">
+                        cancel
+                      </span></button>
+                    </div>
+                    <div class="d-flex justify-content-center error" *ngIf="profileInformation.controls['celular'].errors && (profileInformation.controls['celular'].dirty || profileInformation.controls['celular'].touched)">
+                        <p *ngIf="profileInformation.controls['celular'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="profileInformation.controls['celular'].hasError('pattern')">*El campo debe contener 9 caracteres numericos</p>
+                    </div>
+                </div>
+            </form>
+            <div *ngIf="editando.length > 0" class="col-12 mt-2 contenedor-botones pb-4">
+                <button [disabled]="profileInformation.invalid" class="btn btn-lg px-2 mx-2" id="enviarFormulario" type="submit">
+                  <span id="texto-boton">Guardar</span>
+                </button>
+            </div>
+        </div> 
+    </div>
+</div>

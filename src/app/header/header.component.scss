@@ -9,6 +9,7 @@
 .material-symbols-outlined{
     color: rgb(2, 69, 2);
 }
+
 .col{
     display: flex;
     flex-wrap: wrap;
@@ -31,13 +32,18 @@
     border-radius: 10px;
     height: fit-content;
 }
-.dropdown-menu{
+.logeado{
     height: fit-content;
     position: relative;
     left: -7px;
     top: 0px;
 }
-    
+.no-logeado{
+    height: fit-content;
+    position: relative;
+    left: 6px;
+    top: 0px;
+}
 #iconos{
     @media (min-width:768px) {
         display: grid;

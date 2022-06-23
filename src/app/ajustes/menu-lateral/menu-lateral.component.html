@@ -1,0 +1,14 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="opciones col-12">
+            <div class="row" style="min-height:fit-content;">
+                <h2 (click)="isCollapsedA=!isCollapsedA" class="toggle">Ajustes</h2>
+                <ul class="col-12 dropdown-menu menu-lateral" [ngbCollapse]="isCollapsedA">
+                    <li><button class="btn btn-lg dropdown-item" (click)="seleccionar(0)">Ver-Editar Informacion</button></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><button class="btn btn-lg dropdown-item" (click)="seleccionar(1)"> Modificar Contraseña</button></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

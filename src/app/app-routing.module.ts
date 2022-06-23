@@ -7,12 +7,12 @@ import { UsComponent } from './us/us.component';
 import { RegistroComponent } from './registro/registro.component';
 import { PublicacionComponent } from './publicacion/publicacion.component';
 import { BrowserComponent } from './browser/browser.component';
-import { ProfileComponent } from './profile/profile.component';
 import { ShoppingcartComponent } from './shoppingcart/shoppingcart.component';
 import { PermisosGuard } from './guards/permisos.guard';
 import { RecoveryComponent } from './login/recovery/recovery.component';
 import { MapComponent } from './map/map.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AjustesComponent } from './ajustes/ajustes.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -27,10 +27,10 @@ const routes: Routes = [
   {path:'recovery', component:RecoveryComponent},
   {path:'registro', component:RegistroComponent},
   {path:'browser', component:BrowserComponent},
-  {path:'profile', component:ProfileComponent},
   {path:'carrito', component:ShoppingcartComponent},
   {path:'mapa', component:MapComponent},
   {path:'404', component:NotFoundComponent},
+  {path:'ajustes', component:AjustesComponent},
   {path:'**', redirectTo: '404'}
 ];
 

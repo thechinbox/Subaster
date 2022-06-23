@@ -14,7 +14,6 @@ import { UsComponent } from './us/us.component';
 import { LoginComponent } from './login/login.component';
 import { FooterComponent } from './footer/footer.component';
 import { ReactiveFormsModule, FormsModule} from '@angular/forms';
-
 import { RegistroComponent } from './registro/registro.component';
 import { PublicacionComponent } from './publicacion/publicacion.component';
 import { PublicationService } from './data/Services/publication.service';
@@ -34,6 +33,10 @@ import { RecoveryComponent } from './login/recovery/recovery.component';
 import { MapComponent } from './map/map.component';
 import { VerimagenComponent } from './publicacion/verimagen/verimagen.component';
 import { NotFoundComponent } from './not-found/not-found.component';
+import { AjustesComponent } from './ajustes/ajustes.component';
+import { MenuLateralComponent } from './ajustes/menu-lateral/menu-lateral.component';
+import { EditProfileComponent } from './ajustes/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './ajustes/change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +58,11 @@ import { NotFoundComponent } from './not-found/not-found.component';
     RecoveryComponent,
     MapComponent,
     VerimagenComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AjustesComponent,
+    MenuLateralComponent,
+    EditProfileComponent,
+    ChangePasswordComponent
   ],
   imports: [
     BrowserModule,

@@ -39,7 +39,7 @@
             <form [formGroup]="compraForm"> 
                 <div class="d-flex justify-content-center my-3 ">
                     <label id="cantidadLabel">Cantidad </label>
-                    <input class="form-control" style="width:fit-content;" type="number" id="cantidadCompra" formControlName="cantidadCompra">   
+                    <input class="form-control form-control-sm w-25 ms-1" type="number" id="cantidadCompra" formControlName="cantidadCompra">   
                 </div>  
                 <div class="error" *ngIf="compraForm.controls['cantidadCompra'].errors && (compraForm.controls['cantidadCompra'].dirty || compraForm.controls['cantidadCompra'].touched)">
                     <p class="d-flex justify-content-center rojo" *ngIf="compraForm.controls['cantidadCompra'].hasError('required')">*Campo requerido</p>
