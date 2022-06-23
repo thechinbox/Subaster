@@ -15,6 +15,9 @@
         13.- Rellenar los campos hasta URI de Direccionamientos Autorizados
         14.- En añadir URI se debe añadir el siguiente enlace https://developers.google.com/oauthplayground y dar a Crear
         15.- Guardar datos de la pestaña emergente (idCliente y Secreto)
+
+        #### ESTA PARTE TAMBIÉN SIRVE PARA ACTUALIZAR TOKENS ####
+
         16.- Dirigirse al sitio OAuthPlayGround
             17.- A la derecha hay un boton tuerca, clickear para abrir configuraciones
             18.- Clickear en usar mis propias OAuth Credencials
