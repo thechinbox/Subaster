@@ -23,6 +23,7 @@ export class PublicacionComponent implements OnInit {
   aux : any;
   modalSwitch: boolean = false;
   comentarios:Comment[];
+  alreadyShopped = false;
   imagenSwitch: boolean = false;
   url:any
   compraForm:FormGroup
@@ -111,8 +112,15 @@ export class PublicacionComponent implements OnInit {
     this._switchPujar.SetVerImagen(true)
   }
   comprar(){
-    this.usuario.addProduct(this.publication.id + "&cantidad=" + this.compraForm.controls["cantidadCompra"].value).then(() =>{
-      this._switchPujar.SetPublicacionPujarSwitch(true);
+    this.usuario.addProduct(this.publication.id + "&cantidad=" + this.compraForm.controls["cantidadCompra"].value).then((data) =>{
+      if(data){
+        this._switchPujar.SetPublicacionPujarSwitch(true);
+      }else{
+        this.alreadyShopped = true;
+        setTimeout(()=>{
+          this.alreadyShopped = false;
+        },2000)
+      }
     })
   }
 

@@ -63,6 +63,17 @@ export class ShoppingcartComponent implements OnInit {
    }
 
   ngOnInit(): void {    
+
+  }
+  changeQ(id:any, event:any){
+    console.log(event.target.value);
+    for(let i in this.preview){
+      if(this.preview[i].id == id){
+        //this.total = this.total - ((this.preview[i].precio as number) * event.target.value)
+        console.log(this.preview[i]);
+        
+      }
+    }
   }
 
   eliminarCarrito(id:any){

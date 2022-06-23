@@ -13,19 +13,13 @@ const index_js_1 = require("../index.js");
 //Modulo que permite el envio de correos a gmail
 let { google } = require('googleapis');
 let nodemailer = require("nodemailer");
-let REFRESH_TOKEN = "1//04iaQkcJ6x-XYCgYIARAAGAQSNwF-L9IrW3cy3VXTsdwRZnfGlRoW7koN3YdWMUBezDiFah604D2UEs7EWwDz6uApwLK3NJrk2ro";
+let REFRESH_TOKEN = "1//04OY1_12rLq02CgYIARAAGAQSNwF-L9IrfTgit-rx0rwo_FINCuFE3CYr_t-0okHvq_0sZWHjdqycRx7WSFLWcz193MHLuqSpzFU";
 let CLIENT_ID = "90357140452-qdmaul0i29hco6122uhqs7oielejdcmm.apps.googleusercontent.com";
 let CLIENT_SECRET = "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";
 let userMail = "testsubaster@gmail.com";
 let REDIRECT_URI = "https://developers.google.com/oauthplayground"; // NO CAMBIAR
 let oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN }); // NO CAMBIAR
-let mail = {
-    from: "Subaster",
-    to: "testsubaster@gmail.com",
-    subject: "Subaster - Recibo de Compra",
-    html: ""
-};
 const compraC = index_js_1.express.Router();
 let compraS = require("../models/compraS");
 let stockS = require("../models/stockS");
@@ -37,6 +31,12 @@ compraC.post('/buy', (req, res) => __awaiter(void 0, void 0, void 0, function* (
     let idinactive = req.body.inactivo;
     let idactive = req.body.activo;
     let cantidad = req.body.cantidad;
+    let mail = {
+        from: "Subaster",
+        to: user.correo,
+        subject: "Subaster - Recibo de Compra",
+        html: ""
+    };
     console.log(idactive);
     yield saveBuy(user.id, publicacion, cantidad, idinactive, idactive).then((data) => {
         mail.html = data;
@@ -103,6 +103,7 @@ function saveBuy(idusuario, publicaciones, cantidades, inactivo, idactivo) {
         }
         html = html + '<h5>Total: CLP$' + total + '</h5>';
         html = html + '</div>';
+        console.log(html);
         return html;
     });
 }

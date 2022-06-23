@@ -7,7 +7,7 @@ import { User } from '../Interfaces/user.js';
 let { google } = require('googleapis')
 let nodemailer = require("nodemailer");
 
-let REFRESH_TOKEN = "1//04iaQkcJ6x-XYCgYIARAAGAQSNwF-L9IrW3cy3VXTsdwRZnfGlRoW7koN3YdWMUBezDiFah604D2UEs7EWwDz6uApwLK3NJrk2ro";
+let REFRESH_TOKEN = "1//04OY1_12rLq02CgYIARAAGAQSNwF-L9IrfTgit-rx0rwo_FINCuFE3CYr_t-0okHvq_0sZWHjdqycRx7WSFLWcz193MHLuqSpzFU";
 let CLIENT_ID = "90357140452-qdmaul0i29hco6122uhqs7oielejdcmm.apps.googleusercontent.com";
 let CLIENT_SECRET = "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";
 let userMail = "testsubaster@gmail.com";
@@ -16,12 +16,7 @@ let oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI
 oAuth2Client.setCredentials({ refresh_token:REFRESH_TOKEN }); // NO CAMBIAR
 
 
-let mail={
-    from: "Subaster",
-    to: "testsubaster@gmail.com",
-    subject: "Subaster - Recibo de Compra",
-    html: ""
-}
+
 
 const compraC = express.Router();
 let compraS = require("../models/compraS");
@@ -30,11 +25,18 @@ let publicationS = require("../models/publicationS");
 let ObjectID = require('mongodb').ObjectID;
 
 compraC.post('/buy', async (req:any,res:any) => {
+    
     let user:User = req.body.user
     let publicacion:Array<Publish> = req.body.productos
     let idinactive = req.body.inactivo
     let idactive = req.body.activo
     let cantidad = req.body.cantidad
+    let mail={
+        from: "Subaster",
+        to: user.correo,
+        subject: "Subaster - Recibo de Compra",
+        html: ""
+    }
     console.log(idactive);
 
     await saveBuy(user.id, publicacion, cantidad, idinactive, idactive).then((data:any) =>{
@@ -101,7 +103,9 @@ async function saveBuy(idusuario:any, publicaciones:Array<Publish>, cantidades:a
         }
     }    
     html = html + '<h5>Total: CLP$' + total + '</h5>'
-    html = html + '</div>'     
+    html = html + '</div>'  
+    console.log(html);
+       
     return html
 }
 

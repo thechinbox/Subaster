@@ -47,7 +47,7 @@
             </div>
         </div>
         <ng-container *ngIf="this.preview.length > 0">
-            <div class="col-md-4 my-md-5">
+            <form class="col-md-4 my-md-5">
                 <h3>Resumen de Compra</h3>
                 <div class="contenedor-blanco productos">
                     <div class="mt-5">
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-12 d-flex" style="margin-top: -15px;">
                                     <p class="me-5">Cantidad: </p>
-                                    <p class="bold">{{cantidades[i]}}</p>
+                                    <input (change)="changeQ(product.id, $event)" type="number" class="form-control form-control-sm" min="1" max="{{product.cantidad}}"  style="width:40px;" value="{{cantidades[i]}}">
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                         <button class="btn btn-lg" type="button" (click)="finalizarCompra()" [disabled]="!comprar">Finalizar Compra</button>
                     </div>
                 </div>
-            </div>
+            </form>
         </ng-container>
     </div>
 </div>

@@ -8,6 +8,9 @@
         </div> 
     </div>
     <div  class="row px-3">
+        <div *ngIf="alreadyShopped" class="col-12">
+            <h3 class="d-flex justify-content-center rojo">El producto ya esta añadido en el carrito</h3>
+        </div>
         <div class="col-md-6">
             <div class="contenedor-imgs" >
                 <div *ngFor="let url of publication.url; let i = index" [attr.data-index]="i" >

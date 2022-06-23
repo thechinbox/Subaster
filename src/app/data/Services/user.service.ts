@@ -116,13 +116,19 @@ export class UserService {
   }
 
   async addProduct(id:any){
-    if(!this.compras.includes(id)){
+    let exist = false;
+    for(let compra of this.compras){
+      if(compra.split("&cantidad=")[0] == id.split("&cantidad=")[0]){
+        exist = true;
+      }
+    }
+    if(!exist){
       this.compras.push(id)
-      console.log(this.compras);
-
       sessionStorage.removeItem("products")
       sessionStorage.setItem("products", JSON.stringify({ids:this.compras}))
+      return true;
     }
+    return false;
   }
 
   obtenerUsuario():User {
