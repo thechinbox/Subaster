@@ -171,6 +171,49 @@ publishC.get("/getpublicaciones", (req, res) => {
     })
         .catch((err) => res.json({ message: err }));
 });
+publishC.get("/busquedapublicaciones", (req, res) => {
+    estadoS
+        .findOne({ estadopublicacion: "activa" })
+        .then((dataE) => {
+        console.log(req.query.busqueda);
+        let publicaciones = new Array();
+        publicationS
+            .find({ estadopublicacion: dataE._id, nombre: { $regex: req.query.busqueda, $options: "i" } })
+            .then((data) => {
+            console.log(data);
+            for (let publicacion of data) {
+                let p = {
+                    id: publicacion._id,
+                    nombre: publicacion.nombre,
+                    descripcion: publicacion.descripcion,
+                    categoria: publicacion.categoria,
+                    unidad: publicacion.unidad,
+                    estadopublicacion: publicacion.estadopublicacion,
+                    estadoproducto: publicacion.estadoproducto,
+                    fechapublicacion: publicacion.fechapublicacion,
+                    precio: publicacion.precio,
+                    cantidad: publicacion.cantidad,
+                    direccion: {
+                        id: publicacion.iddireccion,
+                        region: " ",
+                        comuna: " ",
+                        direccionS: " ",
+                        latitud: 0,
+                        longitud: 0
+                    },
+                    url: new Array()
+                };
+                publicaciones.push(p);
+            }
+            res.send(JSON.stringify(publicaciones));
+        })
+            .catch((err) => {
+            console.log("Error encontrado");
+            res.json(err);
+        });
+    })
+        .catch((err) => res.json({ message: err }));
+});
 publishC.get("/getdireccion", (req, res) => {
     direccionS
         .findOne({ idpublicacion: req.query.id }, (err, data) => {

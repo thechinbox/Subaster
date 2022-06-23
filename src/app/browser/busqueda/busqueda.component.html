@@ -1,0 +1,21 @@
+<div class="container my-5">
+    <div class="row">
+        <h3>Resultados Busqueda</h3>
+        <div class="col-12">
+            <div class="row">
+                <div class="col-sm-6 col-md-4 col-12 mt-2" *ngFor="let item of publicaciones">
+                  <div class="card carta-clickeable" (click)="setId(item.id)" style="border: black 1px solid; height: 100%;" >
+                    <div class="d-flex justify-content-center">
+                      <img src="{{item.url[0]}}" style="width: 100px; " class="card-img-top" alt="...">
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">{{item.nombre}}</h5>
+                      <h5 class="card-subtitle">${{item.precio}}</h5>
+                      <p class="card-text mt-1">{{item.descripcion}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+        </div>
+    </div>
+</div>

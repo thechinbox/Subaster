@@ -34,6 +34,10 @@ export class BrowseService {
     return this.http.get(`${environment.hostname}/getpublicacionesid`+this.filter,this.HttpUploadOptions);
   }
 
+  SEARCHPUBLICATIONS(busqueda:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/busquedapublicaciones?busqueda=`+busqueda,this.HttpUploadOptions);
+  }
+
   GETDIRECTION(id:any):Observable<any>{
     return this.http.get(`${environment.hostname}/getdireccion?id=`+id,this.HttpUploadOptions);
   }

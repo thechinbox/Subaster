@@ -4,7 +4,7 @@
             <img src="../../assets/LOGOTIPO-PUERTO-VENTANA.png" width="100%">
         </div>
         <div class="col-md-8">
-            <form class="row" [formGroup]="profileInformation">
+            <form [hidden]="chardata" class="row" [formGroup]="profileInformation">
                 <div class="col-12 p-0">
                     <label class="m-0 pb-1 form-label" for="name">Nombres</label>
                     <div class="d-flex  ">
@@ -56,7 +56,7 @@
                         <p *ngIf="profileInformation.controls['correo'].hasError('email')">*Ingresar un correo válido</p>
                     </div>
                 </div> 
-                <div  *ngIf="editando.includes('direccion.direccion') == true"  class="col-12 p-0 text-left">
+                <div *ngIf="diredit"  class="col-12 p-0 text-left">
                   <label>Region</label>
                     <select (change)="buscar_ciudad($event)" class="form-select " name="region" id="region" >
                         <option  id="{{r.id}}" *ngFor="let r of regiones" value="{{r.region}}"> {{r.region}}</option>
@@ -65,7 +65,7 @@
                         <p *ngIf="publicacionForm.controls['region'].hasError('required')">*Campo requerido</p>
                     </div>-->
                 </div>
-                <div  *ngIf="editando.includes('direccion.direccion') == true"  class="col-12 p-0 text-left">
+                <div *ngIf="diredit"  class="col-12 p-0 text-left">
                   <label>Comuna</label>
                     <select class="form-select" name="comuna" id="comuna" >
                     </select>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../data/Services/user.service';
 import { Router } from '@angular/router';
 import { User } from 'back-end/Interfaces/user';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-header',
@@ -15,7 +16,14 @@ export class HeaderComponent implements OnInit {
   isCollapsed2=true;
   flag:number;
   user:User;
+
+  busquedaF:FormGroup
   constructor(private _userService:UserService, private router:Router) {
+    this.busquedaF = new FormGroup({
+      busqueda : new FormControl('', [
+        Validators.required
+      ])
+    })
     this.flag= 0;
     this.user = this._userService.getUser()
     if(sessionStorage.getItem("id") || localStorage.getItem("id")){
@@ -40,6 +48,14 @@ export class HeaderComponent implements OnInit {
     }
     this.router.navigateByUrl("/home").then(()=>{
       window.location.reload();
+    })
+  }
+
+  search(){
+    let aux:any = document.getElementById("busqueda")
+    this.router.navigateByUrl("/search?busqueda="+ this.busquedaF.controls["busqueda"].value).then(()=>{
+      window.location.reload()
+      this.busquedaF.reset()
     })
   }
 

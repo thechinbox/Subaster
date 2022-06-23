@@ -37,6 +37,7 @@ import { AjustesComponent } from './ajustes/ajustes.component';
 import { MenuLateralComponent } from './ajustes/menu-lateral/menu-lateral.component';
 import { EditProfileComponent } from './ajustes/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './ajustes/change-password/change-password.component';
+import { BusquedaComponent } from './browser/busqueda/busqueda.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ChangePasswordComponent } from './ajustes/change-password/change-passwo
     AjustesComponent,
     MenuLateralComponent,
     EditProfileComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    BusquedaComponent
   ],
   imports: [
     BrowserModule,

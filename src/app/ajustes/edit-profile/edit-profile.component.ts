@@ -19,6 +19,8 @@ export class EditProfileComponent implements OnInit {
   editObject:any = {};
   editando:any = []
   regiones:Array<Region>
+  diredit = true;
+  chardata = true;
   constructor(private _user:UserService, private chile:ChileinfoService) {
     this.edit = false;
     this.regiones = this.chile.getregiones()
@@ -53,39 +55,91 @@ export class EditProfileComponent implements OnInit {
 
   ngOnInit(): void {
     if(sessionStorage.getItem("id") != null){
+      console.log("yep");
+      
       this._user.getEmiter().subscribe(  data => {
+        console.log("yep2");
+        
         this.usuario = this._user.getUser()
         let r:any = document.getElementById(this.usuario.direccion.region)
         r.selected = true;
         let select:any = document.getElementById("comuna");
         while (select.firstChild) {
-          select.removeChild(select.firstChild);
+          select.removeChild(select.firstChild);        
         }
-        let comunas:Array<Comuna> = this.chile.getcomunas(r.value);
-        for (let index = 0; index < comunas.length; index++) {
-          if(comunas[index].id == this.usuario.direccion.comuna){
-            let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,true);
-            select?.appendChild(nuevaopcion)
-            continue
+        let a = 6000
+        let comunas:Array<Comuna> =  new Array()
+        comunas = this.chile.getcomunas(r.value);
+        if(comunas.length == 0){
+          console.log("yep3");
+          this.chile.GETCOMUNAS(this.usuario.direccion.region).subscribe( data =>{
+            comunas = data
+            this.diredit = false;
+            for (let index = 0; index < comunas.length; index++) {
+              if(comunas[index].id == this.usuario.direccion.comuna){
+                let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,true);
+                select?.appendChild(nuevaopcion)
+                continue          }
+              let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,false);
+              select?.appendChild(nuevaopcion)        
+            }
+            for(let id of this.ids){
+              if(id == "direccion.direccion"){
+                this.profileInformation.controls["direccion"].setValue(this.usuario.direccion.direccion) 
+              }else{
+                this.profileInformation.controls[id].setValue(eval("this.usuario."+id)) 
+              }
+            }
+            this.chardata=false;
+          })
+        }else{
+          for (let index = 0; index < comunas.length; index++) {
+            if(comunas[index].id == this.usuario.direccion.comuna){
+              let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,true);
+              select?.appendChild(nuevaopcion)
+              continue          }
+            let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,false);
+            select?.appendChild(nuevaopcion)        
           }
-          let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,false);
-          select?.appendChild(nuevaopcion)
-        }
-        for(let id of this.ids){
-          if(id == "direccion.direccion"){
-            this.profileInformation.controls["direccion"].setValue(this.usuario.direccion.direccion) 
-          }else{
-            this.profileInformation.controls[id].setValue(eval("this.usuario."+id)) 
+          for(let id of this.ids){
+            if(id == "direccion.direccion"){
+              this.profileInformation.controls["direccion"].setValue(this.usuario.direccion.direccion) 
+            }else{
+              this.profileInformation.controls[id].setValue(eval("this.usuario."+id)) 
+            }
           }
-        }
+          this.diredit = false;
+          this.chardata=false;
+        }        
       })
       for(let id of this.ids){
         let aux:any = document.getElementById(id);
         aux.disabled = true;
       }
       setTimeout(() => {
+        
         let aux:any = document.getElementById('nombre');
         if(aux.value == ""){
+          console.log("yep3");
+        
+          let r:any = document.getElementById(this.usuario.direccion.region)
+          r.selected = true;
+          let select:any = document.getElementById("comuna");
+          while (select.firstChild) {
+            select.removeChild(select.firstChild);
+          }
+          let comunas:Array<Comuna> = this.chile.getcomunas(r.value);
+          console.log(comunas);
+          
+          for (let index = 0; index < comunas.length; index++) {
+            if(comunas[index].id == this.usuario.direccion.comuna){
+              let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,true);
+              select?.appendChild(nuevaopcion)
+              continue
+            }
+            let  nuevaopcion = new Option(comunas[index].comuna, comunas[index].comuna, false,false);
+            select?.appendChild(nuevaopcion)
+          }
           for(let id of this.ids){
             let aux:any = document.getElementById(id);
             aux.value = eval("this.usuario."+id)
@@ -105,6 +159,9 @@ export class EditProfileComponent implements OnInit {
     this.resetForm();
   }
   editar(property:any){
+    if(property == "direccion.direccion"){
+      this.diredit = true;
+    }
     let aux:any = document.getElementById(property)
     aux.disabled = false;
     this.editObject[property] = property

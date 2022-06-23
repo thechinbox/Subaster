@@ -6,9 +6,9 @@
             </div>
         </div>
         <div class="col-12 col-lg-4" >
-            <form class="d-flex justify-content-center medio" id="search-bar" >
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button id="btn-lupa" class="btn">
+            <form [formGroup]="busquedaF" class="d-flex justify-content-center medio" id="search-bar" >
+                <input formControlName="busqueda" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button [disabled]="busquedaF.invalid" (click)="search()" id="btn-lupa" class="btn">
                     <span id="lupa" class="material-symbols-outlined">
                         search
                     </span>
