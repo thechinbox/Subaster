@@ -5,12 +5,14 @@ import { Publish } from '../Interfaces/publish.js';
 import { Comuna } from '../Interfaces/comuna.js';
 import { Region } from '../Interfaces/region.js';
 import { MediaContent } from '../Interfaces/media-content.js';
+import { Subasta } from '../Interfaces/subasta.js';
 
 const publishC = express.Router();
 let publicationS = require("../models/publicationS");
 let direccionS = require("../models/direccionS")
 let contentS = require("../models/contentS")
 let estadoS = require("../models/estadospublicacionS")
+let auctionS = require("../models/auctionS")
 //Publicar Producto
 publishC.post("/publish", (req:any,res:any)=>{
     let infopublicacion:Publish = req.body
@@ -27,10 +29,11 @@ publishC.post("/publish", (req:any,res:any)=>{
     })
 
 })
+
 //Crear direccion asociada al producto
-async function saveDirection(idpublicacion:any, direccion:Direccion, media:Array<MediaContent>, res:any){
+async function saveDirection(id:any, direccion:Direccion, media:Array<MediaContent>, res:any){
     let d =  new direccionS({
-        idpublicacion:idpublicacion,
+        idpublicacion:id,
         region:direccion.region,
         comuna: direccion.comuna,
         direccion:direccion.direccion,
@@ -44,7 +47,7 @@ async function saveDirection(idpublicacion:any, direccion:Direccion, media:Array
 
         }
 
-        saveContent(idpublicacion,data._id,media,res)
+        saveContent(id,data._id,media,res)
 
     })
 }
@@ -74,6 +77,7 @@ async function updatePublication(idpublicacion:any, iddireccion:any, res:any){;
         if(err){
             console.log("Error encontrado al añadir iddireccion en publicacion");
             console.log(err);
+            
         }
         res.send(JSON.stringify(data));
     })
@@ -176,8 +180,6 @@ publishC.get("/busquedapublicaciones", (req:any, res:any) => {
     estadoS
     .findOne({estadopublicacion:"activa"})
     .then((dataE:any) => {
-        console.log(req.query.busqueda);
-        
         let publicaciones = new Array()
         publicationS
         .find({estadopublicacion:dataE._id, nombre:{ $regex: req.query.busqueda, $options: "i" }})

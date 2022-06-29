@@ -82,18 +82,46 @@
                         <p *ngIf="publicacionForm.controls['unidad'].hasError('required')">*Campo requerido</p>
                     </div>
                 </div>
-                <div class="col-12 mt-2">
+                <div  class="col-12 mt-5">
+                    <div class="d-flex form-group">
+                        <h4 >¿Subastar?</h4>
+                        <div>
+                            <input (click)="checkbox($event)"type="checkbox" id="subastar" class="form-check-input" >
+                        </div> 
+                    </div>
+                </div>
+                <div *ngIf="subastaOn == false" class="col-12 mt-2">
                     <div class="form-group">
                         <h4 >Precio del Articulo ($CLP)</h4>
-                        <input type="number" min="0" id="precio" class="form-control" placeholder="Ej: 200000"  formControlName="precio">
+                        <input type="number" min="1" id="precio" class="form-control" placeholder="Ej: 200000"  formControlName="precio">
                     </div>
                     <div class="error" *ngIf="publicacionForm.controls['precio'].errors && (publicacionForm.controls['precio'].dirty || publicacionForm.controls['precio'].touched)">
                         <p *ngIf="publicacionForm.controls['precio'].hasError('required')">*Campo requerido</p>
                         <p *ngIf="publicacionForm.controls['precio'].hasError('min')">*El minimo valor es 1</p>
                     </div>
                 </div>
+                <div *ngIf="subastaOn == true" class="col-12 mt-2">
+                    <div class="form-group">
+                        <h4 >Precio Inicial de la Subasta $CLP)</h4>
+                        <input type="number" min="1" id="precioI" class="form-control" placeholder="Ej: 200000"  formControlName="precioI">
+                    </div>
+                    <div class="error" *ngIf="publicacionForm.controls['precioI'].errors && (publicacionForm.controls['precioI'].dirty || publicacionForm.controls['precioI'].touched)">
+                        <p *ngIf="publicacionForm.controls['precioI'].hasError('required')">*Campo requerido</p>
+                        <p *ngIf="publicacionForm.controls['precioI'].hasError('min')">*El minimo valor es 1</p>
+                    </div>
+                </div>
+                <div *ngIf="subastaOn == true"  class="col-12 mt-2">
+                    <h4 >Fecha Finalización de la Subasta $CLP)</h4>
+                    <input (change)="date($event)" type="date" min="{{hoy[0]}}-{{hoy[1]}}-{{hoy[2]}}" formControlName="date">
+                    <div class="error" *ngIf="publicacionForm.controls['date'].errors && (publicacionForm.controls['date'].dirty || publicacionForm.controls['date'].touched)">
+                        <p *ngIf="publicacionForm.controls['date'].hasError('required')">*Campo requerido</p>
+                    </div>
+                    <div *ngIf="minDateE">
+                        <p class="error">*Fecha Invalida</p>
+                    </div>
+                </div>
                 <div  class="col-12 mt-5">
-                    <button id="upload-grande" type="submit"  [disabled]="publicacionForm.invalid" class="btn btn-lg upload">Subir Publicacion</button>
+                    <button id="upload-grande" type="submit"  [disabled]="publicacionForm.invalid || minDateE" class="btn btn-lg upload">Subir Publicacion</button>
                 </div>
             </div>
         </div>
@@ -134,7 +162,7 @@
             </div>
         </div>
         <div class="col-12 mt-5 d-flex justify-content-center">
-            <button id="upload-pequeño" type="submit" [disabled]="publicacionForm.invalid" class="btn btn-lg upload">Subir Publicacion</button>
+            <button id="upload-pequeño" type="submit" [disabled]="publicacionForm.invalid || minDateE" class="btn btn-lg upload">Subir Publicacion</button>
         </div>
     </form>
     <div class="row">

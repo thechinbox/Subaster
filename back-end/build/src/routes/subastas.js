@@ -10,28 +10,37 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const index_js_1 = require("../index.js");
-const publishC = index_js_1.express.Router();
-let publicationS = require("../models/publicationS");
+const auctionC = index_js_1.express.Router();
+let auctionS = require("../models/auctionS");
 let direccionS = require("../models/direccionS");
 let contentS = require("../models/contentS");
 let estadoS = require("../models/estadospublicacionS");
-let auctionS = require("../models/auctionS");
-//Publicar Producto
-publishC.post("/publish", (req, res) => {
+let pujaS = require("../models/pujaS");
+//Modulo que permite el envio de correos a gmail
+let { google } = require('googleapis');
+let nodemailer = require("nodemailer");
+let REFRESH_TOKEN = "1//04OY1_12rLq02CgYIARAAGAQSNwF-L9IrfTgit-rx0rwo_FINCuFE3CYr_t-0okHvq_0sZWHjdqycRx7WSFLWcz193MHLuqSpzFU";
+let CLIENT_ID = "90357140452-qdmaul0i29hco6122uhqs7oielejdcmm.apps.googleusercontent.com";
+let CLIENT_SECRET = "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";
+let userMail = "testsubaster@gmail.com";
+let REDIRECT_URI = "https://developers.google.com/oauthplayground"; // NO CAMBIAR
+let oAuth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI); // NO CAMBIAR
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN }); // NO CAMBIAR
+auctionC.post("/auction", (req, res) => {
     let infopublicacion = req.body;
     let direccion = infopublicacion.direccion;
     let media = infopublicacion.url;
-    publicationS(infopublicacion)
+    auctionS(infopublicacion)
         .save()
         .then((data) => {
-        let direccionUpload = saveDirection(data._id, direccion, media, res);
+        let direccionUpload = saveDirectionA(data._id, direccion, media, res);
     })
         .catch((err) => {
         res.send(JSON.stringify({ status: err }));
     });
 });
-//Crear direccion asociada al producto
-function saveDirection(id, direccion, media, res) {
+//Crear direccion asociada a la subasta
+function saveDirectionA(id, direccion, media, res) {
     return __awaiter(this, void 0, void 0, function* () {
         let d = new direccionS({
             idpublicacion: id,
@@ -46,12 +55,12 @@ function saveDirection(id, direccion, media, res) {
                 console.log("Error encontrado.");
                 res.send(JSON.stringify(err));
             }
-            saveContent(id, data._id, media, res);
+            saveContentA(id, data._id, media, res);
         });
     });
 }
-//Crear contenidos asociados al producto
-function saveContent(idpublicacion, iddireccion, urls, res) {
+//Crear contenidos asociados a la subasta
+function saveContentA(idpublicacion, iddireccion, urls, res) {
     return __awaiter(this, void 0, void 0, function* () {
         for (let url of urls) {
             let urlUpload = new contentS({
@@ -65,15 +74,15 @@ function saveContent(idpublicacion, iddireccion, urls, res) {
                 }
             });
         }
-        let update = updatePublication(idpublicacion, iddireccion, res);
+        let update = updatePublicationA(idpublicacion, iddireccion, res);
         return JSON.stringify(update);
     });
 }
 //Añadir la direccion asociada al producto.
-function updatePublication(idpublicacion, iddireccion, res) {
+function updatePublicationA(idpublicacion, iddireccion, res) {
     return __awaiter(this, void 0, void 0, function* () {
         ;
-        publicationS
+        auctionS
             .findOneAndUpdate({ _id: idpublicacion }, { $set: { iddireccion: iddireccion } }, (err, data) => {
             if (err) {
                 console.log("Error encontrado al añadir iddireccion en publicacion");
@@ -83,60 +92,12 @@ function updatePublication(idpublicacion, iddireccion, res) {
         });
     });
 }
-publishC.get("/getpublicacionesid", (req, res) => {
+auctionC.get("/getsubastas", (req, res) => {
     estadoS
         .findOne({ estadopublicacion: "activa" })
         .then((data) => {
         let publicaciones = new Array();
-        let idsQuery = new Array();
-        for (let id of req.query.categoria.split(",")) {
-            if (id != "") {
-                idsQuery.push(id);
-            }
-        }
-        console.log(idsQuery);
-        publicationS
-            .find({ categoria: idsQuery, estadopublicacion: data._id })
-            .then((data) => {
-            for (let publicacion of data) {
-                let p = {
-                    id: publicacion._id,
-                    nombre: publicacion.nombre,
-                    descripcion: publicacion.descripcion,
-                    categoria: publicacion.categoria,
-                    unidad: publicacion.unidad,
-                    estadopublicacion: publicacion.estadopublicacion,
-                    estadoproducto: publicacion.estadoproducto,
-                    fechapublicacion: publicacion.fechapublicacion,
-                    precio: publicacion.precio,
-                    cantidad: publicacion.cantidad,
-                    direccion: {
-                        id: publicacion.iddireccion,
-                        region: " ",
-                        comuna: " ",
-                        direccionS: " ",
-                        latitud: 0,
-                        longitud: 0
-                    },
-                    url: new Array()
-                };
-                publicaciones.push(p);
-            }
-            res.send(JSON.stringify(publicaciones));
-        })
-            .catch((err) => {
-            console.log("Error encontrado");
-            res.json(err);
-        });
-    })
-        .catch((err) => res.json({ message: err }));
-});
-publishC.get("/getpublicaciones", (req, res) => {
-    estadoS
-        .findOne({ estadopublicacion: "activa" })
-        .then((data) => {
-        let publicaciones = new Array();
-        publicationS
+        auctionS
             .find({ estadopublicacion: data._id })
             .then((data) => {
             for (let publicacion of data) {
@@ -149,7 +110,8 @@ publishC.get("/getpublicaciones", (req, res) => {
                     estadopublicacion: publicacion.estadopublicacion,
                     estadoproducto: publicacion.estadoproducto,
                     fechapublicacion: publicacion.fechapublicacion,
-                    precio: publicacion.precio,
+                    fechafinalizacion: publicacion.fechafinalizacion,
+                    precioinicial: publicacion.precioinicial,
                     cantidad: publicacion.cantidad,
                     direccion: {
                         id: publicacion.iddireccion,
@@ -172,15 +134,20 @@ publishC.get("/getpublicaciones", (req, res) => {
     })
         .catch((err) => res.json({ message: err }));
 });
-publishC.get("/busquedapublicaciones", (req, res) => {
+auctionC.get("/getauctionsid", (req, res) => {
     estadoS
         .findOne({ estadopublicacion: "activa" })
-        .then((dataE) => {
+        .then((data) => {
         let publicaciones = new Array();
-        publicationS
-            .find({ estadopublicacion: dataE._id, nombre: { $regex: req.query.busqueda, $options: "i" } })
+        let idsQuery = new Array();
+        for (let id of req.query.categoria.split(",")) {
+            if (id != "") {
+                idsQuery.push(id);
+            }
+        }
+        auctionS
+            .find({ categoria: idsQuery, estadopublicacion: data._id })
             .then((data) => {
-            console.log(data);
             for (let publicacion of data) {
                 let p = {
                     id: publicacion._id,
@@ -191,7 +158,8 @@ publishC.get("/busquedapublicaciones", (req, res) => {
                     estadopublicacion: publicacion.estadopublicacion,
                     estadoproducto: publicacion.estadoproducto,
                     fechapublicacion: publicacion.fechapublicacion,
-                    precio: publicacion.precio,
+                    fechafinalizacion: publicacion.fechafinalizacion,
+                    precioinicial: publicacion.precioinicial,
                     cantidad: publicacion.cantidad,
                     direccion: {
                         id: publicacion.iddireccion,
@@ -214,44 +182,9 @@ publishC.get("/busquedapublicaciones", (req, res) => {
     })
         .catch((err) => res.json({ message: err }));
 });
-publishC.get("/getdireccion", (req, res) => {
-    direccionS
-        .findOne({ idpublicacion: req.query.id }, (err, data) => {
-        if (err) {
-            console.log("Error encontrado al obtener iddireccion en publicacion");
-            console.log(err);
-            res.send(JSON.stringify(err));
-        }
-        else {
-            let direccion = {
-                id: data._id,
-                region: data.region,
-                comuna: data.comuna,
-                direccion: data.direccion,
-                latitud: data.latitud,
-                longitud: data.longitud
-            };
-            res.send(direccion);
-        }
-    });
-});
-publishC.get("/getmedia", (req, res) => {
-    contentS
-        .find({ idpublicacion: req.query.id }, (err, data) => {
-        if (err) {
-            console.log("Error encontrado al obtener contenido de la publicacion");
-            console.log(err);
-        }
-        let urls = new Array();
-        for (let url of data) {
-            urls.push(url.url);
-        }
-        res.send(urls);
-    });
-});
-publishC.get("/getpublicacion", (req, res) => {
+auctionC.get("/getsubasta", (req, res) => {
     console.log(req.query.cantidad);
-    publicationS
+    auctionS
         .findById(req.query.id)
         .then((publicacion) => {
         let p = {
@@ -263,7 +196,8 @@ publishC.get("/getpublicacion", (req, res) => {
             estadopublicacion: publicacion.estadopublicacion,
             estadoproducto: publicacion.estadoproducto,
             fechapublicacion: publicacion.fechapublicacion,
-            precio: publicacion.precio,
+            fechafinalizacion: publicacion.fechafinalizacion,
+            precioinicial: publicacion.precioinicial,
             cantidad: publicacion.cantidad,
             direccion: {
                 id: publicacion.iddireccion,
@@ -281,4 +215,79 @@ publishC.get("/getpublicacion", (req, res) => {
         res.json(err);
     });
 });
-module.exports = publishC;
+auctionC.get("/getpujas", (req, res) => {
+    pujaS
+        .find({ idpublicacion: req.query.id })
+        .then((pujas) => {
+        res.send(JSON.stringify(pujas));
+    })
+        .catch((err) => {
+        res.json(err);
+    });
+});
+auctionC.get("/getmaxpuja", (req, res) => {
+    pujaS
+        .findOne({ idpublicacion: req.query.id }).sort("-valorpuja")
+        .then((puja) => {
+        if (puja == null) {
+            res.send(JSON.stringify(puja));
+        }
+        else {
+            res.send(JSON.stringify(puja.valorpuja));
+        }
+    })
+        .catch((err) => {
+        res.json(err);
+    });
+});
+auctionC.post("/uppuja", (req, res) => {
+    let body = req.body.puja;
+    let subasta = req.body.subasta;
+    let puja = new pujaS({
+        idpublicacion: body.idpublicacion,
+        idusuario: body.idusuario,
+        valorpuja: body.valorpuja,
+        fechapuja: body.fechapuja
+    });
+    pujaS(puja)
+        .save()
+        .then((data) => __awaiter(void 0, void 0, void 0, function* () {
+        let mail = {
+            from: "Subaster",
+            to: req.body.user.correo,
+            subject: "Subaster - Recibo de Puja",
+            html: '<div style="text-align: center;">' +
+                '<h1>Subaster</h1>' +
+                '<h4 style="margin-top: 20px">¡Hola! Te dejamos los datos de la puja que haz realizado:.</h4>' +
+                '<h5>Producto: ' + subasta.nombre + '</h5>' +
+                '<h5>Codigo de Puja: ' + data._id + '</h5>' +
+                '<h5>Valor de Puja: ' + data.valorpuja + '</h5>' +
+                '<h5>Fecha de Puja: ' + data.fechapuja + '</h5></div>'
+        };
+        try {
+            let accessToken = yield oAuth2Client.getAccessToken();
+            let transporter = nodemailer.createTransport({
+                service: "gmail",
+                auth: {
+                    type: "OAuth2",
+                    user: userMail,
+                    clientId: CLIENT_ID,
+                    clientSecret: CLIENT_SECRET,
+                    refreshToken: REFRESH_TOKEN,
+                    accessToken: accessToken
+                }
+            });
+            yield transporter.sendMail(mail);
+            console.log("Email enviado correctamente a : " + userMail);
+            res.send(JSON.stringify({ status: "ok" }));
+        }
+        catch (err) {
+            console.log(err);
+            res.status(200).send("enviado");
+        }
+    }))
+        .catch((err) => {
+        res.json(err);
+    });
+});
+module.exports = auctionC;

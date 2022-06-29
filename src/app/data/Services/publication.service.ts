@@ -6,6 +6,9 @@ import { Observable } from 'rxjs';
 import { Publication } from '../Interfaces/publication';
 import { Comment } from '../Interfaces/comment';
 import { Publish } from '../Interfaces/publish';
+import { Subasta } from '../Interfaces/subasta';
+import { Puja } from '../Interfaces/puja';
+import { User } from '../Interfaces/user';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +29,24 @@ export class PublicationService {
   PUBLISH(publish:Publish):Observable<any>{
     return this.http.post(`${environment.hostname}/publish`,JSON.stringify(publish),this.HttpUploadOptions)
   }
-
+  AUCTION(auction:Subasta):Observable<any>{
+    return this.http.post(`${environment.hostname}/auction`,JSON.stringify(auction),this.HttpUploadOptions)
+  }
+  GETAUCTIONS():Observable<any>{
+    return this.http.get(`${environment.hostname}/getsubastas`,this.HttpUploadOptions)
+  }
+  GETAUCTION(id:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/getsubasta?id=`+id,this.HttpUploadOptions)
+  }
+  GETPUJAS(id:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/getpujas?id=`+id,this.HttpUploadOptions)
+  }
+  UPPUJA(puja:Puja,user:User, subasta:Subasta):Observable<any>{
+    return this.http.post(`${environment.hostname}/uppuja`,JSON.stringify({puja:puja, user:user,subasta:subasta}),this.HttpUploadOptions)
+  }
+  GETMAXPUJA(id:any):Observable<any>{
+    return this.http.get(`${environment.hostname}/getmaxpuja?id=`+id,this.HttpUploadOptions)
+  }
   getPost():Observable<any>{
     return this.http.get(`${environment.hostname}/getpublicaciones`,this.HttpUploadOptions);
   }
