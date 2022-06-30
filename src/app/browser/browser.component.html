@@ -13,12 +13,29 @@
         <div class="row">
           <div class="col-6 mt-2" *ngFor="let item of publicaciones">
             <div class="card carta-clickeable" (click)="setId(item.id)" style="border: black 1px solid; height: 100%;" >
+              <h3 class="d-flex justify-content-center">Venta</h3>
               <div class="d-flex justify-content-center">
                 <img src="{{item.url[0]}}" style="width: 50%; " class="card-img-top" alt="...">
               </div>
               <div class="card-body">
                 <h5 class="card-title">{{item.nombre}}</h5>
                 <h5 class="card-subtitle">${{item.precio}}</h5>
+                <p class="card-text mt-1">{{item.descripcion}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-6 mt-2" *ngFor="let item of subastas">
+            <div class="card carta-clickeable" (click)="setIdSubasta(item.id)" style="border: black 1px solid; height: 100%;" >
+              <h3 class="d-flex justify-content-center">Subasta</h3>
+              <div class="d-flex justify-content-center">
+                <img src="{{item.url[0]}}" style="width: 50%; " class="card-img-top" alt="...">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">{{item.nombre}}</h5>
+                <div class="d-flex">
+                  <h5 class="card-subtitle">Precio Inicial:</h5>
+                  <h5 class="card-subtitle">${{item.precioinicial}}</h5>
+                </div>
                 <p class="card-text mt-1">{{item.descripcion}}</p>
               </div>
             </div>

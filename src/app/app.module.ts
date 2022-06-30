@@ -38,6 +38,8 @@ import { MenuLateralComponent } from './ajustes/menu-lateral/menu-lateral.compon
 import { EditProfileComponent } from './ajustes/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './ajustes/change-password/change-password.component';
 import { BusquedaComponent } from './browser/busqueda/busqueda.component';
+import { SubastaComponent } from './subasta/subasta.component';
+import { PujaComponent } from './subasta/puja/puja.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +66,9 @@ import { BusquedaComponent } from './browser/busqueda/busqueda.component';
     MenuLateralComponent,
     EditProfileComponent,
     ChangePasswordComponent,
-    BusquedaComponent
+    BusquedaComponent,
+    SubastaComponent,
+    PujaComponent
   ],
   imports: [
     BrowserModule,

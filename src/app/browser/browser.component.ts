@@ -8,6 +8,7 @@ import { BrowseService } from '../data/Services/browse.service';
 import { Publish } from '../data/Interfaces/publish';
 import { NavigationEnd, NavigationError, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { AttributesService } from '../data/Services/attributes.service';
+import { Subasta } from '../data/Interfaces/subasta';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class BrowserComponent implements OnInit {
 
   categorias : Array<Categoria>;
   publicaciones : Array<Publish>;
+  subastas: Array<Subasta>;
   currentRoute: string;
   seleccionadas:Array<string>;
   constructor( private attrb : AttributesService , private router: Router ,private browse:BrowseService) {
@@ -31,6 +33,7 @@ export class BrowserComponent implements OnInit {
     this.currentRoute= "";
     this.categorias = this.attrb.getcategorias()
     this.publicaciones = [];
+    this.subastas = []
     this.seleccionadas = this.browse.getSeleccionadas();
     
    }
@@ -43,11 +46,20 @@ export class BrowserComponent implements OnInit {
           publicacion.direccion= data2;
           this.browse.GETMEDIA(publicacion.id).subscribe(data3 =>{
             publicacion.url= data3;
-            console.log(publicacion);
-            
           })
         })
       }    
+    })
+    this.browse.GETAUCTIONS().subscribe(data =>{
+      this.subastas = data  
+      for(let subasta of this.subastas){
+        this.browse.GETDIRECTION(subasta.id).subscribe(data2 =>{
+          subasta.direccion= data2;
+          this.browse.GETMEDIA(subasta.id).subscribe(data3 =>{
+            subasta.url= data3;
+          })
+        })
+      }     
     })
   }
 
@@ -63,9 +75,18 @@ export class BrowserComponent implements OnInit {
             
           })
         })
-      }
-      console.log(this.publicaciones);
-          
+      }   
+    })
+    this.browse.GETAUCTIONS().subscribe(data =>{
+      this.subastas = data  
+      for(let subasta of this.subastas){
+        this.browse.GETDIRECTION(subasta.id).subscribe(data2 =>{
+          subasta.direccion= data2;
+          this.browse.GETMEDIA(subasta.id).subscribe(data3 =>{
+            subasta.url= data3;
+          })
+        })
+      }     
     })
   }
 
@@ -115,6 +136,9 @@ export class BrowserComponent implements OnInit {
   setId(id:any){
     console.log((id));
     this.router.navigateByUrl('/publicacion/'+id);
+  }
+  setIdSubasta(id:any){
+    this.router.navigateByUrl('subasta/'+id);
   }
 
 

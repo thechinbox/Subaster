@@ -14,6 +14,9 @@ import { StorageService } from '../data/Services/storage.service';
 import {MediaContent} from '../data/Interfaces/media-content'
 import { Router } from '@angular/router';
 import { GoogleMap } from '@angular/google-maps';
+import {NgbDateStruct, NgbCalendar} from '@ng-bootstrap/ng-bootstrap';
+import { Subasta } from '../data/Interfaces/subasta';
+
 
 @Component({
   selector: 'app-publish',
@@ -30,17 +33,31 @@ export class PublishComponent implements OnInit, AfterViewInit {
   lista_Est:Array<Estadoproducto>;
   lista_Unit: Array<Unidad>;
   isCollapsed = true;
+  subastaOn = false;
+  minDateE = false;
   nombre = "usuario";
   lat:number;
   lng:number;
   map:any
   regiones:Array<Region>;
-
+  hoy:any;
+  gmt:any;
   //Formulario
   publicacionForm : FormGroup;
 
   constructor(private atributos:AttributesService, private geografia:ChileinfoService, private publicar:PublicationService, 
-              private storageService:StorageService, private router:Router) { 
+              private storageService:StorageService, private router:Router, private calendar: NgbCalendar) { 
+    let hoy = new Date()
+    this.gmt = "GMT" + String(hoy).split("GMT")[1]
+    this.hoy = hoy.toLocaleDateString().split("/");
+    for(let i in this.hoy){
+      if(this.hoy[i].length == 1){
+        this.hoy[i] = '0'+this.hoy[i];
+      }
+    }
+    this.hoy.reverse()
+    console.log(new Date(this.hoy.join("-")+"GMT-0400"))
+    
     let a =this.atributos.getactivepub()   
     this.lista_Cat = atributos.getcategorias();
     this.lista_Est = atributos.getestados();
@@ -106,11 +123,39 @@ export class PublishComponent implements OnInit, AfterViewInit {
     this.map = new google.maps.Map(document.getElementById('google') as HTMLElement, {
       center: {lat: this.lat, lng: this.lng},
       zoom: 15
-    });
+    });  
   }
 
   initMap(){
 
+  }
+  checkbox(event:any){
+    if(event.target.checked){
+      this.subastaOn = true;
+      this.publicacionForm.addControl('precioI', new FormControl('', [
+        Validators.required,
+        Validators.min(1)
+      ]))
+      this.publicacionForm.addControl('date', new FormControl('', [
+        Validators.required
+      ]))
+      this.publicacionForm.removeControl('precio')
+    }else{
+      this.subastaOn = false;
+      this.publicacionForm.removeControl('precioI')
+      this.publicacionForm.addControl('precio', new FormControl('', [
+        Validators.required,
+        Validators.min(1)
+      ]))
+    }   
+  }
+
+  date(event:any){
+    let select  = event.target.value as Date;
+    let hoy = this.hoy.join("-") as Date
+    this.minDateE = select > hoy? false:true;
+    console.log(hoy, select);
+    
   }
 
   buscar_ciudad(e:any){
@@ -245,26 +290,46 @@ export class PublishComponent implements OnInit, AfterViewInit {
         })
       })
     }
-    
-    let publish:Publish = {
-      id:"",
-      nombre:values.nombre,
-      descripcion:values.descripcion,
-      categoria:values.categoria,
-      unidad:values.unidad,
-      estadoproducto:values.estado,
-      estadopublicacion:this.atributos.getactivepub(),
-      fechapublicacion: hoy,
-      precio:values.precio,
-      cantidad:values.cantidad,
-      direccion:direccion,
-      url: urlsFirebase
+    let sub:any = document.getElementById("subastar")
+    if(sub.checked == true){
+      let auction:Subasta = {
+        id:"",
+        nombre:values.nombre,
+        descripcion:values.descripcion,
+        categoria:values.categoria,
+        unidad:values.unidad,
+        estadoproducto:values.estado,
+        estadopublicacion:this.atributos.getactivepub(),
+        fechapublicacion: hoy,
+        fechafinalizacion: values.date + this.gmt as Date,
+        precioinicial:values.precioI,
+        cantidad:values.cantidad,
+        direccion:direccion,
+        url: urlsFirebase
+      }
+      this.publicar.AUCTION(auction).subscribe(datos =>{
+        console.log(datos);
+      })
+    }else{
+      let publish:Publish = {
+        id:"",
+        nombre:values.nombre,
+        descripcion:values.descripcion,
+        categoria:values.categoria,
+        unidad:values.unidad,
+        estadoproducto:values.estado,
+        estadopublicacion:this.atributos.getactivepub(),
+        fechapublicacion: hoy,
+        precio:values.precio,
+        cantidad:values.cantidad,
+        direccion:direccion,
+        url: urlsFirebase
+      }
+  
+      this.publicar.PUBLISH(publish).subscribe(datos =>{
+        console.log(datos);
+      })
     }
-
-    this.publicar.PUBLISH(publish).subscribe(datos =>{
-      console.log(datos);
-      
-    })
   }
 
 }

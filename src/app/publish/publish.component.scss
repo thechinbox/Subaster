@@ -34,8 +34,12 @@ button.button_img:hover{
 #map{
     max-width: 100px;
 }
-
-#precio,#cantidad{
+#subastar{
+    position: relative;
+    left: 40px;
+    top: 5px
+}
+#precio,#cantidad,#precioI{
     width: 100%;
     @media (min-width:768px) {
         width: 30%;

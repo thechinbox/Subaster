@@ -1,0 +1,85 @@
+<div id="pre-blur" class="container my-5">
+    <div  class="row px-3">
+        <div *ngIf="signin" class="col-12">
+            <h3 class="d-flex justify-content-center rojo">Para poder pujar, es necesario que inicie sesion.</h3>
+        </div>
+        <div *ngIf="pujado" class="col-12">
+            <h3 class="d-flex justify-content-center rojo">La puja se ha realizado con exito, recibira un comprobante de esta en su correo.</h3>
+        </div>
+        <div class="col-md-6 col-12">
+            <div class="contenedor-imgs" >
+                <div *ngFor="let url of publication[0].url; let i = index" [attr.data-index]="i" >
+                    <div *ngIf="i == 0 " class="contenedor-img-prin">
+                        <img  src="{{url}}" alt="Imagen Publicación" class="img-principal imagenContainer" style="max-width: 100%;">
+                    </div>
+                    <div *ngIf="i != 0 " class="contenedor-img-sec">
+                        <img  src="{{url}}" alt="Imagen Publicación" class="img-secundaria imagenContainer">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h1  class="d-flex justify-content-center">{{publication[0].nombre}}</h1>
+            <div class="d-flex justify-content-center my-5">
+                <h2 class="gris " id="txt-valor">VALOR INICIAL: </h2>
+                <h2 class="azul" id="txt-moneda">CLP$</h2>
+                <h2 class="azul" id="valor">{{publication[0].precioinicial}}</h2>
+            </div> 
+            <div class="d-flex justify-content-center my-5">
+                <h3 class="gris " id="txt-valor">PUJA MINIMA: </h3>
+                <h3 class="azul" id="txt-moneda">CLP$</h3>
+                <h3 class="azul" id="valor">{{pujaminima}}</h3>
+            </div>   
+            <div class="my-5">
+                <h4 class="d-flex justify-content-center" >Fecha Finalización Subasta</h4>
+                <h4 class="d-flex justify-content-center" >
+                    {{publication[0].fechafinalizacion | date: 'dd/MM/yyyy'}}
+                </h4>
+            </div>
+            <form [formGroup]="pujaForm"> 
+                <div class="d-flex justify-content-center my-3 ">
+                    <label id="cantidadLabel">Pujar por:  </label>
+                    <input class="form-control form-control-md w-25 ms-1" type="number" id="valorpuja" formControlName="valorpuja">   
+                </div>  
+                <div class="error" *ngIf="pujaForm.controls['valorpuja'].errors && (pujaForm.controls['valorpuja'].dirty || pujaForm.controls['valorpuja'].touched)">
+                    <p class="d-flex justify-content-center rojo" *ngIf="pujaForm.controls['valorpuja'].hasError('required')">*Campo requerido</p>
+                    <p class="d-flex justify-content-center rojo" *ngIf="pujaForm.controls['valorpuja'].hasError('min')">*El minimo valor es 1</p>
+                </div>
+                <div class="d-flex justify-content-center my-3 ">
+                    <button class="btn btn-lg "[disabled]="pujaForm.invalid" (click)="pujar()" type="button" id="botonPujar">Pujar</button>
+                </div>  
+            </form> 
+        </div>
+        <div class="col-12">
+            <p class="negro negrita">Publicado el {{publication[0].fechapublicacion | date: 'dd/MM/yyyy'}}</p>
+            <h3 class="gris mt-4">Descripción:</h3>
+            <ul>
+                <li class="gris fuente-lista">Unidad: {{publication[0].unidad}}</li>
+                <li class="gris fuente-lista">Material: {{publication[0].categoria}}</li>
+                <li class="gris fuente-lista">Estado de producto: {{publication[0].estadoproducto}}</li>
+                <li class="gris fuente-lista">Cantidad: {{publication[0].cantidad}}</li>
+                <li class="gris fuente-lista">
+                    Dirección: {{publication[0].direccion.direccion}},{{publication[0].direccion.comuna}},{{publication[0].direccion.region}}
+                </li>
+            </ul>
+        </div>
+        <div class="col-12">
+            <h3 class="gris mt-4">Observaciones:</h3>
+            <ul>
+                <li class="gris fuente-lista">{{publication[0].descripcion}}</li>
+            </ul>
+        </div>
+        <div class="col-12">
+            <h3 class="negrita mt-4">Comentarios:</h3>
+            <div *ngFor="let comentario of comentarios">
+                <div class="comentario">
+                <img src="../../assets/{{comentario.img}}" alt="" width="100px" height="100px">
+                    <div class="cuerpo">
+                        <p class="negro negrita">{{comentario.name}}</p>
+                        <p>{{comentario.comment}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

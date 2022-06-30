@@ -6,6 +6,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Direction } from 'readline';
 import { BrowseService } from '../data/Services/browse.service';
 import { Router } from '@angular/router';
+import { Subasta } from '../data/Interfaces/subasta';
 
 @Component({
   selector: 'app-home',
@@ -14,8 +15,21 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   lista : Array<Publish>
+  listaA : Array<Subasta>
   constructor(private _publicationService:PublicationService, private browse:BrowseService, private router:Router) {
-    this.lista = new Array;
+    this.lista = new Array();
+    this.listaA = new Array()
+    _publicationService.GETAUCTIONS().subscribe(data =>{
+      this.listaA = data
+      for(let publicacion of this.listaA){
+        this.browse.GETDIRECTION(publicacion.id).subscribe(data2 =>{
+          publicacion.direccion= data2;
+          this.browse.GETMEDIA(publicacion.id).subscribe(data3 =>{
+            publicacion.url= data3;
+          })
+        })
+      }
+    })
   }
 
   homePublications(){
@@ -26,8 +40,6 @@ export class HomeComponent implements OnInit {
           publicacion.direccion= data2;
           this.browse.GETMEDIA(publicacion.id).subscribe(data3 =>{
             publicacion.url= data3;
-            console.log(publicacion);
-
           })
         })
       }
@@ -35,9 +47,10 @@ export class HomeComponent implements OnInit {
   }
 
   setId(id:any){
-    console.log((id));
-
     this.router.navigateByUrl('/publicacion/'+id);
+  }
+  setIdAuction(id:any){
+    this.router.navigateByUrl('/subasta/'+id);
   }
 
   ngOnInit(): void {

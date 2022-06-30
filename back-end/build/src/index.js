@@ -14,6 +14,7 @@ const estados = require("./routes/estadospublicacion");
 const regiones = require("./routes/region");
 const comunas = require("./routes/comuna");
 const compra = require("./routes/compra");
+const subastas = require("./routes/subastas");
 const cors = require('cors');
 const configuracion = {
     hostname: "127.0.0.1",
@@ -32,6 +33,7 @@ app.use('/', regiones);
 app.use('/', comunas);
 app.use('/', correo);
 app.use('/', compra);
+app.use('/', subastas);
 app.listen(configuracion, () => {
     console.log(`Conectando al servidor http://${configuracion.hostname}:${configuracion.port}`);
 });

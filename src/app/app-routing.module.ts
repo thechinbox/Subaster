@@ -14,6 +14,7 @@ import { MapComponent } from './map/map.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AjustesComponent } from './ajustes/ajustes.component';
 import { BusquedaComponent } from './browser/busqueda/busqueda.component';
+import { SubastaComponent } from './subasta/subasta.component';
 
 const routes: Routes = [
   {path:'', redirectTo:'home', pathMatch:'full'},
@@ -33,6 +34,7 @@ const routes: Routes = [
   {path:'404', component:NotFoundComponent},
   {path:'ajustes', component:AjustesComponent},
   {path:'search', component:BusquedaComponent},
+  {path:'subasta/:id', component:SubastaComponent},
   {path:'**', redirectTo: '404'}
 ];
 
