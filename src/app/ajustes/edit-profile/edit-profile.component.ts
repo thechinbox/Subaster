@@ -19,7 +19,7 @@ export class EditProfileComponent implements OnInit {
   editObject:any = {};
   editando:any = []
   regiones:Array<Region>
-  diredit = true;
+  diredit = false;
   chardata = true;
   constructor(private _user:UserService, private chile:ChileinfoService) {
     this.edit = false;
