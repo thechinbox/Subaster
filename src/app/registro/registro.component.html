@@ -15,7 +15,7 @@
     <div id="formulario" class="col-12">
       <div class="row d-flex justify-content-center mx-md-2">
         <div class="col-md-6 col-12 mb-5">
-          <label for="nombres" class="form-label d-flex justify-content-center">Nombres</label>
+          <label for="nombres" class="form-label d-flex justify-content-center">Nombres(*)</label>
           <input type="text" class="form-control form-control-lg" id="nombres" formControlName="names"/>
           <div class="error" *ngIf="registrocontrol.controls['names'].errors && (registrocontrol.controls['names'].dirty || registrocontrol.controls['names'].touched)">
             <p *ngIf="registrocontrol.controls['names'].hasError('required')">*Campo requerido</p>
@@ -23,7 +23,7 @@
           </div>
         </div>
         <div class="col-md-6 col-12 mb-5">
-          <label for="apellidos" class="form-label d-flex justify-content-center">Apellidos</label>
+          <label for="apellidos" class="form-label d-flex justify-content-center">Apellidos(*)</label>
           <input type="text" class="form-control form-control-lg" id="apellidos" formControlName="lastname"/>
           <div class="error" *ngIf="registrocontrol.controls['lastname'].errors && (registrocontrol.controls['lastname'].dirty || registrocontrol.controls['lastname'].touched)">
             <p *ngIf="registrocontrol.controls['lastname'].hasError('required')">*Campo requerido</p>
@@ -33,7 +33,7 @@
       </div>
       <div class="row d-flex justify-content-center mx-md-2">
         <div class="form-group col-md-6 col-12 mb-5">
-          <label class="d-flex justify-content-center" for="exampleInputEmail1">Correo Electrónico </label>
+          <label class="d-flex justify-content-center" for="exampleInputEmail1">Correo Electrónico(*) </label>
           <input type="email" class="form-control form-control-lg" id="correo" placeholder="correoejemplo@empresa.cl" formControlName="email">
           <div class="error" *ngIf="registrocontrol.controls['email'].errors && (registrocontrol.controls['email'].dirty || registrocontrol.controls['email'].touched)">
             <p *ngIf="registrocontrol.controls['email'].hasError('required')">*Campo requerido</p>
@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="col-md-6 col-12 mb-5">
-          <label for="celular" class="form-label d-flex justify-content-center">Celular</label>
+          <label for="celular" class="form-label d-flex justify-content-center">Celular(*)</label>
           <input placeholder="912345678"
             type="tel"
             class="form-control form-control-lg"
@@ -57,7 +57,7 @@
       </div>
       <div class="row  d-flex justify-content-center mx-md-2">
         <div class="form-group col-md-6 col-12  mb-5">
-          <label class="d-flex justify-content-center" for="exampleInputEmail1">Ingrese su Contraseña </label>
+          <label class="d-flex justify-content-center" for="exampleInputEmail1">Ingrese su Contraseña (*)</label>
           <input class="form-control form-control-lg" type="password" name="clave" id="pass" placeholder="Ingrese su Contraseña" formControlName="pass">
           <div class="error" *ngIf="registrocontrol.controls['pass'].errors && (registrocontrol.controls['pass'].dirty || registrocontrol.controls['pass'].touched)">
             <p *ngIf="registrocontrol.controls['pass'].hasError('required')">*Campo requerido</p>
@@ -66,7 +66,7 @@
           </div>
         </div>
         <div class="form-group col-md-6 col-12 mb-5">
-          <label class="d-flex justify-content-center" for="repetirclave">Repita su Contraseña </label>
+          <label class="d-flex justify-content-center" for="repetirclave">Repita su Contraseña(*) </label>
           <input class="  form-control form-control-lg" type="password" name="repetirclave" id="repeatpass" placeholder="Repetir contraseña" formControlName="repeatpass">
           <p id="nomatch">*Las contraseñas no coinciden</p>
           <div class="error" *ngIf="registrocontrol.controls['repeatpass'].errors && (registrocontrol.controls['repeatpass'].dirty || registrocontrol.controls['repeatpass'].touched)">
@@ -76,7 +76,7 @@
       </div>
       <div class="row  d-flex justify-content-center mx-md-2">
         <div class="col-md-6 col-12 mb-5">
-          <label class="d-flex justify-content-center">Region</label>
+          <label class="d-flex justify-content-center">Region(*)</label>
           <select (change)="buscar_ciudad($event)" class="form-select form-control form-control-lg" name="region" id="region" formControlName="region">
               <option *ngFor="let r of regiones" value="{{r.region}}"> {{r.region}}</option>
           </select>
@@ -85,7 +85,7 @@
           </div>
         </div>
         <div class="col-md-6 col-12 mb-5">
-          <label class="d-flex justify-content-center">Comuna</label>
+          <label class="d-flex justify-content-center">Comuna(*)</label>
           <select (change)="enable($event)" class="form-select form-control form-control-lg" name="comuna" id="comuna" formControlName="comuna">
           </select>
           <div class="error" *ngIf="registrocontrol.controls['comuna'].errors && (registrocontrol.controls['comuna'].dirty || registrocontrol.controls['comuna'].touched)">
@@ -95,7 +95,7 @@
       </div>
       <div class="row d-flex justify-content-center mx-md-2">
         <div class="form-group col-md-8 col-12 mb-5">
-          <label class="d-flex justify-content-center">Ingrese su direccion</label>
+          <label class="d-flex justify-content-center">Ingrese su direccion(*)</label>
           <input type="text" class="form-control  d-flex justify-content-center " id="direccion" (change)="direccionShow($event)"  formControlName="direccion" >
           <div class="error" *ngIf="registrocontrol.controls['direccion'].errors && (registrocontrol.controls['direccion'].dirty || registrocontrol.controls['direccion'].touched)">
               <p *ngIf="registrocontrol.controls['direccion'].hasError('required')">*Campo requerido</p>

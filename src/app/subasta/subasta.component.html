@@ -6,6 +6,9 @@
         <div *ngIf="pujado" class="col-12">
             <h3 class="d-flex justify-content-center rojo">La puja se ha realizado con exito, recibira un comprobante de esta en su correo.</h3>
         </div>
+        <div *ngIf="pujando" class="col-12">
+            <h3 class="d-flex justify-content-center rojo">Ingresando Puja</h3>
+        </div>
         <div class="col-md-6 col-12">
             <div class="contenedor-imgs" >
                 <div *ngFor="let url of publication[0].url; let i = index" [attr.data-index]="i" >

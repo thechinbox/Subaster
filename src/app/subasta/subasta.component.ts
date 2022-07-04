@@ -20,6 +20,7 @@ export class SubastaComponent implements OnInit {
   pujaForm:FormGroup;
   signin = false;
   pujado = false;
+  pujando = false;
   constructor(private publicationS: PublicationService, private activatedRoute:ActivatedRoute, 
               private attributes:AttributesService, private chileinfo:ChileinfoService, private userS:UserService) {
     this.comentarios = publicationS.obtenerComentarios();
@@ -66,6 +67,7 @@ export class SubastaComponent implements OnInit {
 
   pujar(){
     if(sessionStorage.getItem("id") != null &&  sessionStorage.getItem("id") != undefined){
+      this.pujando = true;
       var d = new Date,
       dformat = [d.getMonth()+1,
                 d.getDate(),
@@ -82,9 +84,11 @@ export class SubastaComponent implements OnInit {
         fechapuja : hoy
       }
       this.publicationS.UPPUJA(puja, this.userS.getUser(), this.publication[0]).subscribe(data =>{
+        this.pujando = false;
         this.pujado = true;
         setTimeout(()=>{
           this.pujado = false;
+          window.location.reload()
         },1500)
       })
     }else{

@@ -25,7 +25,7 @@
         </div>
         <div class="col-12 col-md-8 mt-5">
             <div class="form-group">
-                <h4 >Nombre del Articulo</h4>
+                <h4 >Nombre del Articulo(*)</h4>
                 <input type="text" id="nombre" class="form-control" placeholder="Ladrillos"  formControlName="nombre">
             </div>
             <div class="error" *ngIf="publicacionForm.controls['nombre'].errors && (publicacionForm.controls['nombre'].dirty || publicacionForm.controls['nombre'].touched)">
@@ -34,7 +34,7 @@
         </div>
         <div class="col-12 col-md-8 mt-2">
             <div class="form-group">
-                <h4 >Descripcion del Articulo</h4>
+                <h4 >Descripcion del Articulo(*)</h4>
                 <textarea type="text" id="descripcion" class="form-control" placeholder="Descripcion del Articulo"  formControlName="descripcion"></textarea >
             </div>
             <div class="error" *ngIf="publicacionForm.controls['descripcion'].errors && (publicacionForm.controls['descripcion'].dirty || publicacionForm.controls['descripcion'].touched)">
@@ -47,7 +47,7 @@
             <div class="row">
                 <div class="col-12 col-md-8 mt-2">
                     <div class="form-group">
-                        <h4 >Cantidad de Articulo</h4>
+                        <h4 >Cantidad de Articulo(*)</h4>
                         <input type="number" min="0" id="cantidad" class="form-control" placeholder="Ej: 1"  formControlName="cantidad">
                     </div>
                     <div class="error" *ngIf="publicacionForm.controls['cantidad'].errors && (publicacionForm.controls['cantidad'].dirty || publicacionForm.controls['cantidad'].touched)">
@@ -56,7 +56,7 @@
                     </div>
                 </div>
                 <div class="col-12 mt-2">
-                    <h4>Categoria</h4>
+                    <h4>Categoria(*)</h4>
                     <select   class="form-select " id="dropdowncategoria" aria-label="categoria"  formControlName="categoria">
                         <option *ngFor="let category of lista_Cat" value="{{category.id}}" >{{category.categoria}}</option>
                     </select>
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="col-12 mt-4">
-                    <h4>Estado</h4>
+                    <h4>Estado(*)</h4>
                     <select  class="form-select " id="dropdownestado" aria-label="estado"  formControlName="estado">
                         <option  *ngFor="let state of lista_Est" value="{{state.id}}">{{state.estadoproducto}}</option>
                     </select>
@@ -74,7 +74,7 @@
                     </div>
                 </div>
                 <div class="col-12 mt-4">
-                    <h4>Unidad</h4>
+                    <h4>Unidad(*)</h4>
                     <select  class="form-select " id="dropdownunidad" aria-label="unidad"  formControlName="unidad">
                         <option *ngFor="let unit of lista_Unit" value="{{unit.id}}">{{unit.unidad}}</option>
                     </select>
@@ -92,7 +92,7 @@
                 </div>
                 <div *ngIf="subastaOn == false" class="col-12 mt-2">
                     <div class="form-group">
-                        <h4 >Precio del Articulo ($CLP)</h4>
+                        <h4 >Precio del Articulo ($CLP)(*)</h4>
                         <input type="number" min="1" id="precio" class="form-control" placeholder="Ej: 200000"  formControlName="precio">
                     </div>
                     <div class="error" *ngIf="publicacionForm.controls['precio'].errors && (publicacionForm.controls['precio'].dirty || publicacionForm.controls['precio'].touched)">
@@ -102,7 +102,7 @@
                 </div>
                 <div *ngIf="subastaOn == true" class="col-12 mt-2">
                     <div class="form-group">
-                        <h4 >Precio Inicial de la Subasta $CLP)</h4>
+                        <h4 >Precio Inicial de la Subasta $CLP)(*)</h4>
                         <input type="number" min="1" id="precioI" class="form-control" placeholder="Ej: 200000"  formControlName="precioI">
                     </div>
                     <div class="error" *ngIf="publicacionForm.controls['precioI'].errors && (publicacionForm.controls['precioI'].dirty || publicacionForm.controls['precioI'].touched)">
@@ -111,7 +111,7 @@
                     </div>
                 </div>
                 <div *ngIf="subastaOn == true"  class="col-12 mt-2">
-                    <h4 >Fecha Finalización de la Subasta $CLP)</h4>
+                    <h4 >Fecha Finalización de la Subasta (*)</h4>
                     <input (change)="date($event)" type="date" min="{{hoy[0]}}-{{hoy[1]}}-{{hoy[2]}}" formControlName="date">
                     <div class="error" *ngIf="publicacionForm.controls['date'].errors && (publicacionForm.controls['date'].dirty || publicacionForm.controls['date'].touched)">
                         <p *ngIf="publicacionForm.controls['date'].hasError('required')">*Campo requerido</p>
@@ -129,7 +129,7 @@
             <div class="row">
                 <h4 >Direccion de Venta del Articulo</h4>
                 <div class="col-12 mb-2">
-                    <label>Region</label>
+                    <label>Region(*)</label>
                     <select (change)="buscar_ciudad($event)" class="form-select " name="region" id="region" formControlName="region">
                         <option *ngFor="let r of regiones" value="{{r.region}}"> {{r.region}}</option>
                     </select>
@@ -138,7 +138,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    <label>Comuna</label>
+                    <label>Comuna(*)</label>
                     <select (change)="enable($event)" class="form-select" name="comuna" id="comuna" formControlName="comuna">
                     </select>
                     <div class="error" *ngIf="publicacionForm.controls['comuna'].errors && (publicacionForm.controls['comuna'].dirty || publicacionForm.controls['comuna'].touched)">
@@ -148,7 +148,7 @@
                 </div>
                 <div class="col-12 mt-2">
                     <div class="form-group">
-                        <label>Ingrese su direccion:</label>
+                        <label>Ingrese su direccion(*):</label>
                         <input type="text" class="form-control" id="direccion" (change)="direccionShow($event)"  formControlName="direccion" >
                         <div class="error" *ngIf="publicacionForm.controls['direccion'].errors && (publicacionForm.controls['direccion'].dirty || publicacionForm.controls['direccion'].touched)">
                             <p *ngIf="publicacionForm.controls['direccion'].hasError('required')">*Campo requerido</p>
